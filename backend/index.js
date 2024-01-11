@@ -1,0 +1,16 @@
+import express from "express"
+import dotenv from "dotenv"
+import { connectToMongo } from "./database/connectDb.js"
+dotenv.config()
+connectToMongo()
+
+const port = process.env.PORT || 5000
+const app = express()
+
+app.get("/", (req, res) => {
+    res.send(req)
+})
+
+app.listen(port, () => {
+    console.log(`Server Started on Port:${port}`.bold)
+})
