@@ -1,6 +1,8 @@
 import ApiResponse from "../utils/ApiResponse.js"
 import Book from "../models/book.model.js"
-import uploadOnAWS from "../utils/AWSS3Storage.js"
+// import uploadOnAWS from "../utils/AWSS3Storage.js"
+import Category from "../models/category.model.js"
+import uploadOnCloudinary from "../utils/Cloudinary.js"
 
 export const getBookHandler = async (req, res) => {
     const { id } = req.params
@@ -33,8 +35,10 @@ export const addBookHandler = async (req, res) => {
         if (book) {
             res.send(new ApiResponse(200, [], "Book With Name Already Exixts"))
         }
-        const uploadedImage = await uploadOnAWS(req.file)
-        const newBook = await Book.create({ ...req.body, image: uploadedImage })
+        console.log(req.file)
+        const uploadedImage = await uploadOnCloudinary(req.file.path)
+        const newBook = await Book.create({ ...req.body, image: uploadedImage.url })
+        await Category.findByIdAndUpdate(req.body.category, { $push: { books: newBook._id } }, { new: true });
         res.send(new ApiResponse(201, newBook, "Book Added!"))
     } catch (error) {
         res.send(new ApiResponse(400, error, "Internal Server Error"))
@@ -53,8 +57,10 @@ export const updateBookHandler = async (req, res) => {
 export const deleteBookHandler = async (req, res) => {
     try {
         const { id } = req.params
-        const book = await Book.findByIdAndDelete(id)
-        res.send(new ApiResponse(200, book, "Book Deleted!"))
+        const book = await Book.findById(id)
+        await Book.findByIdAndDelete(id)
+        await Category.findByIdAndUpdate(req.body.category, { $pop: { books: book._id } });
+        res.send(new ApiResponse(200, [], "Book Deleted!"))
     } catch (error) {
         res.send(new ApiResponse(400, error, "Internal Server Error"))
     }

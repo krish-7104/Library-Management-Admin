@@ -20,7 +20,7 @@ export const getAllCategoryHandler = async (req, res) => {
         if (!category) {
             res.send(new ApiResponse(204, category, "No Category Found In Database!"))
         }
-        res.send(new ApiResponse(200, { ...category, count }, "All Books Get Successfully!"))
+        res.send(new ApiResponse(200, { ...category, count }, "All Category Get Successfully!"))
     } catch (error) {
         res.send(new ApiResponse(400, error, "Internal Server Error"))
     }
@@ -52,8 +52,8 @@ export const updateCategoryHandler = async (req, res) => {
 export const deleteCategoryHandler = async (req, res) => {
     try {
         const { id } = req.params
-        const category = await Category.findByIdAndDelete({ id })
-        res.send(new ApiResponse(200, category, "Category Deleted!"))
+        const category = await Category.findByIdAndDelete(id)
+        res.send(new ApiResponse(200, [], "Category Deleted!"))
     } catch (error) {
         res.send(new ApiResponse(400, error, "Internal Server Error"))
     }
