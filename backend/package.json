@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "node --watch index.js"
+    "dev": "nodemon index.js"
   },
   "author": "Krish Jotaniya",
   "license": "ISC",
@@ -14,6 +14,7 @@
     "@aws-sdk/client-s3": "^3.489.0",
     "@aws-sdk/s3-request-presigner": "^3.489.0",
     "bcrypt": "^5.1.1",
+    "cloudinary": "^1.41.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

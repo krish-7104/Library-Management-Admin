@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-const DB_NAME = "Library Management System"
+const DB_NAME = "Library-Management-System"
 
 export const connectToMongo = async () => {
     try {
