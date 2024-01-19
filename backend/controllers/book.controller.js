@@ -1,6 +1,5 @@
 import ApiResponse from "../utils/ApiResponse.js"
 import Book from "../models/book.model.js"
-// import uploadOnAWS from "../utils/AWSS3Storage.js"
 import Category from "../models/category.model.js"
 import uploadOnCloudinary from "../utils/Cloudinary.js"
 
@@ -9,7 +8,7 @@ export const getBookHandler = async (req, res) => {
     try {
         const book = await Book.findById(id)
         if (!book) {
-            res.send(new ApiResponse(204, book, "No Book Found In Database!"))
+            res.send(new ApiResponse(204, [], "No Book Found In Database!"))
         }
         res.send(new ApiResponse(200, book, "Book Found Successfully!"))
     } catch (error) {
@@ -18,12 +17,11 @@ export const getBookHandler = async (req, res) => {
 }
 export const getAllBooksHandler = async (req, res) => {
     try {
-        const count = await Book.countDocuments()
         const books = await Book.find({})
         if (!books) {
-            res.send(new ApiResponse(204, books, "No Books Found In Database!"))
+            res.send(new ApiResponse(204, [], "No Books Found In Database!"))
         }
-        res.send(new ApiResponse(200, { ...books, count }, "All Books Get Successfully!"))
+        res.send(new ApiResponse(200, books, "All Books Get Successfully!"))
     } catch (error) {
         res.send(new ApiResponse(400, error, "Internal Server Error"))
     }
@@ -52,7 +50,6 @@ export const updateBookHandler = async (req, res) => {
     } catch (error) {
         res.send(new ApiResponse(400, error, "Internal Server Error"))
     }
-
 }
 export const deleteBookHandler = async (req, res) => {
     try {

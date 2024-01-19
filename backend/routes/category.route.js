@@ -3,10 +3,10 @@ import { addCategoryHandler, deleteCategoryHandler, getAllCategoryHandler, getCa
 
 const router = express.Router()
 
-router.get("/getcategory/:id", getCategoryHandler)
-router.get("/getcategory", getAllCategoryHandler)
-router.post("/addcategory", addCategoryHandler)
-router.patch("/updatecategory/:id", updateCategoryHandler)
-router.delete("/deletecategory/:id", deleteCategoryHandler)
+router.get("/get-category/:id", getCategoryHandler)
+router.get("/get-category", getAllCategoryHandler)
+router.post("/add-category", addCategoryHandler)
+router.patch("/update-category/:id", updateCategoryHandler)
+router.delete("/delete-category/:id", deleteCategoryHandler)
 
 export default router

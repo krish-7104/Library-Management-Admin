@@ -4,7 +4,7 @@ import Category from "../models/category.model.js"
 export const getCategoryHandler = async (req, res) => {
     const { id } = req.params
     try {
-        const category = await Category.find({ id })
+        const category = await Category.findById(id).populate('books')
         if (!category) {
             res.send(new ApiResponse(204, category, "No Category Found In Database!"))
         }
@@ -15,12 +15,11 @@ export const getCategoryHandler = async (req, res) => {
 }
 export const getAllCategoryHandler = async (req, res) => {
     try {
-        const count = await Category.countDocuments()
-        const category = await Category.find({})
+        const category = await Category.find({}).populate('books')
         if (!category) {
             res.send(new ApiResponse(204, category, "No Category Found In Database!"))
         }
-        res.send(new ApiResponse(200, { ...category, count }, "All Category Get Successfully!"))
+        res.send(new ApiResponse(200, category, "All Category Get Successfully!"))
     } catch (error) {
         res.send(new ApiResponse(400, error, "Internal Server Error"))
     }

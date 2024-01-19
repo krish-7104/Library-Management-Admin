@@ -4,10 +4,10 @@ import upload from "../middlewares/multer.middleware.js"
 
 const router = express.Router()
 
-router.get("/getbooks/:id", getBookHandler)
-router.get("/getbooks", getAllBooksHandler)
-router.post("/addbook", upload.single("image"), addBookHandler)
-router.patch("/updatebook/:id", updateBookHandler)
-router.delete("/deletebook/:id", deleteBookHandler)
+router.get("/get-books/:id", getBookHandler)
+router.get("/get-books", getAllBooksHandler)
+router.post("/add-book", upload.single("image"), addBookHandler)
+router.patch("/update-book/:id", updateBookHandler)
+router.delete("/delete-book/:id", deleteBookHandler)
 
 export default router

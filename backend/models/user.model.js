@@ -10,6 +10,10 @@ const userSchema = new Schema({
         type: String,
         required: [true, "Password is Required"]
     },
+    phonenumber: {
+        type: Number,
+        required: [true, "Phone Number is Required"]
+    },
     email: {
         type: String,
         required: [true, "Email Address is Required"],
@@ -23,7 +27,11 @@ const userSchema = new Schema({
     gender: {
         type: String,
         enum: ["Male", "Female", "Others"]
-    }
+    },
+    fine: {
+        type: Number,
+        default: 0
+    },
 }, { timestamps: true })
 
 userSchema.pre("save", async function (next) {
