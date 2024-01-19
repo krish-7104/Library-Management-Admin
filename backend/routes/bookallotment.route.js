@@ -4,7 +4,7 @@ import { addAllotmentHandler, deleteAllotmentHandler, getAllAllotmentHandler, ge
 
 const router = express.Router()
 
-router.get("/allotments/:id", getUserAllotmentHandler)
+router.get("/allotment/:id", getUserAllotmentHandler)
 router.get("/allotments", getAllAllotmentHandler)
 router.post("/add-allotment", addAllotmentHandler)
 router.patch("/update-allotment/:id", updateAllotmentHandler)

@@ -1,5 +1,5 @@
 import ApiResponse from "../utils/ApiResponse.js"
-import User from "../models/user.model.js"
+import Book from "../models/book.model.js"
 import Allotment from "../models/allotment.model.js"
 
 export const getUserAllotmentHandler = async (req, res) => {
@@ -29,8 +29,10 @@ export const getAllAllotmentHandler = async (req, res) => {
 export const addAllotmentHandler = async (req, res) => {
     try {
         const { user, books } = req.body;
-        const isValidUser = await User.findById(user);
         const newAllotment = await Allotment.create({ user, books })
+        for (const book of books) {
+            await Book.findByIdAndUpdate(book, { $inc: { stock: -1 } });
+        }
         res.send(new ApiResponse(201, newAllotment, "Book Allotment Created!"))
     } catch (error) {
         res.send(new ApiResponse(400, error, "Internal Server Error"))
@@ -39,7 +41,7 @@ export const addAllotmentHandler = async (req, res) => {
 export const updateAllotmentHandler = async (req, res) => {
     try {
         const { id } = req.params
-        const book = await Allotment.findByIdAndUpdate({ id, update: req.body })
+        const book = await Allotment.findByIdAndUpdate(id, req.body)
         res.send(new ApiResponse(200, book, "Book Allotment Updated!"))
     } catch (error) {
         res.send(new ApiResponse(400, error, "Internal Server Error"))
