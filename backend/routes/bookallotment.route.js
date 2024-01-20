@@ -1,13 +1,13 @@
 import express from "express"
-import { addAllotmentHandler, deleteAllotmentHandler, getAllAllotmentHandler, getUserAllotmentHandler, updateAllotmentHandler } from "../controllers/allotment.controller.js"
+import { issueBookHandler, deleteIssueHandler, getAllAllotmentHandler, getUserAllotmentHandler, returnBookHandler } from "../controllers/allotment.controller.js"
 
 
 const router = express.Router()
 
 router.get("/allotment/:id", getUserAllotmentHandler)
 router.get("/allotments", getAllAllotmentHandler)
-router.post("/add-allotment", addAllotmentHandler)
-router.patch("/update-allotment/:id", updateAllotmentHandler)
-router.delete("/delete-allotment/:id", deleteAllotmentHandler)
+router.post("/issue-book", issueBookHandler)
+router.post("/return-book/:id", returnBookHandler)
+router.delete("/delete-issue/:id", deleteIssueHandler)
 
 export default router
