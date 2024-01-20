@@ -1,5 +1,6 @@
 import ApiResponse from "../utils/ApiResponse.js"
 import Book from "../models/book.model.js"
+import User from "../models/user.model.js"
 import Allotment from "../models/allotment.model.js"
 
 export const getUserAllotmentHandler = async (req, res) => {
@@ -17,12 +18,24 @@ export const getUserAllotmentHandler = async (req, res) => {
 }
 export const getAllAllotmentHandler = async (req, res) => {
     try {
-        const allotments = await Allotment.find({}).populate("books").populate("user")
+        const { limit, page, returned } = req.query;
+        const options = {
+            limit: limit || 10,
+            skip: (page - 1) * 10 || 0
+        };
+        let query = Allotment.find({})
+        if (returned) {
+            const returnedValue = returned.toLowerCase() === 'true';
+            query = query.where('returned').equals(returnedValue);
+        }
+        const allotments = await query.limit(options.limit).skip(options.skip).populate("books").populate("user").sort({ createdAt: -1 }).lean()
+        console.log(allotments)
         if (!allotments) {
             return res.send(new ApiResponse(204, [], "No Allotment Found In Database!"))
         }
         return res.send(new ApiResponse(200, allotments, "All Allotments Get Successfully!"))
     } catch (error) {
+        console.log(error)
         return res.send(new ApiResponse(400, error, "Internal Server Error"))
     }
 }
@@ -33,6 +46,11 @@ export const issueBookHandler = async (req, res) => {
         for (const book of books) {
             await Book.findByIdAndUpdate(book, { $inc: { stock: -1 } });
         }
+        await User.findByIdAndUpdate(user, {
+            $push: {
+                issuedHistory: newAllotment._id
+            }
+        })
         return res.send(new ApiResponse(201, newAllotment, "Book Allotment Created!"))
     } catch (error) {
         return res.send(new ApiResponse(400, error, "Internal Server Error"))

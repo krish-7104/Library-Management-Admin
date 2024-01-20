@@ -32,10 +32,14 @@ const userSchema = new Schema({
         type: Number,
         default: 0
     },
+    issuedHistory: [{
+        type: Schema.Types.ObjectId,
+        ref: "Allotment",
+    }]
 }, { timestamps: true })
 
 userSchema.pre("save", async function (next) {
-    if (!isModified("password")) return next()
+    if (!this.isModified("password")) return next()
     this.password = await bcrypt.hash(this.password, 10)
     next()
 })

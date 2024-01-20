@@ -15,15 +15,23 @@ export const getCategoryHandler = async (req, res) => {
 }
 export const getAllCategoryHandler = async (req, res) => {
     try {
-        const category = await Category.find({}).populate('books')
-        if (!category) {
-            return res.send(new ApiResponse(204, category, "No Category Found In Database!"))
+        const { book, search } = req.query;
+        let category;
+        const searchCondition = search ? { name: { $regex: new RegExp(search, 'i') } } : {};
+        if (book) {
+            category = await Category.find(searchCondition).populate('books').sort({ createdAt: -1 });
+        } else {
+            category = await Category.find(searchCondition).sort({ createdAt: -1 });
         }
-        return res.send(new ApiResponse(200, category, "All Category Get Successfully!"))
+        if (!category || category.length === 0) {
+            return res.send(new ApiResponse(204, category, "No Category Found In Database!"));
+        }
+        return res.send(new ApiResponse(200, category, "All Category Get Successfully!"));
     } catch (error) {
-        return res.send(new ApiResponse(400, error, "Internal Server Error"))
+        return res.send(new ApiResponse(400, error, "Internal Server Error"));
     }
-}
+};
+
 export const addCategoryHandler = async (req, res) => {
     try {
         const { name } = req.body

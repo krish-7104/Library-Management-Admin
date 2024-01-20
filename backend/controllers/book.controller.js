@@ -17,7 +17,12 @@ export const getBookHandler = async (req, res) => {
 }
 export const getAllBooksHandler = async (req, res) => {
     try {
-        const books = await Book.find({})
+        const { limit, page } = req.query;
+        const options = {
+            limit: limit || 10,
+            skip: (page - 1) * 10 || 0
+        };
+        const books = await Book.find({}).sort({ createdAt: -1 }).skip(options.skip).limit(options.limit).lean()
         if (!books) {
             return res.send(new ApiResponse(204, [], "No Books Found In Database!"))
         }
