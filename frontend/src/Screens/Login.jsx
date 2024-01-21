@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { baseApi } from "../utils/baseApi.js";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) navigate("/dashboard");
+  }, [navigate]);
+
   const checkLoginHandler = async (e) => {
     e.preventDefault();
     toast.loading("Logging..");
     try {
       const resp = await axios.post(`${baseApi}/admin/auth/login`, data);
       toast.dismiss();
+      localStorage.setItem("token", resp.data.data.token);
       toast.success(resp.data.message);
+      navigate("/dashboard");
     } catch (error) {
       toast.dismiss();
       toast.error(error.response.data.message);
