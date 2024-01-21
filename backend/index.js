@@ -8,6 +8,8 @@ import bookAllotmentRoutes from "./routes/bookallotment.route.js"
 import userRoutes from "./routes/user.route.js"
 import adminRoutes from "./routes/admin.route.js"
 import cors from "cors"
+import cron from "node-cron"
+import { returnBookReminder } from "./Cron Jobs/ReturnReminder.js"
 
 dotenv.config()
 connectToMongo()
@@ -22,6 +24,14 @@ app.use("/api/category", categoryRoutes)
 app.use("/api/book-allotment", bookAllotmentRoutes)
 app.use("/api/user", userRoutes)
 app.use("/api/admin", adminRoutes)
+
+cron.schedule('0 9 * * *', () => {
+    returnBookReminder()
+});
+cron.schedule('*/10 * * * * *', () => {
+    returnBookReminder()
+});
+
 
 app.listen(port, () => {
     console.log(`Server Started on Port:${port}`.bold)
