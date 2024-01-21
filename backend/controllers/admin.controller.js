@@ -12,8 +12,7 @@ export const adminLoginHandler = async (req, res) => {
         const isPassword = await admin.isPasswordCorrect(password)
         if (isPassword) {
             const token = jwt.sign(JSON.stringify(admin), process.env.JWTSECRETKEY)
-            res.cookie("token", token, { httpOnly: true, maxAge: 1 * 24 * 60 * 60 * 1000, sameSite: 'None', secure: false })
-            return res.json(new ApiResponse(200, [], "Login Successful"));
+            return res.json(new ApiResponse(200, { token }, "Login Successful"));
         }
         else {
             return res.status(401).json(new ApiResponse(404, [], "Invalid Credentials!"))
