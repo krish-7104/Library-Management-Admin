@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-
+import axios from "axios";
+import { baseApi } from "../utils/baseApi.js";
+import toast from "react-hot-toast";
 const Login = () => {
   const [data, setData] = useState({
     email: "",
@@ -7,43 +9,82 @@ const Login = () => {
   });
   const checkLoginHandler = async (e) => {
     e.preventDefault();
+    toast.loading("Logging..");
+    try {
+      const resp = await axios.post(`${baseApi}/admin/auth/login`, data);
+      toast.dismiss();
+      toast.success(resp.data.message);
+    } catch (error) {
+      toast.dismiss();
+      toast.error(error.response.data.message);
+    }
   };
   return (
     <section className="w-full bg-gray-100">
       <div class="max-w-6xl h-[100vh] mx-auto flex justify-center items-center">
         <form
           onSubmit={checkLoginHandler}
-          className="w-[45%] bg-white rounded-lg shadow py-4 px-6"
+          className="w-[45%] bg-white rounded-lg shadow py-8 px-6"
         >
-          <h1 className="text-2xl font-semibold text-center mt-4 mb-6">
+          <h1 className="text-2xl font-semibold text-center mt-2 mb-10">
             Library Management System
           </h1>
-          <div className="flex justify-start flex-col mb-3">
-            <label htmlFor="email" className="mb-2">
-              Email Address
-            </label>
+          <label
+            htmlFor="Email Address"
+            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600 p-3 mb-5"
+          >
             <input
               type="email"
-              name="email"
-              id="email"
+              id="Email Address"
+              className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
+              placeholder="Email Address"
               value={data.email}
-              className="px-3 py-3 rounded-md bg-gray-100 outline-none"
               onChange={(e) => setData({ ...data, email: e.target.value })}
             />
-          </div>
-          <div className="flex justify-start flex-col">
-            <label htmlFor="password">Password</label>
+
+            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+              Email Address
+            </span>
+          </label>
+          <label
+            htmlFor="Password"
+            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600 p-3 mb-5"
+          >
             <input
               type="password"
-              name="password"
-              id="password"
+              id="Password"
+              className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
+              placeholder="Password"
               value={data.password}
-              className="px-3 py-3 rounded-md bg-gray-100 outline-none"
               onChange={(e) => setData({ ...data, password: e.target.value })}
             />
-          </div>
-          <button className="block mx-auto px-8 mt-6 mb-4 py-3 rounded-lg bg-gray-900 text-white outline-none">
-            Login Now
+            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+              Password
+            </span>
+          </label>
+          <button
+            className="group block mx-auto relative items-center overflow-hidden rounded bg-indigo-600 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500"
+            type="submit"
+          >
+            <span className="absolute -end-full transition-all group-hover:end-4">
+              <svg
+                className="h-5 w-5 rtl:rotate-180"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </span>
+            <span className="text-sm font-medium transition-all group-hover:me-4">
+              Login Now
+            </span>
           </button>
         </form>
       </div>

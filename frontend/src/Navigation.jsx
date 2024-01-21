@@ -3,7 +3,7 @@ import Login from "./Screens/Login";
 import Dashboard from "./Screens/Dashboard";
 import Book from "./Screens/Dashboard/Books/Book";
 import AddBook from "./Screens/Dashboard/Books/AddBook";
-
+import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <Router>
@@ -13,6 +13,7 @@ function App() {
         <Route path="/dashboard/books" element={<Book />} />
         <Route path="/dashboard/addbook" element={<AddBook />} />
       </Routes>
+      <Toaster position="bottom-center" />
     </Router>
   );
 }
