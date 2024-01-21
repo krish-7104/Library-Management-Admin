@@ -10,6 +10,7 @@ import adminRoutes from "./routes/admin.route.js"
 import cors from "cors"
 import cron from "node-cron"
 import { returnBookReminder } from "./Cron Jobs/ReturnReminder.js"
+import { AutoFeeIncrement } from "./Cron Jobs/AutoFeeIncrement.js"
 
 dotenv.config()
 connectToMongo()
@@ -27,10 +28,10 @@ app.use("/api/admin", adminRoutes)
 
 cron.schedule('0 9 * * *', () => {
     returnBookReminder()
+    AutoFeeIncrement()
 });
-cron.schedule('*/10 * * * * *', () => {
-    returnBookReminder()
-});
+
+
 
 
 app.listen(port, () => {
