@@ -21,7 +21,7 @@ const Login = () => {
   };
   return (
     <section className="w-full bg-gray-100">
-      <div class="max-w-6xl h-[100vh] mx-auto flex justify-center items-center">
+      <div className="max-w-6xl h-[100vh] mx-auto flex justify-center items-center">
         <form
           onSubmit={checkLoginHandler}
           className="w-[45%] bg-white rounded-lg shadow py-8 px-6"

@@ -9,11 +9,11 @@ export const getUserAllotmentHandler = async (req, res) => {
         const allotment = await Allotment.find({ user: id })
             .populate('books');
         if (!allotment) {
-            return res.status(404).send(new ApiResponse(404, [], "No Allotment Found In Database!"))
+            return res.status(404).json(new ApiResponse(404, [], "No Allotment Found In Database!"))
         }
-        return res.status(200).send(new ApiResponse(200, allotment, "Book Allotment Found Successfully!"))
+        return res.status(200).json(new ApiResponse(200, allotment, "Book Allotment Found Successfully!"))
     } catch (error) {
-        return res.status(500).send(new ApiResponse(500, [], "Internal Server Error"))
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
 export const getAllAllotmentHandler = async (req, res) => {
@@ -30,12 +30,12 @@ export const getAllAllotmentHandler = async (req, res) => {
         }
         const allotments = await query.limit(options.limit).skip(options.skip).populate("books").populate("user").sort({ createdAt: -1 }).lean()
         if (!allotments) {
-            return res.status(404).send(new ApiResponse(404, [], "No Allotment Found In Database!"))
+            return res.status(404).json(new ApiResponse(404, [], "No Allotment Found In Database!"))
         }
-        return res.status(200).send(new ApiResponse(200, allotments, "All Allotments Get Successfully!"))
+        return res.status(200).json(new ApiResponse(200, allotments, "All Allotments Get Successfully!"))
     } catch (error) {
         console.log(error)
-        return res.status(500).send(new ApiResponse(500, [], "Internal Server Error"))
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
 export const issueBookHandler = async (req, res) => {
@@ -50,9 +50,9 @@ export const issueBookHandler = async (req, res) => {
                 issuedHistory: newAllotment._id
             }
         })
-        return res.status(201).send(new ApiResponse(201, newAllotment, "Book Allotment Created!"))
+        return res.status(201).json(new ApiResponse(201, newAllotment, "Book Allotment Created!"))
     } catch (error) {
-        return res.status(500).send(new ApiResponse(500, [], "Internal Server Error"))
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
 export const returnBookHandler = async (req, res) => {
@@ -60,15 +60,15 @@ export const returnBookHandler = async (req, res) => {
         const { id } = req.params
         const allotment = await Allotment.findOne({ _id: id })
         if (allotment.returned) {
-            return res.status(204).send(new ApiResponse(204, [], "Book Already Returned!"))
+            return res.status(204).json(new ApiResponse(204, [], "Book Already Returned!"))
         }
         for (const book of allotment.books) {
             await Book.findByIdAndUpdate(book, { $inc: { stock: 1 } });
         }
         await Allotment.findByIdAndUpdate(id, { returned: true })
-        return res.status().send(new ApiResponse(200, [], "Book Returned!"))
+        return res.status().json(new ApiResponse(200, [], "Book Returned!"))
     } catch (error) {
-        return res.status(500).send(new ApiResponse(500, [], "Internal Server Error"))
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
 
@@ -76,8 +76,8 @@ export const deleteIssueHandler = async (req, res) => {
     try {
         const { id } = req.params
         await Allotment.findByIdAndDelete(id)
-        return res.status(200).send(new ApiResponse(200, [], "Book Allotment Deleted!"))
+        return res.status(200).json(new ApiResponse(200, [], "Book Allotment Deleted!"))
     } catch (error) {
-        return res.status(500).send(new ApiResponse(500, [], "Internal Server Error"))
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
