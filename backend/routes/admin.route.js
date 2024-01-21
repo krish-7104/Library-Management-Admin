@@ -1,10 +1,9 @@
 import express from "express"
-import { addAdminHandler, deleteAdminHandler, forgetAdminPassword, getAdminHandler, updateAdminHandler } from "../controllers/admin.controller.js"
+import { addAdminHandler, adminLoginHandler, deleteAdminHandler, forgetAdminPassword, updateAdminHandler } from "../controllers/admin.controller.js"
 
 const router = express.Router()
 
-router.get("/get-admin/:id", getAdminHandler)
-router.get("/get-admins", getAdminHandler)
+router.post("/login", adminLoginHandler)
 router.post("/add-admin", addAdminHandler)
 router.patch("/update-admin/:id", updateAdminHandler)
 router.delete("/delete-admin/:id", deleteAdminHandler)

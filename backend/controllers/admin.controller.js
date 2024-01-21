@@ -1,20 +1,24 @@
 import ApiResponse from "../utils/ApiResponse.js"
 import Admin from "../models/admin.model.js"
+import jwt from "jsonwebtoken"
 
-export const getAdminHandler = async (req, res) => {
-    const { id } = req.params
+export const adminLoginHandler = async (req, res) => {
     try {
-        let admin;
-        if (id) {
-            admin = await Admin.findById(id)
-        } else {
-            admin = await Admin.find().sort({ createdAt: -1 })
-        }
+        const { email, password } = req.body
+        const admin = await Admin.findOne({ email })
         if (!admin) {
-            return res.send(new ApiResponse(204, [], "No Admin Found In Database!"))
+            return res.send(new ApiResponse(404, [], "Admin Not Found Successfully!"))
         }
-        return res.send(new ApiResponse(200, admin, "Admin Found Successfully!"))
+        const isPassword = await admin.isPasswordCorrect(password)
+        if (isPassword) {
+            const token = jwt.sign(JSON.stringify(admin), process.env.JWTSECRETKEY)
+            return res.cookie("token", token).send(new ApiResponse(200, [], "Login Successful"));
+        }
+        else {
+            return res.send(new ApiResponse(401, [], "Invalid Credentials!"))
+        }
     } catch (error) {
+        console.log(error)
         return res.send(new ApiResponse(400, error, "Internal Server Error"))
     }
 }

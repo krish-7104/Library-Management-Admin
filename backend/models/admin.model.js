@@ -32,4 +32,9 @@ adminSchema.pre("save", async function (next) {
     next()
 })
 
+adminSchema.methods.isPasswordCorrect = async function (password) {
+    console.log(password, this.password)
+    return await bcrypt.compare(password, this.password)
+}
+
 export default model("Admin", adminSchema)
