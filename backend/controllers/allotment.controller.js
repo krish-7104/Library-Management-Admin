@@ -29,7 +29,6 @@ export const getAllAllotmentHandler = async (req, res) => {
             query = query.where('returned').equals(returnedValue);
         }
         const allotments = await query.limit(options.limit).skip(options.skip).populate("books").populate("user").sort({ createdAt: -1 }).lean()
-        console.log(allotments)
         if (!allotments) {
             return res.send(new ApiResponse(204, [], "No Allotment Found In Database!"))
         }

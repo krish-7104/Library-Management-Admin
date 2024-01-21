@@ -38,7 +38,6 @@ export const addBookHandler = async (req, res) => {
         if (book) {
             return res.send(new ApiResponse(200, [], "Book With Name Already Exixts"))
         }
-        console.log(req.file)
         const uploadedImage = await uploadOnCloudinary(req.file.path)
         const newBook = await Book.create({ ...req.body, image: uploadedImage.url })
         await Category.findByIdAndUpdate(req.body.category, { $push: { books: newBook._id } }, { new: true });
