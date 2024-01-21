@@ -7,7 +7,7 @@ export const adminLoginHandler = async (req, res) => {
         const { email, password } = req.body
         const admin = await Admin.findOne({ email })
         if (!admin) {
-            return res.send(new ApiResponse(404, [], "Admin Not Found Successfully!"))
+            return res.status(404).send(new ApiResponse(404, [], "Admin Not Found!"))
         }
         const isPassword = await admin.isPasswordCorrect(password)
         if (isPassword) {
@@ -15,41 +15,41 @@ export const adminLoginHandler = async (req, res) => {
             return res.cookie("token", token).send(new ApiResponse(200, [], "Login Successful"));
         }
         else {
-            return res.send(new ApiResponse(401, [], "Invalid Credentials!"))
+            return res.status(401).send(new ApiResponse(404, [], "Invalid Credentials!"))
         }
     } catch (error) {
         console.log(error)
-        return res.send(new ApiResponse(400, error, "Internal Server Error"))
+        return res.status(500).send(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
 
 export const addAdminHandler = async (req, res) => {
     try {
         const admin = await Admin.create(req.body)
-        return res.send(new ApiResponse(200, { id: admin._id, name: admin.name, role: admin.role }, "Admin Added Successfully!"))
+        return res.status(200).send(new ApiResponse(200, { id: admin._id, name: admin.name, role: admin.role }, "Admin Added Successfully!"))
     } catch (error) {
         console.log(error)
-        return res.send(new ApiResponse(400, error, "Internal Server Error"))
+        return res.status(500).send(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
 export const updateAdminHandler = async (req, res) => {
     try {
         const { id } = req.params
         const admin = await Admin.findByIdAndUpdate(id, req.body)
-        return res.send(new ApiResponse(200, { id: admin._id, name: admin.name, role: admin.role }, "Admin Updated Successfully!"))
+        return res.status(200).send(new ApiResponse(200, { id: admin._id, name: admin.name, role: admin.role }, "Admin Updated Successfully!"))
     } catch (error) {
         console.log(error)
-        return res.send(new ApiResponse(400, error, "Internal Server Error"))
+        return res.status(500).send(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
 export const deleteAdminHandler = async (req, res) => {
     try {
         const { id } = req.params
         await Admin.findByIdAndDelete(id)
-        return res.send(new ApiResponse(200, [], "Admin Deleted Successfully!"))
+        return res.status(200).send(new ApiResponse(200, [], "Admin Deleted Successfully!"))
     } catch (error) {
         console.log(error)
-        return res.send(new ApiResponse(400, error, "Internal Server Error"))
+        return res.status(500).send(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
 

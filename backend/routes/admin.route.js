@@ -3,8 +3,8 @@ import { addAdminHandler, adminLoginHandler, deleteAdminHandler, forgetAdminPass
 
 const router = express.Router()
 
-router.post("/login", adminLoginHandler)
-router.post("/add-admin", addAdminHandler)
+router.post("/auth/login", adminLoginHandler)
+router.post("/auth/add-admin", addAdminHandler)
 router.patch("/update-admin/:id", updateAdminHandler)
 router.delete("/delete-admin/:id", deleteAdminHandler)
 router.post("/forget-password", forgetAdminPassword)

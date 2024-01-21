@@ -7,6 +7,7 @@ import categoryRoutes from "./routes/category.route.js"
 import bookAllotmentRoutes from "./routes/bookallotment.route.js"
 import userRoutes from "./routes/user.route.js"
 import adminRoutes from "./routes/admin.route.js"
+import cors from "cors"
 
 dotenv.config()
 connectToMongo()
@@ -14,12 +15,13 @@ connectToMongo()
 const port = process.env.PORT || 5000
 const app = express()
 app.use(express.json())
+app.use(cors({ origin: "http://localhost:3000" }))
 
 app.use("/api/book", bookRoutes)
 app.use("/api/category", categoryRoutes)
 app.use("/api/book-allotment", bookAllotmentRoutes)
 app.use("/api/user", userRoutes)
-app.use("/api/auth/admin", adminRoutes)
+app.use("/api/admin", adminRoutes)
 
 app.listen(port, () => {
     console.log(`Server Started on Port:${port}`.bold)
