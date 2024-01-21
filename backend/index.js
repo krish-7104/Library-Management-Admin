@@ -6,6 +6,7 @@ import bookRoutes from "./routes/book.route.js"
 import categoryRoutes from "./routes/category.route.js"
 import bookAllotmentRoutes from "./routes/bookallotment.route.js"
 import userRoutes from "./routes/user.route.js"
+import adminRoutes from "./routes/admin.route.js"
 
 dotenv.config()
 connectToMongo()
@@ -18,6 +19,7 @@ app.use("/api/book", bookRoutes)
 app.use("/api/category", categoryRoutes)
 app.use("/api/book-allotment", bookAllotmentRoutes)
 app.use("/api/user", userRoutes)
+app.use("/api/auth/admin", adminRoutes)
 
 app.listen(port, () => {
     console.log(`Server Started on Port:${port}`.bold)
