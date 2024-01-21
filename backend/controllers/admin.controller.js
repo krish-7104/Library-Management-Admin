@@ -11,7 +11,7 @@ export const adminLoginHandler = async (req, res) => {
         }
         const isPassword = await admin.isPasswordCorrect(password)
         if (isPassword) {
-            const token = jwt.sign(JSON.stringify(admin), process.env.JWTSECRETKEY)
+            const token = jwt.sign(JSON.stringify({ _id: admin._id }), process.env.JWTSECRETKEY)
             return res.json(new ApiResponse(200, { token }, "Login Successful"));
         }
         else {

@@ -9,7 +9,7 @@ export const adminAuthMiddleware = async (req, res, next) => {
             return res.status(401).json(new ApiResponse(401, [], "Unauthorized - Token Missing"))
         }
         const decodedToken = jwt.verify(token, process.env.JWTSECRETKEY);
-        const admin = await Admin.findById(decodedToken._id);
+        const admin = await Admin.findById(decodedToken._id).select("-password")
 
         if (!admin) {
             return res.status(401).json(new ApiResponse(401, [], "Unauthorized - Invalid Token"))
