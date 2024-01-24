@@ -1,14 +1,14 @@
 import express from "express"
 import dotenv from "dotenv"
+import cron from "node-cron"
+import morgan from "morgan"
+import cors from "cors"
 import { connectToMongo } from "./database/connectDb.js"
-import colors from "colors"
 import bookRoutes from "./routes/book.route.js"
 import categoryRoutes from "./routes/category.route.js"
 import bookAllotmentRoutes from "./routes/bookallotment.route.js"
 import userRoutes from "./routes/user.route.js"
 import adminRoutes from "./routes/admin.route.js"
-import cors from "cors"
-import cron from "node-cron"
 import { returnBookReminder } from "./Cron Jobs/ReturnReminder.js"
 import { AutoFeeIncrement } from "./Cron Jobs/AutoFeeIncrement.js"
 
@@ -16,7 +16,8 @@ dotenv.config()
 connectToMongo()
 
 const port = process.env.PORT || 5000
-const app = express()
+export const app = express()
+app.use(morgan(':method :url :status :response-time ms'));
 app.use(express.json())
 app.use(cors({ credentials: true, origin: process.env.FRONTEND_LINK }));
 
@@ -30,8 +31,6 @@ cron.schedule('0 9 * * *', () => {
     returnBookReminder()
     AutoFeeIncrement()
 });
-
-
 
 
 app.listen(port, () => {
