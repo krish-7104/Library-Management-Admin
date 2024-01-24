@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import { baseApi } from "../utils/baseApi.js";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const Dashboard = () => {
+import axios from "axios";
+import { baseApi } from "./utils/baseApi";
+import Sidebar from "./Components/Sidebar";
+const AuthWrapper = ({ children }) => {
   const navigate = useNavigate();
   useEffect(() => {
     const checkTokenHandler = async (token) => {
@@ -23,8 +23,13 @@ const Dashboard = () => {
     }
     checkTokenHandler(token);
   }, [navigate]);
+  return (
+    <main className="flex">
+      <Sidebar />
 
-  return <main></main>;
+      {children}
+    </main>
+  );
 };
 
-export default Dashboard;
+export default AuthWrapper;
