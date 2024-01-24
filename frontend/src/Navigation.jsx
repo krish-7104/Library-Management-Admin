@@ -8,6 +8,8 @@ import AuthWrapper from "./AuthWrapper";
 import IssueBook from "./Screens/Dashboard/Allotment/IssueBook";
 import ReturnBook from "./Screens/Dashboard/Allotment/ReturnBook";
 import Student from "./Screens/Dashboard/Student";
+import Fines from "./Screens/Dashboard/Fines";
+import MyAccount from "./Screens/Dashboard/MyAccount";
 function App() {
   return (
     <Router>
@@ -65,7 +67,7 @@ function App() {
           path="/dashboard/fines"
           element={
             <AuthWrapper>
-              <ReturnBook />
+              <Fines />
             </AuthWrapper>
           }
         />
@@ -74,6 +76,14 @@ function App() {
           element={
             <AuthWrapper>
               <Student />
+            </AuthWrapper>
+          }
+        />
+        <Route
+          path="/dashboard/myaccount"
+          element={
+            <AuthWrapper>
+              <MyAccount />
             </AuthWrapper>
           }
         />

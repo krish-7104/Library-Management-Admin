@@ -26,8 +26,7 @@ const AuthWrapper = ({ children }) => {
   return (
     <main className="flex">
       <Sidebar />
-
-      {children}
+      <div className="w-[80%]">{children}</div>
     </main>
   );
 };
