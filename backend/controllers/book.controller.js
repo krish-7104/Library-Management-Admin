@@ -18,16 +18,21 @@ export const getBookHandler = async (req, res) => {
 }
 export const getAllBooksHandler = async (req, res) => {
     try {
-        const { limit, page } = req.query;
+        const { limit, page, search } = req.query;
         const options = {
             limit: limit || 10,
             skip: (page - 1) * 10 || 0
         };
-        const books = await Book.find({}).sort({ createdAt: -1 }).skip(options.skip).limit(options.limit).lean()
+        const searchCondition = search ? { name: { $regex: new RegExp(search, 'i') } } : {};
+        let books;
+        if (limit) {
+            books = await Book.find({}).sort({ createdAt: -1 }).find(searchCondition).skip(options.skip).limit(options.limit).lean()
+        }
+        books = await Book.find({}).sort({ createdAt: -1 }).find(searchCondition).populate("category")
         if (!books) {
             return res.status(404).json(new ApiResponse(404, [], "No Books Found In Database!"))
         }
-        return res.status(404).json(new ApiResponse(200, books, "All Books Get Successfully!"))
+        return res.status(200).json(new ApiResponse(200, books, "All Books Get Successfully!"))
     } catch (error) {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
 
