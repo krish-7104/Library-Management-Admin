@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseApi } from "./utils/baseApi";
 import Sidebar from "./Components/Sidebar";
+import Navbar from "./Components/NavBar";
 const AuthWrapper = ({ children }) => {
   const navigate = useNavigate();
   useEffect(() => {
@@ -24,9 +25,12 @@ const AuthWrapper = ({ children }) => {
     checkTokenHandler(token);
   }, [navigate]);
   return (
-    <main className="flex">
-      <Sidebar />
-      <div className="w-[80%]">{children}</div>
+    <main className="flex flex-col">
+      <Navbar />
+      <section className="flex">
+        <Sidebar />
+        <div className="w-[80%]">{children}</div>
+      </section>
     </main>
   );
 };

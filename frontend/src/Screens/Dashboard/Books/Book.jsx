@@ -81,7 +81,7 @@ const Book = () => {
   };
 
   return (
-    <main className="p-6 bg-gray-100 min-h-full">
+    <main className="p-6 bg-gray-100 min-h-[100vh]">
       <section className="flex justify-between items-center mt-2 mb-6">
         <div className="relative w-[35%] bg-white shadow-md rounded-md">
           <label htmlFor="Search" className="sr-only">
@@ -115,7 +115,7 @@ const Book = () => {
           books.map((book) => {
             return <BookCard key={book._id} book={book} />;
           })}
-        {books && books.length === 0 && <p>No Found Available!</p>}
+        {books && books.length === 0 && <p>No Books Available!</p>}
       </section>
     </main>
   );

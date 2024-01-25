@@ -26,9 +26,9 @@ const Sidebar = () => {
     }
   }, [pathname]);
   return (
-    <div className="flex w-[20%] h-screen flex-col justify-between border-e bg-white">
+    <div className="flex w-[20%] flex-grow flex-col justify-between border-e bg-white">
       <div className="px-4 py-6 select-none">
-        <ul className="mt-6 space-y-1">
+        <ul className="space-y-1">
           <li>
             <Link to={"/dashboard"} onClick={() => setActive("home")}>
               <span
