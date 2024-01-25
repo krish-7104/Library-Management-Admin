@@ -17,7 +17,11 @@ connectToMongo()
 
 const port = process.env.PORT || 5000
 export const app = express()
-app.use(morgan(':method :url :status :response-time ms'));
+
+if (process.env.NODE_ENV === 'DEVELOPMENT') {
+    app.use(morgan(':method :url :status :response-time ms'));
+}
+
 app.use(express.json())
 app.use(cors({ credentials: true, origin: process.env.FRONTEND_LINK }));
 
