@@ -1,8 +1,30 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const [active, setActive] = useState("home");
+  const { pathname } = useLocation();
+  useEffect(() => {
+    if (pathname === "/dashboard") {
+      setActive("home");
+    } else if (pathname === "/dashboard/books") {
+      setActive("searchbook");
+    } else if (pathname === "/dashboard/add-book") {
+      setActive("addbook");
+    } else if (pathname === "/dashboard/issue-book") {
+      setActive("issuebook");
+    } else if (pathname === "/dashboard/return-book") {
+      setActive("returnbook");
+    } else if (pathname === "/dashboard/allotments") {
+      setActive("allotments");
+    } else if (pathname === "/dashboard/fines") {
+      setActive("fines");
+    } else if (pathname === "/dashboard/students") {
+      setActive("students");
+    } else if (pathname === "/dashboard/myaccount") {
+      setActive("myaccount");
+    }
+  }, [pathname]);
   return (
     <div className="flex w-[20%] h-screen flex-col justify-between border-e bg-white">
       <div className="px-4 py-6 select-none">
@@ -21,7 +43,10 @@ const Sidebar = () => {
             </Link>
           </li>
           <li>
-            <details className="group [&_summary::-webkit-details-marker]:hidden">
+            <details
+              className="group [&_summary::-webkit-details-marker]:hidden"
+              open={active === "searchbook" || active === "addbook"}
+            >
               <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2  hover:bg-violet-100">
                 <span className="font-medium"> Books </span>
                 <span className="shrink-0 transition duration-300 group-open:-rotate-180">
@@ -73,7 +98,14 @@ const Sidebar = () => {
             </details>
           </li>
           <li>
-            <details className="group [&_summary::-webkit-details-marker]:hidden">
+            <details
+              className="group [&_summary::-webkit-details-marker]:hidden"
+              open={
+                active === "issuebook" ||
+                active === "returnbook" ||
+                active === "allotments"
+              }
+            >
               <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2  hover:bg-violet-100">
                 <span className="font-medium"> Allotment </span>
                 <span className="shrink-0 transition duration-300 group-open:-rotate-180">

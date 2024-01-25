@@ -57,20 +57,27 @@ const Book = () => {
 
   const searchHandler = async (e) => {
     setSearch(e.target.value);
-    if (e.target.value !== "") {
-      try {
-        const resp = await axios.get(
-          `${baseApi}/book/get-books?search=${e.target.value}`
-        );
-        setBooks(resp.data.data);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        toast.error(error.response.data.message);
+    let timer;
+    const performSearch = async (value) => {
+      if (value !== "") {
+        try {
+          const resp = await axios.get(
+            `${baseApi}/book/get-books?search=${value}`
+          );
+          setBooks(resp.data.data);
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      } else {
+        getBooksDataHandler();
       }
-    } else {
-      getBooksDataHandler();
-    }
+    };
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      performSearch(e.target.value);
+    }, 300);
   };
 
   return (

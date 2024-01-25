@@ -10,6 +10,7 @@ import ReturnBook from "./Screens/Dashboard/Allotment/ReturnBook";
 import Student from "./Screens/Dashboard/Student";
 import Fines from "./Screens/Dashboard/Fines";
 import MyAccount from "./Screens/Dashboard/MyAccount";
+import Allotments from "./Screens/Dashboard/Allotment/Allotments";
 function App() {
   return (
     <Router>
@@ -59,7 +60,7 @@ function App() {
           path="/dashboard/allotments"
           element={
             <AuthWrapper>
-              <ReturnBook />
+              <Allotments />
             </AuthWrapper>
           }
         />
