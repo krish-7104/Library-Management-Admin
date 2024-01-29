@@ -81,7 +81,7 @@ const AddBook = () => {
           <input
             type="text"
             id="Book Name"
-            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
+            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
             placeholder="Book Name"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -99,7 +99,7 @@ const AddBook = () => {
             <input
               type="text"
               id="Book Author"
-              className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
+              className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
               placeholder="Book Author"
               value={formData.author}
               onChange={(e) =>
@@ -121,7 +121,7 @@ const AddBook = () => {
               <input
                 type="number"
                 id="Book Price"
-                className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
+                className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
                 placeholder="Book Price"
                 value={formData.price}
                 onChange={(e) =>
@@ -142,7 +142,7 @@ const AddBook = () => {
               <input
                 type="number"
                 id="Book Stock"
-                className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
+                className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
                 placeholder="Book Stock"
                 value={formData.stock}
                 onChange={(e) =>

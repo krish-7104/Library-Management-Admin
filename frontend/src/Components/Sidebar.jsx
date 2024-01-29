@@ -23,6 +23,10 @@ const Sidebar = () => {
       setActive("students");
     } else if (pathname === "/dashboard/myaccount") {
       setActive("myaccount");
+    } else if (pathname === "/dashboard/category") {
+      setActive("category");
+    } else if (pathname === "/dashboard/add-category") {
+      setActive("addcategory");
     }
   }, [pathname]);
   return (
@@ -96,6 +100,22 @@ const Sidebar = () => {
                 </Link>
               </ul>
             </details>
+          </li>
+          <li>
+            <Link
+              to={"/dashboard/category"}
+              onClick={() => setActive("category")}
+            >
+              <span
+                className={`block rounded-lg ${
+                  active === "category"
+                    ? "bg-violet-600 text-white"
+                    : "hover:bg-violet-100"
+                } px-4 py-2 font-medium`}
+              >
+                Category
+              </span>
+            </Link>
           </li>
           <li>
             <details
