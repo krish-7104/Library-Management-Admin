@@ -3,13 +3,13 @@ import { sendMailHandler } from "../utils/mailTransporter.js";
 
 export const returnBookReminder = async () => {
     try {
-        const allotments = await Allotment.find({ returned: false }).populate("user")
+        const allotments = await Allotment.find({ returned: false }).populate("user").populate("book")
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1)
         for (let allotment of allotments) {
             let returnDate = new Date(allotment.returnDate);
             if ((returnDate.getFullYear() === tomorrow.getFullYear()) && (returnDate.getMonth() === tomorrow.getMonth()) && (returnDate.getDate() === tomorrow.getDate())) {
-                sendMailHandler(allotment.user.email, "REMINDER To Return Library Book 📕", reminderTemplate(allotment.user.name))
+                sendMailHandler(allotment.user.email, "REMINDER To Return Library Book 📕", reminderTemplate(allotment.user.name, allotment.book.name))
             }
         }
     } catch (error) {
@@ -18,7 +18,7 @@ export const returnBookReminder = async () => {
 };
 
 
-const reminderTemplate = (name) => {
+const reminderTemplate = (name, book) => {
     return `
     <body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4;">
     
@@ -27,7 +27,7 @@ const reminderTemplate = (name) => {
             
             <p style="text-transform: capitalize;">Hello ${name},</p>
             
-            <p style="text-transform: capitalize;">This is a friendly reminder to return the books that you borrowed from our library.</p>
+            <p style="text-transform: capitalize;">This is a friendly reminder to return the <b>${book}</b> that you borrowed from our library.</p>
             
             <p style="text-transform: capitalize;">The <b> return date is tomorrow</b>. Please make sure to return the book on time to avoid any late fees.</p>
             

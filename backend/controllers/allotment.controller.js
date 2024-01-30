@@ -30,7 +30,7 @@ export const getAllAllotmentHandler = async (req, res) => {
         }
         let allotments;
         if (limit) {
-            allotments = await query.limit(options.limit).skip(options.skip).populate("books").populate("user").sort({ createdAt: -1 }).lean()
+            allotments = await query.limit(options.limit).skip(options.skip).populate("book").populate("user").sort({ createdAt: -1 }).lean()
         }
         else {
             allotments = await query.populate("book").populate("user").sort({ createdAt: -1 })
