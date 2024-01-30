@@ -7,7 +7,7 @@ export const getUserAllotmentHandler = async (req, res) => {
     const { id } = req.params
     try {
         const allotment = await Allotment.find({ user: id })
-            .populate('books');
+            .populate('book');
         if (!allotment) {
             return res.status(404).json(new ApiResponse(404, [], "No Allotment Found In Database!"))
         }
@@ -33,7 +33,7 @@ export const getAllAllotmentHandler = async (req, res) => {
             allotments = await query.limit(options.limit).skip(options.skip).populate("books").populate("user").sort({ createdAt: -1 }).lean()
         }
         else {
-            allotments = await query.populate("books").populate("user").sort({ createdAt: -1 })
+            allotments = await query.populate("book").populate("user").sort({ createdAt: -1 })
         }
         if (!allotments) {
             return res.status(404).json(new ApiResponse(404, [], "No Allotment Found In Database!"))
@@ -46,11 +46,9 @@ export const getAllAllotmentHandler = async (req, res) => {
 }
 export const issueBookHandler = async (req, res) => {
     try {
-        const { user, books } = req.body;
-        const newAllotment = await Allotment.create({ user, books })
-        for (const book of books) {
-            await Book.findByIdAndUpdate(book, { $inc: { stock: -1 } });
-        }
+        const { user, book } = req.body;
+        const newAllotment = await Allotment.create({ user, book })
+        await Book.findByIdAndUpdate(book, { $inc: { stock: -1 } });
         await User.findByIdAndUpdate(user, {
             $push: {
                 issuedHistory: newAllotment._id
@@ -68,9 +66,7 @@ export const returnBookHandler = async (req, res) => {
         if (allotment.returned) {
             return res.status(204).json(new ApiResponse(204, [], "Book Already Returned!"))
         }
-        for (const book of allotment.books) {
-            await Book.findByIdAndUpdate(book, { $inc: { stock: 1 } });
-        }
+        await Book.findByIdAndUpdate(allotment.book, { $inc: { stock: 1 } });
         await Allotment.findByIdAndUpdate(id, { returned: true })
         return res.status(200).json(new ApiResponse(200, [], "Book Returned!"))
     } catch (error) {

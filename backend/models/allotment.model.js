@@ -6,10 +6,10 @@ const allotmentSchema = new Schema({
         ref: "User",
         required: [true, "User ID is Required"]
     },
-    books: [{
+    book: {
         type: Schema.Types.ObjectId,
         ref: "Book",
-    }],
+    },
     returnDate: {
         type: Date,
     },
