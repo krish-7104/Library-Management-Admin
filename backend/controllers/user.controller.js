@@ -6,15 +6,16 @@ export const getUserHandler = async (req, res) => {
     try {
         let user;
         if (id) {
-            user = await User.findById(id)
+            user = await User.findById(id).populate("issuedHistory").select("-password")
         } else {
-            user = await User.find().sort({ createdAt: -1 })
+            user = await User.find().populate("issuedHistory").select("-password").sort({ createdAt: -1 })
         }
         if (!user) {
             return res.status(404).json(new ApiResponse(404, [], "No User Found In Database!"))
         }
         return res.status(200).json(new ApiResponse(200, user, "User Found Successfully!"))
     } catch (error) {
+        console.log(error)
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
 
     }

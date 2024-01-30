@@ -72,7 +72,7 @@ export const returnBookHandler = async (req, res) => {
             await Book.findByIdAndUpdate(book, { $inc: { stock: 1 } });
         }
         await Allotment.findByIdAndUpdate(id, { returned: true })
-        return res.status().json(new ApiResponse(200, [], "Book Returned!"))
+        return res.status(200).json(new ApiResponse(200, [], "Book Returned!"))
     } catch (error) {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
