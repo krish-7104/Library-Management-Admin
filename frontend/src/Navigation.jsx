@@ -10,6 +10,7 @@ import ReturnBook from "./Screens/Dashboard/Allotment/ReturnBook";
 import Student from "./Screens/Dashboard/Student";
 import Fines from "./Screens/Dashboard/Fines";
 import MyAccount from "./Screens/Dashboard/MyAccount";
+import Category from "./Screens/Dashboard/Category/Category";
 import Allotments from "./Screens/Dashboard/Allotment/Allotments";
 function App() {
   return (
@@ -53,6 +54,14 @@ function App() {
           element={
             <AuthWrapper>
               <ReturnBook />
+            </AuthWrapper>
+          }
+        />
+        <Route
+          path="/dashboard/category"
+          element={
+            <AuthWrapper>
+              <Category />
             </AuthWrapper>
           }
         />

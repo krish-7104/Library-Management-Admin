@@ -13,12 +13,15 @@ const Category = () => {
 
   const getCategoryHandler = async () => {
     setLoading(true);
+    toast.loading("Loading Category..");
     try {
       const resp = await axios.get(`${baseApi}/category/get-category`);
       setCategory(resp.data.data);
       setLoading(false);
+      toast.dismiss();
     } catch (error) {
       setLoading(false);
+      toast.dismiss();
       toast.error(error.response.data.message);
     }
   };
@@ -56,21 +59,23 @@ const Category = () => {
                     <td className="whitespace-nowrap px-4 py-2 text-gray-900">
                       {item.books.length}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2">
+                    {/* <td className="whitespace-nowrap px-4 py-2">
                       <button
                         href="/"
                         className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
                       >
                         View
                       </button>
-                    </td>
+                    </td> */}
                   </tr>
                 );
               })}
           </tbody>
         </table>
       </div>
-      {category && category.length === 0 && <p>No Books Available!</p>}
+      {category && category.length === 0 && (
+        <p className="text-center mt-10 text-gray-700">No Books Available!</p>
+      )}
     </main>
   );
 };
