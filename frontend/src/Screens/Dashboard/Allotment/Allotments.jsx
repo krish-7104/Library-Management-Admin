@@ -19,6 +19,7 @@ const Allotments = () => {
       setAllotments(resp.data.data);
       setLoading(false);
     } catch (error) {
+      console.log(error);
       setLoading(false);
       toast.error(error.response.data.message);
     }
@@ -58,10 +59,10 @@ const Allotments = () => {
                       {item.user.name}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-900">
-                      {item.books[0].name}
+                      {item.book.name}
                     </td>
                     <td
-                      className={`whitespace-nowrap px-4 py-2 text-gray-900 ${
+                      className={`whitespace-nowrap px-4 py-2 text-gray-900 font-semibold ${
                         item.returned ? "bg-green-300" : "bg-red-300"
                       }`}
                     >

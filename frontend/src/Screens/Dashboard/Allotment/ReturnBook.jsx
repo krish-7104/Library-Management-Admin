@@ -39,7 +39,9 @@ const ReturnBook = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Return Book!",
     }).then((result) => {
-      returnBookHandler(id);
+      if (result.isConfirmed) {
+        returnBookHandler(id);
+      }
     });
   };
 
@@ -103,7 +105,7 @@ const ReturnBook = () => {
                       {item.user.name}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-900">
-                      {item.books[0].name}
+                      {item.book.name}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-900">
                       {dateFormatter(item.createdAt)}
