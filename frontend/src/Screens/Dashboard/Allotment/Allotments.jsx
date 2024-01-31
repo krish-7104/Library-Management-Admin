@@ -3,31 +3,66 @@ import axios from "axios";
 import { baseApi } from "../../../utils/baseApi.js";
 import toast from "react-hot-toast";
 import { dateFormatter } from "../../../utils/DateFormatter.js";
+import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper.jsx";
 
 const Allotments = () => {
   const [allotment, setAllotments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [returnFilter, setReturnFilter] = useState("all");
 
   useEffect(() => {
-    getAllotmentHandler();
-  }, []);
-
-  const getAllotmentHandler = async () => {
-    setLoading(true);
-    try {
-      const resp = await axios.get(`${baseApi}/book-allotment/allotments`);
-      setAllotments(resp.data.data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      toast.error(error.response.data.message);
-    }
-  };
+    const getAllotmentHandler = async () => {
+      setLoading(true);
+      try {
+        let resp = "";
+        if (returnFilter !== "all")
+          resp = await axios.get(
+            `${baseApi}/book-allotment/allotments?returned=${returnFilter}`
+          );
+        else resp = await axios.get(`${baseApi}/book-allotment/allotments`);
+        setAllotments(resp.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+        toast.error(error.response.data.message);
+      }
+    };
+    returnFilter && getAllotmentHandler();
+  }, [returnFilter]);
 
   return (
-    <main className="p-6 bg-gray-100 min-h-[100vh]">
-      <div className="overflow-x-auto">
+    <DashboardWrapper title={"Book Allotments"}>
+      <div className="">
+        <section className="mb-4 flex justify-between items-center">
+          <div className="flex">
+            <p className="font-semibold mr-4">Filters</p>
+            <span
+              className={`${
+                returnFilter === "all" && "bg-purple-400"
+              } px-3 block text-center w-[70px] py-1 text-sm border mr-3 hover:bg-purple-400 rounded-full cursor-pointer`}
+              onClick={() => setReturnFilter("all")}
+            >
+              All
+            </span>
+            <span
+              className={`${
+                returnFilter === "true" && "bg-purple-400"
+              } px-3 block text-center w-[70px] py-1 text-sm border mr-3 hover:bg-purple-400 rounded-full cursor-pointer`}
+              onClick={() => setReturnFilter("true")}
+            >
+              True
+            </span>
+            <span
+              className={`${
+                returnFilter === "false" && "bg-purple-400"
+              } px-3 block text-center w-[70px] py-1 text-sm border mr-3 hover:bg-purple-400 rounded-full cursor-pointer`}
+              onClick={() => setReturnFilter("false")}
+            >
+              False
+            </span>
+          </div>
+        </section>
         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded shadow">
           <thead className="ltr:text-left rtl:text-right">
             <tr>
@@ -91,7 +126,7 @@ const Allotments = () => {
       {allotment && allotment.length === 0 && (
         <p className="text-center mt-10 text-gray-700">No Allotments Found!</p>
       )}
-    </main>
+    </DashboardWrapper>
   );
 };
 

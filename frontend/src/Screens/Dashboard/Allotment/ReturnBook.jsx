@@ -4,6 +4,7 @@ import { baseApi } from "../../../utils/baseApi.js";
 import toast from "react-hot-toast";
 import { dateFormatter } from "../../../utils/DateFormatter.js";
 import Swal from "sweetalert2";
+import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper.jsx";
 const ReturnBook = () => {
   const [allotment, setAllotments] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -74,8 +75,8 @@ const ReturnBook = () => {
   };
 
   return (
-    <main className="p-6 bg-gray-100 min-h-[100vh]">
-      <div className="overflow-x-auto">
+    <DashboardWrapper title={"Return Book"}>
+      <div className="">
         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded shadow">
           <thead className="ltr:text-left rtl:text-right">
             <tr>
@@ -83,9 +84,11 @@ const ReturnBook = () => {
                 Student Name
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Book
+                Book Name
               </th>
-
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                Book Image
+              </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 Allotment Date
               </th>
@@ -104,6 +107,9 @@ const ReturnBook = () => {
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       {item.user.name}
                     </td>
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-900 flex justify-center items-center">
+                      <img src={item.book.image} alt="book" className="h-32" />
+                    </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-900">
                       {item.book.name}
                     </td>
@@ -116,9 +122,9 @@ const ReturnBook = () => {
                     <td className="whitespace-nowrap px-4 py-2">
                       <button
                         onClick={() => confirmHandler(item._id)}
-                        className="inline-block rounded bg-purple-600 px-4 py-2 text-xs font-medium text-white hover:bg-purple-700"
+                        className="inline-block rounded bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"
                       >
-                        Return
+                        Return Book
                       </button>
                     </td>
                   </tr>
@@ -132,7 +138,7 @@ const ReturnBook = () => {
           No Allotments Available!
         </p>
       )}
-    </main>
+    </DashboardWrapper>
   );
 };
 

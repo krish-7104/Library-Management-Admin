@@ -42,7 +42,7 @@ const Login = () => {
           </h1>
           <label
             htmlFor="Email Address"
-            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600 p-3 mb-5"
+            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-purple-600 focus-within:ring-1 focus-within:ring-purple-600 p-3 mb-5"
           >
             <input
               type="email"
@@ -59,7 +59,7 @@ const Login = () => {
           </label>
           <label
             htmlFor="Password"
-            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600 p-3 mb-5"
+            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-purple-600 focus-within:ring-1 focus-within:ring-purple-600 p-3 mb-5"
           >
             <input
               type="password"
@@ -74,7 +74,7 @@ const Login = () => {
             </span>
           </label>
           <button
-            className="group block mx-auto relative items-center overflow-hidden rounded bg-indigo-600 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500"
+            className="group block mx-auto relative items-center overflow-hidden rounded bg-purple-600 ring-purple-400 px-8 py-3 text-white focus:outline-none focus:ring active:bg-purple-500"
             type="submit"
           >
             <span className="absolute -end-full transition-all group-hover:end-4">

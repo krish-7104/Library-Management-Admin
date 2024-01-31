@@ -32,6 +32,10 @@ const userSchema = new Schema({
         type: Number,
         default: 0
     },
+    bookSlot: {
+        type: Number,
+        default: 5
+    },
     issuedHistory: [{
         type: Schema.Types.ObjectId,
         ref: "Allotment",

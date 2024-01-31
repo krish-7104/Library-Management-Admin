@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { baseApi } from "../../../utils/baseApi.js";
 import toast from "react-hot-toast";
+import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper.jsx";
 
 const Category = () => {
   const [category, setCategory] = useState([]);
@@ -27,8 +28,8 @@ const Category = () => {
   };
 
   return (
-    <main className="p-6 bg-gray-100 min-h-[100vh]">
-      <div className="overflow-x-auto">
+    <DashboardWrapper title="Category">
+      <div className="">
         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded shadow">
           <thead className="ltr:text-left rtl:text-right">
             <tr>
@@ -62,7 +63,7 @@ const Category = () => {
                     {/* <td className="whitespace-nowrap px-4 py-2">
                       <button
                         href="/"
-                        className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
+                        className="inline-block rounded bg-purple-600 px-4 py-2 text-xs font-medium text-white hover:bg-purple-700"
                       >
                         View
                       </button>
@@ -76,7 +77,7 @@ const Category = () => {
       {category && category.length === 0 && (
         <p className="text-center mt-10 text-gray-700">No Books Available!</p>
       )}
-    </main>
+    </DashboardWrapper>
   );
 };
 

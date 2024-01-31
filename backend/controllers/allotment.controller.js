@@ -52,10 +52,14 @@ export const issueBookHandler = async (req, res) => {
         await User.findByIdAndUpdate(user, {
             $push: {
                 issuedHistory: newAllotment._id
+            },
+            $inc: {
+                bookSlot: -1
             }
         })
-        return res.status(201).json(new ApiResponse(201, newAllotment, "Book Allotment Created!"))
+        return res.status(201).json(new ApiResponse(201, newAllotment, "Book Issued Successfully!"))
     } catch (error) {
+        console.log("Issue Book Error: \n", error)
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
@@ -66,6 +70,11 @@ export const returnBookHandler = async (req, res) => {
         if (allotment.returned) {
             return res.status(204).json(new ApiResponse(204, [], "Book Already Returned!"))
         }
+        await User.findByIdAndUpdate(allotment.user, {
+            $inc: {
+                bookSlot: 1
+            }
+        })
         await Book.findByIdAndUpdate(allotment.book, { $inc: { stock: 1 } });
         await Allotment.findByIdAndUpdate(id, { returned: true })
         return res.status(200).json(new ApiResponse(200, [], "Book Returned!"))

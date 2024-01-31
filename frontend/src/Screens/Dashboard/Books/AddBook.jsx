@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { baseApi } from "../../../utils/baseApi";
 import toast from "react-hot-toast";
 import { LuUpload } from "react-icons/lu";
+import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper";
 
 const AddBook = () => {
   const [category, setCategory] = useState([]);
@@ -67,7 +68,7 @@ const AddBook = () => {
   };
 
   return (
-    <main className="p-6 bg-gray-100 flex items-center justify-center min-h-[90vh]">
+    <DashboardWrapper title={"Add Book"}>
       <form
         action=""
         className="space-y-4 w-[60%] bg-white p-10 shadow-md rounded-md"
@@ -202,7 +203,7 @@ const AddBook = () => {
         </div>
       </form>
       <img src={previewImage} alt="" className="w-52 ml-10" />
-    </main>
+    </DashboardWrapper>
   );
 };
 
