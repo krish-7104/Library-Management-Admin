@@ -68,7 +68,7 @@ export const returnBookHandler = async (req, res) => {
         const { id } = req.params
         const allotment = await Allotment.findOne({ _id: id })
         if (allotment.returned) {
-            return res.status(204).json(new ApiResponse(204, [], "Book Already Returned!"))
+            return res.status(409).json(new ApiResponse(409, [], "Book Already Returned!"))
         }
         await User.findByIdAndUpdate(allotment.user, {
             $inc: {

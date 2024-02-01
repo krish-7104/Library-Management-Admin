@@ -53,7 +53,7 @@ const ReturnBook = () => {
         `${baseApi}/book-allotment/return-book/${id}`
       );
       toast.dismiss();
-      if (resp.status === 204) {
+      if (resp.status === 409) {
         Swal.fire({
           title: "Not Allotment Found!",
           icon: "warning",

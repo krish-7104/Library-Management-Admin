@@ -35,9 +35,9 @@ export const getAllCategoryHandler = async (req, res) => {
 export const addCategoryHandler = async (req, res) => {
     try {
         const { name } = req.body
-        const category = await Category.findOne({ name })
-        if (category) {
-            return res.status(204).json(new ApiResponse(204, [], "Category With Name Already Exixts"))
+        const regex = new RegExp("^" + name + "$", "i");
+        const category = await Category.findOne({ name: { $regex: regex } }); if (category) {
+            return res.status(409).json(new ApiResponse(409, [], "Category With Name Already Exixts"))
         }
         const newCategory = await Category.create(req.body)
         return res.status(200).json(new ApiResponse(201, newCategory, "Category Added!"))

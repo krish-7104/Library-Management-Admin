@@ -3,6 +3,8 @@ import axios from "axios";
 import { baseApi } from "../../../utils/baseApi.js";
 import toast from "react-hot-toast";
 import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper.jsx";
+import { Plus } from "lucide-react";
+import Swal from "sweetalert2";
 
 const Category = () => {
   const [category, setCategory] = useState([]);
@@ -27,9 +29,49 @@ const Category = () => {
     }
   };
 
+  const addCategoryPopup = () => {
+    Swal.fire({
+      title: "Enter Category Name",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Add Category",
+      showLoaderOnConfirm: true,
+      preConfirm: async (name) => {
+        try {
+          const resp = await axios.post(`${baseApi}/category/add-category`, {
+            name,
+          });
+          return resp.data;
+        } catch (error) {
+          Swal.showValidationMessage(`
+            ${error.response.data.message}
+          `);
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: result.value.message,
+          icon: "success",
+        });
+        getCategoryHandler();
+      }
+    });
+  };
+
   return (
     <DashboardWrapper title="Category">
-      <div className="">
+      <div>
+        <button
+          className="absolute bottom-10 right-10 bg-violet-600 text-white p-3 rounded-md hover:bg-violet-700 cursor-pointer flex justify-between items-center"
+          onClick={addCategoryPopup}
+        >
+          Add New Category <Plus size={23} className="ml-2" />
+        </button>
         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded shadow">
           <thead className="ltr:text-left rtl:text-right">
             <tr>

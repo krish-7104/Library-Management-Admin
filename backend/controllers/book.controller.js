@@ -43,7 +43,7 @@ export const addBookHandler = async (req, res) => {
         const { name } = req.body
         const book = await Book.findOne({ name })
         if (book) {
-            return res.status(204).json(new ApiResponse(204, [], "Book With Name Already Exixts"))
+            return res.status(409).json(new ApiResponse(409, [], "Book With Name Already Exixts"))
         }
         const uploadedImage = await uploadOnCloudinary(req.file.path)
         const newBook = await Book.create({ ...req.body, image: uploadedImage.url })
