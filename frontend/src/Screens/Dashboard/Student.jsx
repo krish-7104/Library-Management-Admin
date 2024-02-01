@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { baseApi } from "../../utils/baseApi";
-
+import { Send } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 const Student = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getStudentHandler();
@@ -43,10 +45,13 @@ const Student = () => {
                 Phone No.
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                Email
+              </th>
+              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 Fine
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Issued History
+                Slot Available
               </th>
               <th className="px-4 py-2"></th>
             </tr>
@@ -67,19 +72,30 @@ const Student = () => {
                       {item.phonenumber}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-900">
+                      {item.email}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-900">
                       {item.fine}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-900">
-                      {item.issuedHistory.length}
+                      {item.bookSlot}
                     </td>
-                    {/* <td className="whitespace-nowrap px-4 py-2">
+                    <td className="whitespace-nowrap px-4 py-2">
                       <button
-                        href="/"
-                        className="inline-block rounded bg-purple-600 px-4 py-2 text-xs font-medium text-white hover:bg-purple-700"
+                        onClick={() =>
+                          navigate("/dashboard/send-message", {
+                            state: {
+                              email: item.email,
+                              eno: item.enrollmentno,
+                              name: item.name,
+                            },
+                          })
+                        }
+                        className="inline-block rounded bg-purple-600 px-4 py-2 font-medium text-white hover:bg-purple-700"
                       >
-                        View
+                        <Send size={14} />
                       </button>
-                    </td> */}
+                    </td>
                   </tr>
                 );
               })}

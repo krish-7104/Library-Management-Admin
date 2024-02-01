@@ -11,6 +11,7 @@ import userRoutes from "./routes/user.route.js"
 import adminRoutes from "./routes/admin.route.js"
 import { returnBookReminder } from "./Cron Jobs/ReturnReminder.js"
 import { AutoFeeIncrement } from "./Cron Jobs/AutoFeeIncrement.js"
+import communicationRoutes from "./routes/communication.route.js"
 
 dotenv.config()
 connectToMongo()
@@ -30,6 +31,7 @@ app.use("/api/category", categoryRoutes)
 app.use("/api/book-allotment", bookAllotmentRoutes)
 app.use("/api/user", userRoutes)
 app.use("/api/admin", adminRoutes)
+app.use("/api/communication", communicationRoutes)
 
 cron.schedule('0 9 * * *', () => {
     returnBookReminder()

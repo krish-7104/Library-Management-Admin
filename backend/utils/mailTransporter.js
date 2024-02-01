@@ -11,7 +11,7 @@ export const transporter = nodemailer.createTransport({
 export const sendMailHandler = async (email, subject, html) => {
     const mailOptions = {
         from: `GCET Library ${process.env.NODEMAILER_USER}`,
-        to: "krishjotaniya9@gmail.com",
+        to: email,
         subject: subject,
         html: html
     };

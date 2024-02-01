@@ -12,6 +12,7 @@ import Fines from "./Screens/Dashboard/Fines";
 import MyAccount from "./Screens/Dashboard/MyAccount";
 import Category from "./Screens/Dashboard/Category/Category";
 import Allotments from "./Screens/Dashboard/Allotment/Allotments";
+import SendMessage from "./Screens/Dashboard/SendMessage";
 function App() {
   return (
     <Router>
@@ -97,7 +98,16 @@ function App() {
             </AuthWrapper>
           }
         />
+        <Route
+          path="/dashboard/send-message"
+          element={
+            <AuthWrapper>
+              <SendMessage />
+            </AuthWrapper>
+          }
+        />
       </Routes>
+
       <Toaster position="bottom-center" />
     </Router>
   );
