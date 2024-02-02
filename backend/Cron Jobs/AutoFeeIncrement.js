@@ -3,7 +3,10 @@ import User from "../models/user.model.js";
 
 
 export const AutoFeeIncrement = async () => {
-    const allotments = await Allotment.find({ returned: true }).populate("user").populate("book")
+    const allotments = await Allotment.find({ returned: true }).populate({
+        path: 'user',
+        select: '-password'
+    }).populate("book")
     let today = new Date();
     for (let allotment of allotments) {
         const returnDate = new Date(allotment.returnDate)

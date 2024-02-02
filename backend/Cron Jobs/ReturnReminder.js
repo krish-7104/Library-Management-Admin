@@ -3,7 +3,10 @@ import { sendMailHandler } from "../utils/mailTransporter.js";
 
 export const returnBookReminder = async () => {
     try {
-        const allotments = await Allotment.find({ returned: false }).populate("user").populate("book")
+        const allotments = await Allotment.find({ returned: false }).populate({
+            path: 'user',
+            select: '-password'
+        }).populate("book")
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1)
         for (let allotment of allotments) {

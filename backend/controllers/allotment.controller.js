@@ -30,10 +30,16 @@ export const getAllAllotmentHandler = async (req, res) => {
         }
         let allotments;
         if (limit) {
-            allotments = await query.limit(options.limit).skip(options.skip).populate("book").populate("user").sort({ createdAt: -1 }).lean()
+            allotments = await query.limit(options.limit).skip(options.skip).populate("book").populate({
+                path: 'user',
+                select: '-password'
+            }).sort({ createdAt: -1 }).lean()
         }
         else {
-            allotments = await query.populate("book").populate("user").sort({ createdAt: -1 })
+            allotments = await query.populate("book").populate({
+                path: 'user',
+                select: '-password'
+            }).sort({ createdAt: -1 })
         }
         if (!allotments) {
             return res.status(404).json(new ApiResponse(404, [], "No Allotment Found In Database!"))
