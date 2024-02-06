@@ -1,7 +1,7 @@
-import Allotment from "../models/allotment.model.js";
-import { sendMailHandler } from "../utils/mailTransporter.js";
+const Allotment = require("../models/allotment.model.js");
+const { sendMailHandler } = require("../utils/mailTransporter.js");
 
-export const returnBookReminder = async () => {
+const returnBookReminder = async () => {
     try {
         const allotments = await Allotment.find({ returned: false }).populate({
             path: 'user',
@@ -39,3 +39,5 @@ const reminderTemplate = (name, book) => {
     </body>
 `
 }
+
+module.exports = { returnBookReminder }

@@ -1,8 +1,8 @@
-import Allotment from "../models/allotment.model.js";
-import User from "../models/user.model.js";
+const Allotment = require("../models/allotment.model.js");
+const User = require("../models/user.model.js");
 
 
-export const AutoFeeIncrement = async () => {
+const AutoFeeIncrement = async () => {
     const allotments = await Allotment.find({ returned: true }).populate({
         path: 'user',
         select: '-password'
@@ -15,3 +15,4 @@ export const AutoFeeIncrement = async () => {
         }
     }
 }
+module.exports = { AutoFeeIncrement }

@@ -1,6 +1,6 @@
-import dotenv from "dotenv"
-import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3"
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
+const dotenv = require("dotenv")
+const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3")
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner")
 dotenv.config()
 
 const accessKey = process.env.AWS_ACCESS_KEY
@@ -40,4 +40,4 @@ const uploadOnAWS = async (file, filename) => {
     }
 }
 
-export default uploadOnAWS
+module.exports = uploadOnAWS

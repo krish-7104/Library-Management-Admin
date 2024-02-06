@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose"
+const { Schema, model } = require("mongoose")
 
 const finesSchema = new Schema({
     user: {
@@ -12,4 +12,4 @@ const finesSchema = new Schema({
 }, { timestamps: true })
 
 
-export default model("fine", finesSchema)
+module.exports = model("fine", finesSchema)

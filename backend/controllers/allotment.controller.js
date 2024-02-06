@@ -1,9 +1,9 @@
-import ApiResponse from "../utils/ApiResponse.js"
-import Book from "../models/book.model.js"
-import User from "../models/user.model.js"
-import Allotment from "../models/allotment.model.js"
+const ApiResponse = require("../utils/ApiResponse.js")
+const User = require("../models/user.model.js")
+const Book = require("../models/book.model.js")
+const Allotment = require("../models/allotment.model.js")
 
-export const getUserAllotmentHandler = async (req, res) => {
+const getUserAllotmentHandler = async (req, res) => {
     const { id } = req.params
     try {
         const allotment = await Allotment.find({ user: id })
@@ -16,7 +16,7 @@ export const getUserAllotmentHandler = async (req, res) => {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
-export const getAllAllotmentHandler = async (req, res) => {
+const getAllAllotmentHandler = async (req, res) => {
     try {
         const { limit, page, returned } = req.query;
         const options = {
@@ -50,7 +50,7 @@ export const getAllAllotmentHandler = async (req, res) => {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
-export const issueBookHandler = async (req, res) => {
+const issueBookHandler = async (req, res) => {
     try {
         const { user, book } = req.body;
         const newAllotment = await Allotment.create({ user, book })
@@ -69,7 +69,7 @@ export const issueBookHandler = async (req, res) => {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
-export const returnBookHandler = async (req, res) => {
+const returnBookHandler = async (req, res) => {
     try {
         const { id } = req.params
         const allotment = await Allotment.findOne({ _id: id })
@@ -89,7 +89,7 @@ export const returnBookHandler = async (req, res) => {
     }
 }
 
-export const deleteIssueHandler = async (req, res) => {
+const deleteIssueHandler = async (req, res) => {
     try {
         const { id } = req.params
         await Allotment.findByIdAndDelete(id)
@@ -97,4 +97,12 @@ export const deleteIssueHandler = async (req, res) => {
     } catch (error) {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
+}
+
+module.exports = {
+    getUserAllotmentHandler,
+    getAllAllotmentHandler,
+    issueBookHandler,
+    returnBookHandler,
+    deleteIssueHandler
 }

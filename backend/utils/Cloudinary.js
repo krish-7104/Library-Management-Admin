@@ -1,6 +1,6 @@
-import { v2 } from "cloudinary"
-import fs from "fs"
-import dotenv from "dotenv"
+const { v2 } = require("cloudinary")
+const fs = require("fs")
+const dotenv = require("dotenv")
 dotenv.config()
 
 v2.config({
@@ -26,4 +26,4 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 }
 
-export default uploadOnCloudinary
+module.exports = uploadOnCloudinary

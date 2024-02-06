@@ -1,24 +1,24 @@
-import express from "express"
-import dotenv from "dotenv"
-import cron from "node-cron"
-import morgan from "morgan"
-import cors from "cors"
-import { connectToMongo } from "./database/connectDb.js"
-import bookRoutes from "./routes/book.route.js"
-import categoryRoutes from "./routes/category.route.js"
-import bookAllotmentRoutes from "./routes/bookallotment.route.js"
-import userRoutes from "./routes/user.route.js"
-import adminRoutes from "./routes/admin.route.js"
-import { returnBookReminder } from "./Cron Jobs/ReturnReminder.js"
-import { AutoFeeIncrement } from "./Cron Jobs/AutoFeeIncrement.js"
-import communicationRoutes from "./routes/communication.route.js"
-import finesRoute from "./routes/fines.route.js"
+const express = require("express")
+const dotenv = require("dotenv")
+const cron = require("node-cron")
+const morgan = require("morgan")
+const cors = require("cors")
+const { connectToMongo } = require("./database/connectDb.js")
+const bookRoutes = require("./routes/book.route.js")
+const categoryRoutes = require("./routes/category.route.js")
+const bookAllotmentRoutes = require("./routes/bookallotment.route.js")
+const userRoutes = require("./routes/user.route.js")
+const adminRoutes = require("./routes/admin.route.js")
+const { returnBookReminder } = require("./Cron Jobs/ReturnReminder.js")
+const { AutoFeeIncrement } = require("./Cron Jobs/AutoFeeIncrement.js")
+const communicationRoutes = require("./routes/communication.route.js")
+const finesRoute = require("./routes/fines.route.js")
 
 dotenv.config()
 connectToMongo()
 
 const port = process.env.PORT || 5000
-export const app = express()
+const app = express()
 
 if (process.env.NODE_ENV === 'DEVELOPMENT') {
     app.use(morgan(':method :url :status :response-time ms'));
@@ -42,5 +42,6 @@ cron.schedule('0 9 * * *', () => {
 
 
 app.listen(port, () => {
-    console.log(`Server Started on Port:${port}`.bold)
+    console.log(`Server Started on Port:${port}`)
 })
+

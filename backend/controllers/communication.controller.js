@@ -1,6 +1,5 @@
-import ApiResponse from "../utils/ApiResponse.js"
-import { sendMailHandler } from "../utils/mailTransporter.js"
-
+const { sendMailHandler } = require("../utils/mailTransporter.js")
+const ApiResponse = require("../utils/ApiResponse.js")
 
 const reminderTemplate = (name, subject, message) => {
     return `
@@ -52,8 +51,7 @@ const reminderTemplate = (name, subject, message) => {
     </html>
 `
 }
-
-export const sendMessageHandler = async (req, res) => {
+const sendMessageHandler = async (req, res) => {
     try {
         const { email, name, subject, message } = req.body
         sendMailHandler(email, subject, reminderTemplate(name, subject, message))
@@ -63,3 +61,5 @@ export const sendMessageHandler = async (req, res) => {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
+
+module.exports = { sendMessageHandler }

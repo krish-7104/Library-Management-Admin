@@ -1,6 +1,6 @@
-import express from "express"
-import { addAdminHandler, adminLoginHandler, deleteAdminHandler, forgetAdminPassword, updateAdminHandler, getAdminHandler } from "../controllers/admin.controller.js"
-import { adminAuthMiddleware } from "../middlewares/adminauth.middleware.js"
+const express = require("express")
+const { addAdminHandler, adminLoginHandler, deleteAdminHandler, forgetAdminPassword, updateAdminHandler, getAdminHandler } = require("../controllers/admin.controller.js")
+const { adminAuthMiddleware } = require("../middlewares/adminauth.middleware.js")
 const router = express.Router()
 
 router.get("/auth/get-admin", adminAuthMiddleware, getAdminHandler)
@@ -10,4 +10,4 @@ router.patch("/update-admin/:id", updateAdminHandler)
 router.delete("/delete-admin/:id", deleteAdminHandler)
 router.post("/forget-password", forgetAdminPassword)
 
-export default router
+module.exports = router

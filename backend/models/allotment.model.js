@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose"
+const { Schema, model } = require("mongoose")
 
 const allotmentSchema = new Schema({
     user: {
@@ -29,4 +29,4 @@ allotmentSchema.pre('save', function (next) {
     next();
 });
 
-export default model("Allotment", allotmentSchema)
+module.exports = model("Allotment", allotmentSchema)

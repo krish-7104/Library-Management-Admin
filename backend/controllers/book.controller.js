@@ -1,9 +1,9 @@
-import ApiResponse from "../utils/ApiResponse.js"
-import Book from "../models/book.model.js"
-import Category from "../models/category.model.js"
-import uploadOnCloudinary from "../utils/Cloudinary.js"
+const ApiResponse = require("../utils/ApiResponse.js")
+const Book = require("../models/book.model.js")
+const Category = require("../models/category.model.js")
+const uploadOnCloudinary = require("../utils/Cloudinary.js")
 
-export const getBookHandler = async (req, res) => {
+const getBookHandler = async (req, res) => {
     const { id } = req.params
     try {
         const book = await Book.findById(id)
@@ -16,7 +16,7 @@ export const getBookHandler = async (req, res) => {
 
     }
 }
-export const getAllBooksHandler = async (req, res) => {
+const getAllBooksHandler = async (req, res) => {
     try {
         const { limit, page, search } = req.query;
         const options = {
@@ -38,7 +38,7 @@ export const getAllBooksHandler = async (req, res) => {
 
     }
 }
-export const addBookHandler = async (req, res) => {
+const addBookHandler = async (req, res) => {
     try {
         const { name } = req.body
         const book = await Book.findOne({ name })
@@ -54,7 +54,7 @@ export const addBookHandler = async (req, res) => {
 
     }
 }
-export const updateBookHandler = async (req, res) => {
+const updateBookHandler = async (req, res) => {
     try {
         const { id } = req.params
         const book = await Book.findByIdAndUpdate({ id, update: req.body })
@@ -64,7 +64,7 @@ export const updateBookHandler = async (req, res) => {
 
     }
 }
-export const deleteBookHandler = async (req, res) => {
+const deleteBookHandler = async (req, res) => {
     try {
         const { id } = req.params
         const book = await Book.findById(id)
@@ -75,4 +75,12 @@ export const deleteBookHandler = async (req, res) => {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
 
     }
+}
+
+module.exports = {
+    getBookHandler,
+    getAllBooksHandler,
+    addBookHandler,
+    updateBookHandler,
+    deleteBookHandler
 }

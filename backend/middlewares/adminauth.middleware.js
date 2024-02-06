@@ -1,8 +1,8 @@
-import Admin from "../models/admin.model.js"
-import ApiResponse from "../utils/ApiResponse.js"
-import jwt from "jsonwebtoken"
+const Admin = require("../models/admin.model.js")
+const ApiResponse = require("../utils/ApiResponse.js")
+const jwt = require("jsonwebtoken")
 
-export const adminAuthMiddleware = async (req, res, next) => {
+const adminAuthMiddleware = async (req, res, next) => {
     try {
         const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
         if (!token) {
@@ -21,3 +21,5 @@ export const adminAuthMiddleware = async (req, res, next) => {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
+
+module.exports = { adminAuthMiddleware }

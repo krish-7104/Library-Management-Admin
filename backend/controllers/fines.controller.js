@@ -1,9 +1,9 @@
-import Fine from "../models/fines.model.js"
-import User from "../models/user.model.js"
-import ApiResponse from "../utils/ApiResponse.js"
-import { sendMailHandler } from "../utils/mailTransporter.js"
+const Fine = require("../models/fines.model.js")
+const User = require("../models/user.model.js")
+const ApiResponse = require("../utils/ApiResponse.js")
+const { sendMailHandler } = require("../utils/mailTransporter.js")
 
-export const GetAllFinesHandler = async (req, res) => {
+const GetAllFinesHandler = async (req, res) => {
     try {
         const fines = await Fine.find().populate({
             path: 'user',
@@ -16,7 +16,7 @@ export const GetAllFinesHandler = async (req, res) => {
     }
 }
 
-export const finePaidHandler = async (req, res) => {
+const finePaidHandler = async (req, res) => {
     try {
         const { user, amount } = req.body
         const userData = await User.findByIdAndUpdate(user, {
@@ -34,7 +34,7 @@ export const finePaidHandler = async (req, res) => {
     }
 }
 
-export const deleteFineHandler = async (req, res) => {
+const deleteFineHandler = async (req, res) => {
     try {
         const { id } = req.params
         await Fine.findByIdAndDelete(id)
@@ -62,8 +62,15 @@ const reminderTemplate = (amount, date, name) => {
 }
 
 
-export const dateFormatter = (date) => {
+const dateFormatter = (date) => {
     const tempDate = new Date(date)
     const newDate = `${tempDate.getDate()}-${tempDate.getMonth() + 1}-${tempDate.getFullYear()}`
     return newDate
+}
+
+module.exports = {
+    GetAllFinesHandler,
+    finePaidHandler,
+    deleteFineHandler,
+    dateFormatter
 }

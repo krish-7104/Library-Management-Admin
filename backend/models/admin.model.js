@@ -1,5 +1,5 @@
-import { Schema, model } from "mongoose"
-import bcrypt from "bcrypt"
+const { Schema, model } = require("mongoose")
+const bcrypt = require("bcrypt")
 
 const adminSchema = new Schema({
     name: {
@@ -36,4 +36,4 @@ adminSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password)
 }
 
-export default model("Admin", adminSchema)
+module.exports = model("Admin", adminSchema)

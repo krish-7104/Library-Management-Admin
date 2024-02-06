@@ -1,7 +1,7 @@
-import ApiResponse from "../utils/ApiResponse.js"
-import User from "../models/user.model.js"
+const ApiResponse = require("../utils/ApiResponse.js")
+const User = require("../models/user.model.js")
 
-export const getUserHandler = async (req, res) => {
+const getUserHandler = async (req, res) => {
     const { id } = req.params
     try {
         let user;
@@ -21,7 +21,7 @@ export const getUserHandler = async (req, res) => {
     }
 }
 
-export const searchUserHandler = async (req, res) => {
+const searchUserHandler = async (req, res) => {
     try {
         const { eno } = req.query
         const user = await User.findOne({ enrollmentno: parseInt(eno) }).select("-password")
@@ -36,7 +36,7 @@ export const searchUserHandler = async (req, res) => {
     }
 }
 
-export const addUserHandler = async (req, res) => {
+const addUserHandler = async (req, res) => {
     try {
         const user = await User.create(req.body)
         return res.status(200).json(new ApiResponse(200, { id: user._id, name: user.name }, "User Added Successfully!"))
@@ -45,4 +45,10 @@ export const addUserHandler = async (req, res) => {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
 
     }
+}
+
+module.exports = {
+    getUserHandler,
+    searchUserHandler,
+    addUserHandler
 }

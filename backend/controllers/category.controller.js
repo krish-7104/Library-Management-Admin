@@ -1,7 +1,7 @@
-import ApiResponse from "../utils/ApiResponse.js"
-import Category from "../models/category.model.js"
+const ApiResponse = require("../utils/ApiResponse.js")
+const Category = require("../models/category.model.js")
 
-export const getCategoryHandler = async (req, res) => {
+const getCategoryHandler = async (req, res) => {
     const { id } = req.params
     try {
         const category = await Category.findById(id).populate('books')
@@ -13,7 +13,7 @@ export const getCategoryHandler = async (req, res) => {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
-export const getAllCategoryHandler = async (req, res) => {
+const getAllCategoryHandler = async (req, res) => {
     try {
         const { book, search } = req.query;
         let category;
@@ -32,7 +32,7 @@ export const getAllCategoryHandler = async (req, res) => {
     }
 };
 
-export const addCategoryHandler = async (req, res) => {
+const addCategoryHandler = async (req, res) => {
     try {
         const { name } = req.body
         const regex = new RegExp("^" + name + "$", "i");
@@ -46,7 +46,7 @@ export const addCategoryHandler = async (req, res) => {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
-export const updateCategoryHandler = async (req, res) => {
+const updateCategoryHandler = async (req, res) => {
     try {
         const { id } = req.params
         const category = await Category.findByIdAndUpdate(id, req.body)
@@ -56,7 +56,7 @@ export const updateCategoryHandler = async (req, res) => {
     }
 
 }
-export const deleteCategoryHandler = async (req, res) => {
+const deleteCategoryHandler = async (req, res) => {
     try {
         const { id } = req.params
         await Category.findByIdAndDelete(id)
@@ -64,4 +64,12 @@ export const deleteCategoryHandler = async (req, res) => {
     } catch (error) {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
+}
+
+module.exports = {
+    getCategoryHandler,
+    getAllCategoryHandler,
+    addCategoryHandler,
+    updateCategoryHandler,
+    deleteCategoryHandler
 }

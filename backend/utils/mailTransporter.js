@@ -1,6 +1,6 @@
-import nodemailer from "nodemailer"
+const nodemailer = require("nodemailer")
 
-export const transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
         user: process.env.NODEMAILER_USER,
@@ -8,7 +8,7 @@ export const transporter = nodemailer.createTransport({
     },
 });
 
-export const sendMailHandler = async (email, subject, html) => {
+const sendMailHandler = async (email, subject, html) => {
     const mailOptions = {
         from: `GCET Library ${process.env.NODEMAILER_USER}`,
         to: email,
@@ -17,3 +17,5 @@ export const sendMailHandler = async (email, subject, html) => {
     };
     await transporter.sendMail(mailOptions);
 }
+
+module.exports = { transporter, sendMailHandler }

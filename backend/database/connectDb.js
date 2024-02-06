@@ -1,7 +1,7 @@
-import mongoose from "mongoose"
+const mongoose = require("mongoose")
 const DB_NAME = "Library-Management-System"
 
-export const connectToMongo = async () => {
+const connectToMongo = async () => {
     try {
         const connectionInstance = await mongoose.connect(`${process.env.MONGOURI}/${DB_NAME}`)
         console.log(`MongoDB connected !! DB HOST: ${connectionInstance.connection.host}`);
@@ -10,3 +10,5 @@ export const connectToMongo = async () => {
         process.exit(1)
     }
 }
+
+module.exports = { connectToMongo }

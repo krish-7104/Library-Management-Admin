@@ -1,8 +1,8 @@
-import ApiResponse from "../utils/ApiResponse.js"
-import Admin from "../models/admin.model.js"
-import jwt from "jsonwebtoken"
+const jwt = require("jsonwebtoken")
+const ApiResponse = require("../utils/ApiResponse.js")
+const Admin = require("../models/admin.model.js")
 
-export const adminLoginHandler = async (req, res) => {
+const adminLoginHandler = async (req, res) => {
     try {
         const { email, password } = req.body
         const admin = await Admin.findOne({ email })
@@ -23,11 +23,11 @@ export const adminLoginHandler = async (req, res) => {
     }
 }
 
-export const getAdminHandler = async (req, res) => {
+const getAdminHandler = async (req, res) => {
     res.status(200).json(new ApiResponse(200, req.admin, "User Details Found!"))
 }
 
-export const addAdminHandler = async (req, res) => {
+const addAdminHandler = async (req, res) => {
     try {
         const admin = await Admin.create(req.body)
         return res.status(200).json(new ApiResponse(200, { id: admin._id, name: admin.name, role: admin.role }, "Admin Added Successfully!"))
@@ -36,7 +36,7 @@ export const addAdminHandler = async (req, res) => {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
-export const updateAdminHandler = async (req, res) => {
+const updateAdminHandler = async (req, res) => {
     try {
         const { id } = req.params
         const admin = await Admin.findByIdAndUpdate(id, req.body)
@@ -46,7 +46,7 @@ export const updateAdminHandler = async (req, res) => {
         return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
     }
 }
-export const deleteAdminHandler = async (req, res) => {
+const deleteAdminHandler = async (req, res) => {
     try {
         const { id } = req.params
         await Admin.findByIdAndDelete(id)
@@ -57,6 +57,14 @@ export const deleteAdminHandler = async (req, res) => {
     }
 }
 
-export const forgetAdminPassword = async (req, res) => {
+const forgetAdminPassword = async (req, res) => {
     // 
+}
+
+module.exports = {
+    adminLoginHandler, getAdminHandler,
+    addAdminHandler,
+    updateAdminHandler,
+    deleteAdminHandler,
+    forgetAdminPassword
 }

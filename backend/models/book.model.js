@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose"
+const { Schema, model } = require("mongoose")
 
 const bookSchema = new Schema({
     name: {
@@ -27,4 +27,4 @@ const bookSchema = new Schema({
     }
 }, { timestamps: true })
 
-export default model("Book", bookSchema)
+module.exports = model("Book", bookSchema)
