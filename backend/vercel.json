@@ -11,5 +11,15 @@
       "src": "/(.*)",
       "dest": "/"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/auto-reminder",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/auto-increment",
+      "schedule": "0 9 * * *"
+    }
   ]
 }

@@ -1,6 +1,6 @@
 const express = require("express")
 const dotenv = require("dotenv")
-const cron = require("node-cron")
+// const cron = require("node-cron")
 const morgan = require("morgan")
 const cors = require("cors")
 const { connectToMongo } = require("./database/connectDb.js")
@@ -13,6 +13,7 @@ const { returnBookReminder } = require("./Cron Jobs/ReturnReminder.js")
 const { AutoFeeIncrement } = require("./Cron Jobs/AutoFeeIncrement.js")
 const communicationRoutes = require("./routes/communication.route.js")
 const finesRoute = require("./routes/fines.route.js")
+const cronRoute = require("./routes/cronjob.route.js")
 
 dotenv.config()
 connectToMongo()
@@ -34,11 +35,12 @@ app.use("/api/user", userRoutes)
 app.use("/api/admin", adminRoutes)
 app.use("/api/communication", communicationRoutes)
 app.use("/api/fines", finesRoute)
+app.use("/api/cron", cronRoute)
 
-cron.schedule('0 9 * * *', () => {
-    returnBookReminder()
-    AutoFeeIncrement()
-});
+// cron.schedule('0 9 * * *', () => {
+//     returnBookReminder()
+//     AutoFeeIncrement()
+// });
 
 
 app.listen(port, () => {
