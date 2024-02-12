@@ -15,7 +15,7 @@ const adminLoginHandler = async (req, res) => {
             return res.json(new ApiResponse(200, { token }, "Login Successful"));
         }
         else {
-            return res.status(401).json(new ApiResponse(404, [], "Invalid Credentials!"))
+            return res.status(401).json(new ApiResponse(401, [], "Invalid Credentials!"))
         }
     } catch (error) {
         console.log(error)
@@ -23,8 +23,32 @@ const adminLoginHandler = async (req, res) => {
     }
 }
 
-const getAdminHandler = async (req, res) => {
+const getAllAdminHandler = async (req, res) => {
+    try {
+        const admin = await Admin.find().select("-password")
+        return res.status(200).json(new ApiResponse(200, admin, "Admins Found!"))
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
+    }
+}
+
+const getUserDetails = async (req, res) => {
     res.status(200).json(new ApiResponse(200, req.admin, "User Details Found!"))
+}
+
+const getAdminHandler = async (req, res) => {
+    try {
+        const { id } = req.params
+        const admin = await Admin.findById(id).select("-password")
+        if (!admin) {
+            return res.status(404).json(new ApiResponse(404, [], "Admin Not Found!"))
+        }
+        return res.status(200).json(new ApiResponse(200, admin, "Admin Found!"))
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
+    }
 }
 
 const addAdminHandler = async (req, res) => {
@@ -66,5 +90,7 @@ module.exports = {
     addAdminHandler,
     updateAdminHandler,
     deleteAdminHandler,
-    forgetAdminPassword
+    forgetAdminPassword,
+    getAllAdminHandler,
+    getUserDetails
 }
