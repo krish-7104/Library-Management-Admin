@@ -9,7 +9,7 @@ const AuthWrapper = ({ children }) => {
   useEffect(() => {
     const checkTokenHandler = async (token) => {
       try {
-        const resp = await axios.get(`${baseApi}/admin/auth/get-admin`, {
+        const resp = await axios.get(`${baseApi}/admin/auth/get-user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log(resp.data.data);

@@ -18,7 +18,7 @@ const Login = () => {
 
   const checkLoginHandler = async (e) => {
     e.preventDefault();
-    toast.loading("Logging..");
+    toast.loading("Processing Login..");
     try {
       const resp = await axios.post(`${baseApi}/admin/auth/login`, data);
       toast.dismiss();

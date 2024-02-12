@@ -9,10 +9,13 @@ import IssueBook from "./Screens/Dashboard/Allotment/IssueBook";
 import ReturnBook from "./Screens/Dashboard/Allotment/ReturnBook";
 import Student from "./Screens/Dashboard/Student";
 import Fines from "./Screens/Dashboard/Fines";
-import MyAccount from "./Screens/Dashboard/MyAccount";
 import Category from "./Screens/Dashboard/Category/Category";
 import Allotments from "./Screens/Dashboard/Allotment/Allotments";
 import SendMessage from "./Screens/Dashboard/SendMessage";
+import Admins from "./Screens/Dashboard/Admin/Admins";
+import EditAdmin from "./Screens/Dashboard/Admin/EditAdmin";
+import AddAdmin from "./Screens/Dashboard/Admin/AddAdmin";
+
 function App() {
   return (
     <Router>
@@ -91,18 +94,34 @@ function App() {
           }
         />
         <Route
-          path="/dashboard/myaccount"
-          element={
-            <AuthWrapper>
-              <MyAccount />
-            </AuthWrapper>
-          }
-        />
-        <Route
           path="/dashboard/send-message"
           element={
             <AuthWrapper>
               <SendMessage />
+            </AuthWrapper>
+          }
+        />
+        <Route
+          path="/dashboard/admins"
+          element={
+            <AuthWrapper>
+              <Admins />
+            </AuthWrapper>
+          }
+        />
+        <Route
+          path="/dashboard/edit-admin/:id"
+          element={
+            <AuthWrapper>
+              <EditAdmin />
+            </AuthWrapper>
+          }
+        />
+        <Route
+          path="/dashboard/add-admin"
+          element={
+            <AuthWrapper>
+              <AddAdmin />
             </AuthWrapper>
           }
         />

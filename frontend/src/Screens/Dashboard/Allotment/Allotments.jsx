@@ -13,6 +13,7 @@ const Allotments = () => {
   useEffect(() => {
     const getAllotmentHandler = async () => {
       setLoading(true);
+      toast.loading("Loading Allotments...");
       try {
         let resp = "";
         if (returnFilter !== "all")
@@ -22,7 +23,9 @@ const Allotments = () => {
         else resp = await axios.get(`${baseApi}/book-allotment/allotments`);
         setAllotments(resp.data.data);
         setLoading(false);
+        toast.dismiss();
       } catch (error) {
+        toast.dismiss();
         console.log(error);
         setLoading(false);
         toast.error(error.response.data.message);
