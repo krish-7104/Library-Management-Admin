@@ -42,24 +42,24 @@ const Allotments = () => {
             <p className="font-semibold mr-4">Filters</p>
             <span
               className={`${
-                returnFilter === "all" && "bg-purple-400"
-              } px-3 block text-center w-[70px] py-1 text-sm border mr-3 hover:bg-purple-400 rounded-full cursor-pointer`}
+                returnFilter === "all" && "bg-violet-400"
+              } px-3 block text-center w-[70px] py-1 text-sm border mr-3 hover:bg-violet-400 rounded-full cursor-pointer`}
               onClick={() => setReturnFilter("all")}
             >
               All
             </span>
             <span
               className={`${
-                returnFilter === "true" && "bg-purple-400"
-              } px-3 block text-center w-[70px] py-1 text-sm border mr-3 hover:bg-purple-400 rounded-full cursor-pointer`}
+                returnFilter === "true" && "bg-violet-400"
+              } px-3 block text-center w-[70px] py-1 text-sm border mr-3 hover:bg-violet-400 rounded-full cursor-pointer`}
               onClick={() => setReturnFilter("true")}
             >
               True
             </span>
             <span
               className={`${
-                returnFilter === "false" && "bg-purple-400"
-              } px-3 block text-center w-[70px] py-1 text-sm border mr-3 hover:bg-purple-400 rounded-full cursor-pointer`}
+                returnFilter === "false" && "bg-violet-400"
+              } px-3 block text-center w-[70px] py-1 text-sm border mr-3 hover:bg-violet-400 rounded-full cursor-pointer`}
               onClick={() => setReturnFilter("false")}
             >
               False

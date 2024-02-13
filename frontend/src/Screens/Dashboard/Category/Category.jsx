@@ -105,7 +105,7 @@ const Category = () => {
                     {/* <td className="whitespace-nowrap px-4 py-2">
                       <button
                         href="/"
-                        className="inline-block rounded bg-purple-600 px-4 py-2 text-xs font-medium text-white hover:bg-purple-700"
+                        className="inline-block rounded bg-violet-600 px-4 py-2 text-xs font-medium text-white hover:bg-violet-700"
                       >
                         View
                       </button>

@@ -77,7 +77,7 @@ const AddBook = () => {
         <p className="text-center font-semibold text-xl">Add New Book</p>
         <label
           htmlFor="Book Name"
-          className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-gray-100 block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
+          className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-white block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
         >
           <input
             type="text"
@@ -88,14 +88,14 @@ const AddBook = () => {
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
 
-          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-gray-100 p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
             Book Name
           </span>
         </label>
         <div>
           <label
             htmlFor="Book Author"
-            className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-gray-100 block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
+            className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-white block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
           >
             <input
               type="text"
@@ -108,7 +108,7 @@ const AddBook = () => {
               }
             />
 
-            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-gray-100 p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
               Book Author
             </span>
           </label>
@@ -117,7 +117,7 @@ const AddBook = () => {
           <div>
             <label
               htmlFor="Book Price"
-              className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-gray-100 block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
+              className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-white block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
             >
               <input
                 type="number"
@@ -130,7 +130,7 @@ const AddBook = () => {
                 }
               />
 
-              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-gray-100 p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
                 Book Price
               </span>
             </label>
@@ -138,7 +138,7 @@ const AddBook = () => {
           <div>
             <label
               htmlFor="Book Stock"
-              className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-gray-100 block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
+              className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-white block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
             >
               <input
                 type="number"
@@ -151,7 +151,7 @@ const AddBook = () => {
                 }
               />
 
-              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-gray-100 p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
                 Book Stock
               </span>
             </label>
@@ -159,7 +159,7 @@ const AddBook = () => {
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <select
-            className="w-full rounded-lg py-3 px-1 sm:text-sm outline-none bg-gray-100 border-gray-500 border"
+            className="w-full rounded-lg py-3 px-1 sm:text-sm outline-none bg-white border-gray-500 border"
             onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
             }
@@ -183,7 +183,7 @@ const AddBook = () => {
             onChange={handleFileChange}
           />
           <label
-            className="rounded-lg bg-gray-100 px-5 py-3 font-medium border-gray-500 sm:w-auto w-full border text-sm flex justify-center items-center text-gray-700 cursor-pointer"
+            className="rounded-lg bg-white px-5 py-3 font-medium border-gray-500 sm:w-auto w-full border text-sm flex justify-center items-center text-gray-700 cursor-pointer"
             htmlFor="file"
           >
             Upload Image

@@ -167,7 +167,7 @@ const IssueBook = () => {
                     {book.name}
                   </h3>
                   <button
-                    className="mt-2 w-full bg-purple-600 text-sm text-white p-2 rounded"
+                    className="mt-2 w-full bg-violet-600 text-sm text-white p-2 rounded"
                     onClick={() => {
                       setIssueData({ ...issueData, book: book._id });
                       setBooks(book);
@@ -231,7 +231,7 @@ const IssueBook = () => {
               <div className="flex">
                 {!(user?.fine > 0 || user?.bookSlot === 0) && (
                   <button
-                    className="rounded bg-purple-600 font-semibold px-8 py-2 block mt-4 text-white ring-purple-400 focus:outline-none focus:ring active:bg-purple-500 mr-4"
+                    className="rounded bg-violet-600 font-semibold px-8 py-2 block mt-4 text-white ring-purple-400 focus:outline-none focus:ring active:bg-violet-500 mr-4"
                     onClick={issueBookHandler}
                   >
                     Issue Now

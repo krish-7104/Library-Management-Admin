@@ -91,7 +91,7 @@ const Student = () => {
                             },
                           })
                         }
-                        className="inline-block rounded bg-purple-600 px-4 py-2 font-medium text-white hover:bg-purple-700"
+                        className="inline-block rounded bg-violet-600 px-4 py-2 font-medium text-white hover:bg-violet-700"
                       >
                         <Send size={14} />
                       </button>

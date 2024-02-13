@@ -128,7 +128,7 @@ const ReturnBook = () => {
                     <td className="whitespace-nowrap px-4 py-2">
                       <button
                         onClick={() => confirmHandler(item._id)}
-                        className="inline-block rounded bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"
+                        className="inline-block rounded bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700"
                       >
                         Return Book
                       </button>

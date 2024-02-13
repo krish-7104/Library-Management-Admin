@@ -132,7 +132,7 @@ const Admins = () => {
                       onClick={() =>
                         navigate(`/dashboard/edit-admin/${item._id}`)
                       }
-                      className="inline-block rounded bg-purple-500 p-2 font-medium text-white hover:bg-purple-600 mr-2"
+                      className="inline-block rounded bg-violet-500 p-2 font-medium text-white hover:bg-violet-600 mr-2"
                     >
                       <Pencil size={14} />
                     </button>{" "}

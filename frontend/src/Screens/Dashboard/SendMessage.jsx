@@ -107,7 +107,7 @@ const SendMessage = () => {
         </label>
 
         <button
-          className="group block mx-auto relative items-center overflow-hidden rounded bg-purple-600 ring-purple-400 px-8 py-3 text-white focus:outline-none focus:ring active:bg-purple-500"
+          className="group block mx-auto relative items-center overflow-hidden rounded bg-violet-600 ring-purple-400 px-8 py-3 text-white focus:outline-none focus:ring active:bg-violet-500"
           type="submit"
         >
           <span className="absolute -end-full transition-all group-hover:end-4">

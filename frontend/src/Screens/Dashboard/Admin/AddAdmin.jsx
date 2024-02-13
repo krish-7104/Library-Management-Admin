@@ -51,7 +51,7 @@ const AddAdmin = () => {
           <p className="text-center font-semibold text-xl">Add New Admin</p>
           <label
             htmlFor="Name"
-            className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-gray-100 block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
+            className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-white block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
           >
             <input
               type="text"
@@ -64,14 +64,14 @@ const AddAdmin = () => {
               }
             />
 
-            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-gray-100 p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
               Name
             </span>
           </label>
           <div>
             <label
               htmlFor="Email"
-              className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-gray-100 block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
+              className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-white block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
             >
               <input
                 type="email"
@@ -84,7 +84,7 @@ const AddAdmin = () => {
                 }
               />
 
-              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-gray-100 p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
                 Email
               </span>
             </label>
@@ -92,7 +92,7 @@ const AddAdmin = () => {
           <div>
             <label
               htmlFor="Password"
-              className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-gray-100 block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
+              className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-white block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
             >
               <input
                 type="password"
@@ -105,7 +105,7 @@ const AddAdmin = () => {
                 }
               />
 
-              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-gray-100 p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
                 Password
               </span>
             </label>
@@ -113,7 +113,7 @@ const AddAdmin = () => {
           <div>
             <label
               htmlFor="Phone Number"
-              className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-gray-100 block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
+              className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-white block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
             >
               <input
                 type="number"
@@ -125,14 +125,14 @@ const AddAdmin = () => {
                   setFormData({ ...formData, phonenumber: e.target.value })
                 }
               />
-              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-gray-100 p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
                 Phone Number
               </span>
             </label>
           </div>
           <div>
             <select
-              className="w-full rounded-lg py-3 px-1 sm:text-sm outline-none bg-gray-100 border-gray-500 border"
+              className="w-full rounded-lg py-3 px-1 sm:text-sm outline-none bg-white border-gray-500 border"
               onChange={(e) =>
                 setFormData({ ...formData, role: e.target.value })
               }

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 const Sidebar = () => {
   const [active, setActive] = useState("home");
+  const data = useSelector((state) => state.userSlice.data);
   const { pathname } = useLocation();
   useEffect(() => {
     if (pathname === "/dashboard") {
@@ -238,64 +239,66 @@ const Sidebar = () => {
               </span>
             </Link>
           </li>
-          <li>
-            <details
-              className="group [&_summary::-webkit-details-marker]:hidden"
-              open={
-                active === "add-admin" ||
-                active === "editadmin" ||
-                active === "admins"
-              }
-            >
-              <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2  hover:bg-violet-100">
-                <span className="font-medium"> Admin </span>
-                <span className="shrink-0 transition duration-300 group-open:-rotate-180">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </span>
-              </summary>
-              <ul className="mt-2 space-y-1 px-4">
-                <Link
-                  to={"/dashboard/admins"}
-                  onClick={() => setActive("admins")}
-                >
-                  <span
-                    className={`block rounded-lg px-4 py-2 font-medium ${
-                      active === "admins"
-                        ? "bg-violet-600 text-white"
-                        : "hover:bg-violet-100"
-                    } text-sm mb-1`}
-                  >
-                    View Admins
+          {data.role === "Super" && (
+            <li>
+              <details
+                className="group [&_summary::-webkit-details-marker]:hidden"
+                open={
+                  active === "add-admin" ||
+                  active === "editadmin" ||
+                  active === "admins"
+                }
+              >
+                <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2  hover:bg-violet-100">
+                  <span className="font-medium"> Admin </span>
+                  <span className="shrink-0 transition duration-300 group-open:-rotate-180">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
                   </span>
-                </Link>
-                <Link
-                  to={"/dashboard/add-admin"}
-                  onClick={() => setActive("add-admin")}
-                >
-                  <span
-                    className={`block rounded-lg px-4 py-2 font-medium ${
-                      active === "add-admin"
-                        ? "bg-violet-600 text-white"
-                        : "hover:bg-violet-100"
-                    } text-sm mb-1`}
+                </summary>
+                <ul className="mt-2 space-y-1 px-4">
+                  <Link
+                    to={"/dashboard/admins"}
+                    onClick={() => setActive("admins")}
                   >
-                    Add Admin
-                  </span>
-                </Link>
-              </ul>
-            </details>
-          </li>
+                    <span
+                      className={`block rounded-lg px-4 py-2 font-medium ${
+                        active === "admins"
+                          ? "bg-violet-600 text-white"
+                          : "hover:bg-violet-100"
+                      } text-sm mb-1`}
+                    >
+                      View Admins
+                    </span>
+                  </Link>
+                  <Link
+                    to={"/dashboard/add-admin"}
+                    onClick={() => setActive("add-admin")}
+                  >
+                    <span
+                      className={`block rounded-lg px-4 py-2 font-medium ${
+                        active === "add-admin"
+                          ? "bg-violet-600 text-white"
+                          : "hover:bg-violet-100"
+                      } text-sm mb-1`}
+                    >
+                      Add Admin
+                    </span>
+                  </Link>
+                </ul>
+              </details>
+            </li>
+          )}
         </ul>
       </div>
     </div>
