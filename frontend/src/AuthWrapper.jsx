@@ -4,15 +4,20 @@ import axios from "axios";
 import { baseApi } from "./utils/baseApi";
 import Sidebar from "./Components/Sidebar";
 import Navbar from "./Components/NavBar";
+import { useDispatch } from "react-redux";
+import { setData } from "./Redux Toolkit/slice";
+
 const AuthWrapper = ({ children }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const checkTokenHandler = async (token) => {
       try {
         const resp = await axios.get(`${baseApi}/admin/auth/get-user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log(resp.data.data);
+        dispatch(setData(resp.data.data));
       } catch (error) {
         localStorage.clear();
         navigate("/");
@@ -23,7 +28,8 @@ const AuthWrapper = ({ children }) => {
       navigate("/");
     }
     checkTokenHandler(token);
-  }, [navigate]);
+  }, [dispatch, navigate]);
+
   return (
     <main className="flex flex-col">
       <Navbar />

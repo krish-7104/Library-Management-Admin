@@ -29,7 +29,6 @@ const ReturnBook = () => {
       toast.error(error.response.data.message);
     }
   };
-
   const confirmHandler = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -84,10 +83,10 @@ const ReturnBook = () => {
                 Student Name
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Book Name
+                Book Image
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                Book Image
+                Book Name
               </th>
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 Allotment Date
@@ -102,8 +101,11 @@ const ReturnBook = () => {
             {!loading &&
               allotment &&
               allotment.map((item) => {
+                const date = new Date();
+                const returnDate = new Date(item.returnDate);
+                const isReturnDateGone = returnDate < date;
                 return (
-                  <tr className="text-center">
+                  <tr className={`text-center`}>
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       {item.user.name}
                     </td>
@@ -116,7 +118,11 @@ const ReturnBook = () => {
                     <td className="whitespace-nowrap px-4 py-2 text-gray-900">
                       {dateFormatter(item.createdAt)}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-900">
+                    <td
+                      className={`whitespace-nowrap px-4 py-2 text-gray-900 ${
+                        isReturnDateGone && "font-semibold bg-red-200"
+                      }`}
+                    >
                       {dateFormatter(item.returnDate)}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2">

@@ -27,7 +27,8 @@ const Login = () => {
       navigate("/dashboard");
     } catch (error) {
       toast.dismiss();
-      toast.error(error.response.data.message);
+      console.log("error");
+      toast.error(error?.response?.data?.message);
     }
   };
   return (

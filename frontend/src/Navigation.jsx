@@ -126,7 +126,6 @@ function App() {
           }
         />
       </Routes>
-
       <Toaster position="bottom-center" />
     </Router>
   );

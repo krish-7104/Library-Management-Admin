@@ -6,11 +6,13 @@ import { dateFormatter } from "../../../utils/DateFormatter";
 import { useNavigate } from "react-router-dom";
 import { Trash, Pencil } from "lucide-react";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
 
 const Admins = () => {
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const data = useSelector((state) => state.userSlice.data);
 
   useEffect(() => {
     getAdminHandler();
@@ -78,6 +80,7 @@ const Admins = () => {
       <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded shadow">
         <thead className="ltr:text-left rtl:text-right">
           <tr>
+            <th></th>
             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
               Name
             </th>
@@ -101,7 +104,14 @@ const Admins = () => {
             admins &&
             admins.map((item) => {
               return (
-                <tr className="text-center">
+                <tr className="text-center" key={item._id}>
+                  <td>
+                    {data && data._id === item._id && (
+                      <span className="bg-green-200 px-3 py-1 rounded-full text-xs ml-2">
+                        You
+                      </span>
+                    )}
+                  </td>
                   <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                     {item.name}
                   </td>
