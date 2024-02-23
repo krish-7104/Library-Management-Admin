@@ -84,7 +84,6 @@ const Allotments = () => {
               <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                 Return Date
               </th>
-              <th className="px-4 py-2"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
@@ -111,14 +110,6 @@ const Allotments = () => {
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-900">
                       {dateFormatter(item.returnDate)}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2">
-                      <button
-                        href="/"
-                        className="inline-block rounded bg-violet-600 px-4 py-2 text-xs font-medium text-white hover:bg-violet-700"
-                      >
-                        View
-                      </button>
                     </td>
                   </tr>
                 );

@@ -40,7 +40,7 @@ const SendMessage = () => {
         {!router?.state?.name && (
           <label
             htmlFor="name"
-            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-purple-600 focus-within:ring-1 focus-within:ring-purple-600 p-3 mb-5"
+            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 p-3 mb-5"
           >
             <span className="absolute top-0 left-2.5 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all">
               Name
@@ -57,7 +57,7 @@ const SendMessage = () => {
         )}
         <label
           htmlFor="email-address"
-          className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-purple-600 focus-within:ring-1 focus-within:ring-purple-600 p-3 mb-5"
+          className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 p-3 mb-5"
         >
           <span className="absolute top-0 left-2.5 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all">
             Email Address
@@ -74,7 +74,7 @@ const SendMessage = () => {
         </label>
         <label
           htmlFor="subject"
-          className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-purple-600 focus-within:ring-1 focus-within:ring-purple-600 p-3 mb-5"
+          className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 p-3 mb-5"
         >
           <span className="absolute top-0 left-2.5 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all">
             Subject
@@ -91,7 +91,7 @@ const SendMessage = () => {
 
         <label
           htmlFor="message"
-          className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-purple-600 focus-within:ring-1 focus-within:ring-purple-600 p-3 mb-5"
+          className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 p-3 mb-5"
         >
           <span className="absolute top-0 left-2.5 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all">
             Message
@@ -107,7 +107,7 @@ const SendMessage = () => {
         </label>
 
         <button
-          className="group block mx-auto relative items-center overflow-hidden rounded bg-violet-600 ring-purple-400 px-8 py-3 text-white focus:outline-none focus:ring active:bg-violet-500"
+          className="group block mx-auto relative items-center overflow-hidden rounded bg-violet-600 ring-violet-400 px-8 py-3 text-white focus:outline-none focus:ring active:bg-violet-500"
           type="submit"
         >
           <span className="absolute -end-full transition-all group-hover:end-4">

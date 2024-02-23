@@ -129,7 +129,7 @@ const Fines = () => {
           </h1>
           <label
             htmlFor="Enrollment No"
-            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-purple-600 focus-within:ring-1 focus-within:ring-purple-600 p-3 mb-5"
+            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 p-3 mb-5"
           >
             <input
               type="number"
@@ -146,7 +146,7 @@ const Fines = () => {
           </label>
           <label
             htmlFor="amount"
-            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-purple-600 focus-within:ring-1 focus-within:ring-purple-600 p-3 mb-5"
+            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 p-3 mb-5"
           >
             <input
               type="number"
@@ -161,7 +161,7 @@ const Fines = () => {
             </span>
           </label>
           <button
-            className="group block mx-auto relative items-center overflow-hidden rounded bg-violet-600 ring-purple-400 px-8 py-3 text-white focus:outline-none focus:ring active:bg-violet-500 disabled:bg-violet-400"
+            className="group block mx-auto relative items-center overflow-hidden rounded bg-violet-600 ring-violet-400 px-8 py-3 text-white focus:outline-none focus:ring active:bg-violet-500 disabled:bg-violet-400"
             type="submit"
             disabled={!data.amount}
           >
