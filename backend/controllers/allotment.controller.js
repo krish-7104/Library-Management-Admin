@@ -99,10 +99,21 @@ const deleteIssueHandler = async (req, res) => {
     }
 }
 
+const getCountHandler = async (req, res) => {
+    try {
+        const issuedBook = await Allotment.countDocuments({ returned: false })
+        const allotments = await Allotment.countDocuments()
+        return res.status(200).json(new ApiResponse(200, { issuedBook, allotments }, "Allotment Count Found!"))
+    } catch (error) {
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
+    }
+}
+
 module.exports = {
     getUserAllotmentHandler,
     getAllAllotmentHandler,
     issueBookHandler,
     returnBookHandler,
-    deleteIssueHandler
+    deleteIssueHandler,
+    getCountHandler
 }

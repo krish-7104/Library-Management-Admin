@@ -47,8 +47,19 @@ const addUserHandler = async (req, res) => {
     }
 }
 
+const getCountHandler = async (req, res) => {
+    try {
+        const book = await User.countDocuments()
+        return res.status(200).json(new ApiResponse(200, book, "Student Count Found!"))
+    } catch (error) {
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
+
+    }
+}
+
 module.exports = {
     getUserHandler,
     searchUserHandler,
-    addUserHandler
+    addUserHandler,
+    getCountHandler
 }

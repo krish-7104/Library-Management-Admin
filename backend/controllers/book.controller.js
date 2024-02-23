@@ -16,6 +16,17 @@ const getBookHandler = async (req, res) => {
 
     }
 }
+
+const getCountHandler = async (req, res) => {
+    try {
+        const book = await Book.countDocuments()
+        return res.status(200).json(new ApiResponse(200, book, "Book Count Found!"))
+    } catch (error) {
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
+
+    }
+}
+
 const getAllBooksHandler = async (req, res) => {
     try {
         const { limit, page, search } = req.query;
@@ -82,5 +93,6 @@ module.exports = {
     getAllBooksHandler,
     addBookHandler,
     updateBookHandler,
-    deleteBookHandler
+    deleteBookHandler,
+    getCountHandler
 }

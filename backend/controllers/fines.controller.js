@@ -68,9 +68,19 @@ const dateFormatter = (date) => {
     return newDate
 }
 
+const GetCountHandler = async (req, res) => {
+    try {
+        const data = await Fine.countDocuments()
+        return res.status(200).json(new ApiResponse(200, data, "Fines Count Found!"))
+    } catch (error) {
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
+    }
+}
+
 module.exports = {
     GetAllFinesHandler,
     finePaidHandler,
     deleteFineHandler,
-    dateFormatter
+    dateFormatter,
+    GetCountHandler
 }
