@@ -1,5 +1,6 @@
 const ApiResponse = require("../utils/ApiResponse.js")
 const User = require("../models/user.model.js")
+const jwt = require("jsonwebtoken")
 
 const getUserHandler = async (req, res) => {
     const { id } = req.params
@@ -20,6 +21,28 @@ const getUserHandler = async (req, res) => {
 
     }
 }
+
+const loginUserHandler = async (req, res) => {
+    try {
+        const { email, password } = req.body
+        const user = await User.findOne({ email })
+        if (!user) {
+            return res.status(404).json(new ApiResponse(404, [], "User Not Found!"))
+        }
+        const isPassword = await user.isPasswordCorrect(password)
+        if (isPassword) {
+            const token = jwt.sign(JSON.stringify({ _id: user._id }), process.env.JWTSECRETKEY)
+            return res.json(new ApiResponse(200, { token }, "Login Successful"));
+        }
+        else {
+            return res.status(401).json(new ApiResponse(401, [], "Invalid Credentials!"))
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
+    }
+}
+
 
 const searchUserHandler = async (req, res) => {
     try {
@@ -61,5 +84,6 @@ module.exports = {
     getUserHandler,
     searchUserHandler,
     addUserHandler,
-    getCountHandler
+    getCountHandler,
+    loginUserHandler
 }
