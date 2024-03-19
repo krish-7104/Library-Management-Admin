@@ -3,24 +3,28 @@ const User = require("../models/user.model.js")
 const jwt = require("jsonwebtoken")
 
 const getUserHandler = async (req, res) => {
-    const { id } = req.params
     try {
-        let user;
-        if (id) {
-            user = await User.findById(id).populate("issuedHistory").select("-password")
-        } else {
-            user = await User.find().populate("issuedHistory").select("-password").sort({ createdAt: -1 })
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.status(401).json(new ApiResponse(401, [], "Authorization header missing"));
         }
-        if (!user) {
-            return res.status(404).json(new ApiResponse(404, [], "No User Found In Database!"))
-        }
-        return res.status(200).json(new ApiResponse(200, user, "User Found Successfully!"))
+        const token = authHeader.split(" ")[1];
+        jwt.verify(token, process.env.JWTSECRETKEY, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json(new ApiResponse(401, [], "Invalid token"));
+            }
+            const userId = decoded._id;
+            const user = await User.findById(userId).select("-password").populate("issuedHistory");
+            if (!user) {
+                return res.status(404).json(new ApiResponse(404, [], "User not found"));
+            }
+            return res.status(200).json(new ApiResponse(200, user, "User data fetched successfully"));
+        });
     } catch (error) {
-        console.log(error)
-        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
-
+        console.log(error);
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"));
     }
-}
+};
 
 const loginUserHandler = async (req, res) => {
     try {
