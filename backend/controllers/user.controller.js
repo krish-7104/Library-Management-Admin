@@ -14,7 +14,12 @@ const getUserHandler = async (req, res) => {
                 return res.status(401).json(new ApiResponse(401, [], "Invalid token"));
             }
             const userId = decoded._id;
-            const user = await User.findById(userId).select("-password").populate("issuedHistory");
+            const user = await User.findById(userId).select("-password").populate("issuedHistory").populate({
+                path: 'issuedHistory',
+                populate: {
+                    path: 'book',
+                }
+            }).sort({ createdAt: -1 });;
             if (!user) {
                 return res.status(404).json(new ApiResponse(404, [], "User not found"));
             }
