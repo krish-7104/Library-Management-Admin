@@ -31,6 +31,16 @@ const getUserHandler = async (req, res) => {
     }
 };
 
+const getAllUserHandler = async (req, res) => {
+    try {
+        const users = await User.find().select("-password").populate("issuedHistory")
+        return res.status(200).json(new ApiResponse(200, users, "User data fetched successfully"));
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"));
+    }
+}
+
 const loginUserHandler = async (req, res) => {
     try {
         const { email, password } = req.body
@@ -94,5 +104,5 @@ module.exports = {
     searchUserHandler,
     addUserHandler,
     getCountHandler,
-    loginUserHandler
+    loginUserHandler, getAllUserHandler
 }

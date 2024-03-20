@@ -17,7 +17,7 @@ const Student = () => {
     setLoading(true);
     toast.loading("Loading Students..");
     try {
-      const resp = await axios.get(`${baseApi}/user`);
+      const resp = await axios.get(`${baseApi}/user/allusers`);
       setStudents(resp.data.data);
       setLoading(false);
       console.log(resp.data.data);

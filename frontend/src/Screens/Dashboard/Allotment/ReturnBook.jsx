@@ -113,7 +113,8 @@ const ReturnBook = () => {
                       <img src={item.book.image} alt="book" className="h-32" />
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-900">
-                      {item.book.name}
+                      {item.book.name?.slice(0, 30)}
+                      {item.book.name.length > 30 && "...."}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-900">
                       {dateFormatter(item.createdAt)}
