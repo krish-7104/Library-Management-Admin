@@ -14,12 +14,18 @@ const { AutoFeeIncrement } = require("./Cron Jobs/AutoFeeIncrement.js")
 const communicationRoutes = require("./routes/communication.route.js")
 const finesRoute = require("./routes/fines.route.js")
 const cronRoute = require("./routes/cronjob.route.js")
+const path = require('path');
 
 dotenv.config()
 connectToMongo()
 
 const port = process.env.PORT || 5000
 const app = express()
+
+const staticPath = path.join(__dirname, 'reset-password');
+
+app.use('/user/reset-password/:id', express.static(staticPath));
+
 
 if (process.env.NODE_ENV === 'DEVELOPMENT') {
     app.use(morgan(':method :url :status :response-time ms'));
