@@ -2,7 +2,6 @@ const ApiResponse = require("../utils/ApiResponse.js")
 const User = require("../models/user.model.js")
 const Reset = require("../models/reset.model.js")
 const jwt = require("jsonwebtoken")
-const bcrypt = require("bcrypt")
 const { sendMailHandler } = require("../utils/mailTransporter.js")
 
 const getUserHandler = async (req, res) => {
@@ -123,34 +122,6 @@ const forgetPasswordHandler = async (req, res) => {
     }
 }
 
-const updatePasswordHandler = async (req, res) => {
-    const { token, password } = req.body;
-    try {
-        if (!token) {
-            return res.status(404).json(new ApiResponse(404, [], "Token Not Found!"))
-        }
-        const resetTokenData = await ResetToken.findById(token)
-        if (!resetTokenData) {
-            return res.status(404).json(new ApiResponse(404, [], "Token Not Found!"))
-        }
-        try {
-            const tokenData = jwt.verify(resetTokenData.token, process.env.JWT_SECRET);
-
-            const hashedPassword = await bcrypt.hash(password, 10);
-
-            await User.findByIdAndUpdate(tokenData.userId, { password: hashedPassword });
-
-            await ResetToken.findByIdAndDelete(token);
-            return res.status(200).json(new ApiResponse(200, [], "Password updated successfully!"))
-        } catch (error) {
-            console.error('Error verifying JWT:', error);
-            return res.status(401).json(new ApiResponse(401, [], "Invalid Token!"))
-        }
-    } catch (error) {
-        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
-
-    }
-};
 
 module.exports = {
     getUserHandler,
@@ -160,7 +131,6 @@ module.exports = {
     loginUserHandler,
     getAllUserHandler,
     forgetPasswordHandler,
-    updatePasswordHandler
 }
 
 const resetPasswordHTML = (token, name) => {
@@ -174,7 +144,7 @@ const resetPasswordHTML = (token, name) => {
     <body>
         <p>Hello ${name}</p>
         <p>You recently requested to reset your password. Click on the link below to reset your password:</p>
-        <p><a href="https://library-management-system-admin.vercel.app/user/reset-password/${token}">Reset Password</a></p>
+        <p><a href="https://library-management-system-admin.vercel.app/user/reset-password?token=${token}">Reset Password</a></p>
         <p>If you did not request a password reset, please ignore this email.</p>
         <p>Best regards,<br>Team GCET Library</p>
     </body>

@@ -24,7 +24,7 @@ const app = express()
 
 const staticPath = path.join(__dirname, 'reset-password');
 
-app.use('/user/reset-password/:id', express.static(staticPath));
+app.use('/user/reset-password', express.static(staticPath));
 
 
 if (process.env.NODE_ENV === 'DEVELOPMENT') {

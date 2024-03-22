@@ -14,7 +14,7 @@
       <h2 class="text-2xl font-semibold mb-6 text-center mx-auto">
         Reset Your Password
       </h2>
-      <form action="/link/:resetTokenId" method="POST">
+      <form id="resetPasswordForm">
         <div class="mb-4">
           <label for="password" class="block text-sm font-medium text-gray-700"
             >New Password:</label
@@ -48,6 +48,55 @@
           Reset Password
         </button>
       </form>
+      <p id="successMessage" class="hidden text-green-500 mt-4 text-center">
+        Password changed successfully!
+      </p>
     </div>
+
+    <script>
+      document
+        .getElementById("resetPasswordForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const token = window.location.href
+            .split("?")[1]
+            .replace("token=", "");
+          const password = document.getElementById("password").value;
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+
+          if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return;
+          }
+
+          const data = {
+            token: token,
+            password: password,
+          };
+
+          fetch("/api/admin/update-password", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Failed to update password");
+              }
+              document.getElementById("resetPasswordForm").style.display =
+                "none";
+              document
+                .getElementById("successMessage")
+                .classList.remove("hidden");
+            })
+            .catch((error) => {
+              console.error("Error updating password:", error.message);
+            });
+        });
+    </script>
   </body>
 </html>
