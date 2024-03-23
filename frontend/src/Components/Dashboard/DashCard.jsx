@@ -2,6 +2,8 @@ import React from "react";
 import { PiBooksLight, PiStudent } from "react-icons/pi";
 import { LuIndianRupee } from "react-icons/lu";
 import { GoIssueClosed } from "react-icons/go";
+import { RiAdminLine } from "react-icons/ri";
+import { MdOutlineCategory } from "react-icons/md";
 
 const DashCard = ({ title, number }) => {
   const getIconHandler = () => {
@@ -27,6 +29,18 @@ const DashCard = ({ title, number }) => {
       return (
         <div className="text-violet-600 border-r text-3xl p-2 rounded-l-md h-[80px] w-[80px] flex justify-center items-center">
           <LuIndianRupee />
+        </div>
+      );
+    } else if (title === "Admins") {
+      return (
+        <div className="text-violet-600 border-r text-3xl p-2 rounded-l-md h-[80px] w-[80px] flex justify-center items-center">
+          <RiAdminLine />
+        </div>
+      );
+    } else if (title === "Book Category") {
+      return (
+        <div className="text-violet-600 border-r text-3xl p-2 rounded-l-md h-[80px] w-[80px] flex justify-center items-center">
+          <MdOutlineCategory />
         </div>
       );
     }

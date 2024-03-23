@@ -1,30 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { baseApi } from "../utils/baseApi.js";
 import toast from "react-hot-toast";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const ForgetPassword = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
-    password: "",
   });
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) navigate("/dashboard");
-  }, [navigate]);
-
-  const checkLoginHandler = async (e) => {
+  const sendResetLink = async (e) => {
     e.preventDefault();
-    toast.loading("Processing Login..");
+    toast.loading("Processing Reset..");
     try {
-      const resp = await axios.post(`${baseApi}/admin/auth/login`, data);
+      const resp = await axios.post(`${baseApi}/admin/forget-password`, data);
       toast.dismiss();
-      localStorage.setItem("token", resp.data.data.token);
       toast.success(resp.data.message);
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       toast.dismiss();
       console.log("error");
@@ -35,11 +28,11 @@ const Login = () => {
     <section className="w-full bg-gray-100">
       <div className="max-w-6xl h-[100vh] mx-auto flex justify-center items-center">
         <form
-          onSubmit={checkLoginHandler}
+          onSubmit={sendResetLink}
           className="w-[45%] bg-white rounded-lg shadow py-8 px-6"
         >
           <h1 className="text-2xl font-semibold text-center mt-2 mb-10">
-            Library Management System
+            Forget Password
           </h1>
           <label
             htmlFor="Email Address"
@@ -58,25 +51,7 @@ const Login = () => {
               Email Address
             </span>
           </label>
-          <label
-            htmlFor="Password"
-            className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 p-3 mb-5"
-          >
-            <input
-              type="password"
-              id="Password"
-              className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
-              placeholder="Password"
-              value={data.password}
-              onChange={(e) => setData({ ...data, password: e.target.value })}
-            />
-            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-              Password
-            </span>
-          </label>
-          <Link to={"/forget-password"}>
-            <p className="text-right w-full mb-2">Forget Password?</p>
-          </Link>
+
           <button
             className="group block mx-auto relative items-center overflow-hidden rounded bg-violet-600 ring-violet-400 px-8 py-3 text-white focus:outline-none focus:ring active:bg-violet-500"
             type="submit"
@@ -98,7 +73,7 @@ const Login = () => {
               </svg>
             </span>
             <span className="text-sm font-medium transition-all group-hover:me-4">
-              Login Now
+              Send Reset Link
             </span>
           </button>
         </form>
@@ -107,4 +82,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgetPassword;

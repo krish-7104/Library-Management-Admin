@@ -160,40 +160,43 @@ const Sidebar = () => {
                     Search Book
                   </span>
                 </Link>
-
-                <Link
-                  to={"/dashboard/add-book"}
-                  onClick={() => setActive("addbook")}
-                >
-                  <span
-                    className={`block rounded-lg px-4 py-2 font-medium ${
-                      active === "addbook"
-                        ? "bg-violet-600 text-white"
-                        : "hover:bg-violet-100"
-                    } text-sm mb-1`}
+                {data.role === "Super" && (
+                  <Link
+                    to={"/dashboard/add-book"}
+                    onClick={() => setActive("addbook")}
                   >
-                    Add Books
-                  </span>
-                </Link>
+                    <span
+                      className={`block rounded-lg px-4 py-2 font-medium ${
+                        active === "addbook"
+                          ? "bg-violet-600 text-white"
+                          : "hover:bg-violet-100"
+                      } text-sm mb-1`}
+                    >
+                      Add Books
+                    </span>
+                  </Link>
+                )}
               </ul>
             </details>
           </li>
-          <li>
-            <Link
-              to={"/dashboard/category"}
-              onClick={() => setActive("category")}
-            >
-              <span
-                className={`block rounded-lg ${
-                  active === "category"
-                    ? "bg-violet-600 text-white"
-                    : "hover:bg-violet-100"
-                } px-4 py-2 font-medium`}
+          {data.role === "Super" && (
+            <li>
+              <Link
+                to={"/dashboard/category"}
+                onClick={() => setActive("category")}
               >
-                Category
-              </span>
-            </Link>
-          </li>
+                <span
+                  className={`block rounded-lg ${
+                    active === "category"
+                      ? "bg-violet-600 text-white"
+                      : "hover:bg-violet-100"
+                  } px-4 py-2 font-medium`}
+                >
+                  Category
+                </span>
+              </Link>
+            </li>
+          )}
           <li>
             <Link to={"/dashboard/fines"} onClick={() => setActive("fines")}>
               <span
@@ -239,48 +242,48 @@ const Sidebar = () => {
               </span>
             </Link>
           </li>
-          {data.role === "Super" && (
-            <li>
-              <details
-                className="group [&_summary::-webkit-details-marker]:hidden"
-                open={
-                  active === "add-admin" ||
-                  active === "editadmin" ||
-                  active === "admins"
-                }
-              >
-                <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2  hover:bg-violet-100">
-                  <span className="font-medium"> Admin </span>
-                  <span className="shrink-0 transition duration-300 group-open:-rotate-180">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                </summary>
-                <ul className="mt-2 space-y-1 px-4">
-                  <Link
-                    to={"/dashboard/admins"}
-                    onClick={() => setActive("admins")}
+          <li>
+            <details
+              className="group [&_summary::-webkit-details-marker]:hidden"
+              open={
+                active === "add-admin" ||
+                active === "editadmin" ||
+                active === "admins"
+              }
+            >
+              <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2  hover:bg-violet-100">
+                <span className="font-medium"> Admin </span>
+                <span className="shrink-0 transition duration-300 group-open:-rotate-180">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
                   >
-                    <span
-                      className={`block rounded-lg px-4 py-2 font-medium ${
-                        active === "admins"
-                          ? "bg-violet-600 text-white"
-                          : "hover:bg-violet-100"
-                      } text-sm mb-1`}
-                    >
-                      View Admins
-                    </span>
-                  </Link>
+                    <path
+                      fillRule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </summary>
+              <ul className="mt-2 space-y-1 px-4">
+                <Link
+                  to={"/dashboard/admins"}
+                  onClick={() => setActive("admins")}
+                >
+                  <span
+                    className={`block rounded-lg px-4 py-2 font-medium ${
+                      active === "admins"
+                        ? "bg-violet-600 text-white"
+                        : "hover:bg-violet-100"
+                    } text-sm mb-1`}
+                  >
+                    View Admins
+                  </span>
+                </Link>
+                {data.role === "Super" && (
                   <Link
                     to={"/dashboard/add-admin"}
                     onClick={() => setActive("add-admin")}
@@ -295,10 +298,10 @@ const Sidebar = () => {
                       Add Admin
                     </span>
                   </Link>
-                </ul>
-              </details>
-            </li>
-          )}
+                )}
+              </ul>
+            </details>
+          </li>
         </ul>
       </div>
     </div>

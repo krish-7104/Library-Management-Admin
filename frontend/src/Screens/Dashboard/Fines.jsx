@@ -113,8 +113,8 @@ const Fines = () => {
         className={`absolute bottom-10 right-10 ${
           showAdd
             ? "border-2 border-violet-600 text-violet-600"
-            : "bg-violet-600 hover:bg-violet-700"
-        } text-white p-3 rounded-md  cursor-pointer flex justify-between items-center`}
+            : "bg-violet-600 hover:bg-violet-700 text-white"
+        }  p-3 rounded-md  cursor-pointer flex justify-between items-center`}
         onClick={() => setShowAdd(!showAdd)}
       >
         {showAdd ? `Back To List` : `Add New Record `}

@@ -15,12 +15,15 @@ import SendMessage from "./Screens/Dashboard/SendMessage";
 import Admins from "./Screens/Dashboard/Admin/Admins";
 import EditAdmin from "./Screens/Dashboard/Admin/EditAdmin";
 import AddAdmin from "./Screens/Dashboard/Admin/AddAdmin";
+import EditBook from "./Screens/Dashboard/Books/EditBook";
+import ForgetPassword from "./Screens/ForgetPassword";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
         <Route
           path="/dashboard"
           element={
@@ -42,6 +45,14 @@ function App() {
           element={
             <AuthWrapper>
               <AddBook />
+            </AuthWrapper>
+          }
+        />
+        <Route
+          path="/dashboard/edit-book/:id"
+          element={
+            <AuthWrapper>
+              <EditBook />
             </AuthWrapper>
           }
         />

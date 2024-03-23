@@ -111,7 +111,7 @@ const Book = () => {
           </select>
         </div>
       </section>
-      <section className="grid-cols-4 grid w-full gap-10">
+      <section className="grid-cols-5 grid w-full gap-4">
         {!loading &&
           books &&
           books.map((book) => {

@@ -4,12 +4,13 @@ import { baseApi } from "../../../utils/baseApi";
 import toast from "react-hot-toast";
 import { LuUpload, LuX } from "react-icons/lu";
 import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper";
-
-const AddBook = () => {
+import { useLocation, useNavigate } from "react-router-dom";
+const EditBook = () => {
   const [category, setCategory] = useState([]);
   const [image, setImage] = useState();
   const [previewImage, setPreviewImage] = useState("");
-
+  const location = useLocation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     price: undefined,
@@ -20,6 +21,7 @@ const AddBook = () => {
 
   useEffect(() => {
     getCategoryHandler();
+    getBookHandler();
   }, []);
 
   const handleFileChange = (e) => {
@@ -39,33 +41,44 @@ const AddBook = () => {
     }
   };
 
-  const addBookHandler = async (e) => {
+  const saveChangesHandler = async (e) => {
     e.preventDefault();
-    toast.loading("Adding Book..");
-    const data = new FormData();
-    data.append("name", formData.name);
-    data.append("price", formData.price);
-    data.append("stock", formData.stock);
-    data.append("category", formData.category);
-    data.append("author", formData.author);
-    data.append("image", image);
+    toast.loading("Updating Book..");
     try {
-      const token = localStorage.getItem("token");
-      const resp = await axios.post(`${baseApi}/book/add-book`, data, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const resp = await axios.patch(
+        `${baseApi}/book/update-book/${location.pathname.replace(
+          "/dashboard/edit-book/",
+          ""
+        )}`,
+        {
+          name: formData.name,
+          category: formData.category,
+          stock: formData.stock,
+          price: formData.price,
+          author: formData.author,
+        }
+      );
       toast.dismiss();
-      setFormData({
-        name: "",
-        price: undefined,
-        stock: undefined,
-        category: "",
-        author: "",
-      });
-      setImage();
+      navigate("/dashboard/books");
       toast.success(resp.data.message);
     } catch (error) {
       toast.dismiss();
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const getBookHandler = async () => {
+    try {
+      const resp = await axios.get(
+        `${baseApi}/book/get-book/${location.pathname.replace(
+          "/dashboard/edit-book/",
+          ""
+        )}`
+      );
+      setFormData(resp.data.data);
+      setPreviewImage(resp.data.data.image);
+    } catch (error) {
+      console.log(error);
       toast.error(error.response.data.message);
     }
   };
@@ -76,9 +89,9 @@ const AddBook = () => {
         <form
           action=""
           className="space-y-4 w-[60%] bg-white p-10 shadow-md rounded-md"
-          onSubmit={addBookHandler}
+          onSubmit={saveChangesHandler}
         >
-          <p className="text-center font-semibold text-xl">Add New Book</p>
+          <p className="text-center font-semibold text-xl">Edit Book</p>
           <label
             htmlFor="Book Name"
             className="relative w-full rounded-lg border-gray-500 border outline-none p-3 text-sm bg-white block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
@@ -192,7 +205,7 @@ const AddBook = () => {
               className="rounded-lg bg-white px-5 py-3 font-medium border-gray-500 sm:w-auto w-full border text-sm flex justify-center items-center text-gray-700 cursor-pointer"
               htmlFor="file"
             >
-              Upload Image
+              Replace Image
               <span className="ml-2">
                 <LuUpload size={19} />
               </span>
@@ -202,9 +215,9 @@ const AddBook = () => {
             <button
               type="submit"
               className="inline-block w-full rounded-lg bg-black px-5 mt-2 py-3 font-medium text-white sm:w-auto"
-              onSubmit={addBookHandler}
+              onSubmit={saveChangesHandler}
             >
-              Add New Book
+              Save Changes
             </button>
           </div>
         </form>
@@ -227,4 +240,4 @@ const AddBook = () => {
   );
 };
 
-export default AddBook;
+export default EditBook;

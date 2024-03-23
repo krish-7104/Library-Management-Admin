@@ -7,11 +7,13 @@ import { baseApi } from "../utils/baseApi";
 const Dashboard = () => {
   const user = useSelector((state) => state.userSlice.data);
   const [data, setData] = useState([
-    { title: "Books", value: 10 },
-    { title: "Issued", value: 10 },
-    { title: "Fines", value: 10 },
-    { title: "Students", value: 10 },
-    { title: "Allotments", value: 10 },
+    { title: "Books", value: 0 },
+    { title: "Issued", value: 0 },
+    { title: "Fines", value: 0 },
+    { title: "Students", value: 0 },
+    { title: "Allotments", value: 0 },
+    { title: "Book Category", value: 0 },
+    { title: "Admins", value: 0 },
   ]);
 
   const fetchData = async () => {
@@ -20,13 +22,17 @@ const Dashboard = () => {
       const issuedResponse = await axios.get(`${baseApi}/book-allotment/count`);
       const finesResponse = await axios.get(`${baseApi}/fines/count`);
       const studentsResponse = await axios.get(`${baseApi}/user/count`);
+      const categoryResponse = await axios.get(`${baseApi}/category/count`);
+      const adminResponse = await axios.get(`${baseApi}/admin/count`);
 
       setData([
         { title: "Books", value: booksResponse.data.data },
+        { title: "Book Category", value: categoryResponse.data.data },
         { title: "Allotments", value: issuedResponse.data.data.allotments },
         { title: "Issued", value: issuedResponse.data.data.issuedBook },
         { title: "Fines", value: finesResponse.data.data },
         { title: "Students", value: studentsResponse.data.data },
+        { title: "Admins", value: adminResponse.data.data },
       ]);
     } catch (error) {
       console.error("Error fetching data:", error);

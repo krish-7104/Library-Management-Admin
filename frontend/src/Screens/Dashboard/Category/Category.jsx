@@ -40,10 +40,17 @@ const Category = () => {
       confirmButtonText: "Add Category",
       showLoaderOnConfirm: true,
       preConfirm: async (name) => {
+        const token = localStorage.getItem("token");
         try {
-          const resp = await axios.post(`${baseApi}/category/add-category`, {
-            name,
-          });
+          const resp = await axios.post(
+            `${baseApi}/category/add-category`,
+            {
+              name,
+            },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
           return resp.data;
         } catch (error) {
           Swal.showValidationMessage(`
