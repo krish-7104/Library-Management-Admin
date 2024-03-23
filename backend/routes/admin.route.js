@@ -1,5 +1,5 @@
 const express = require("express")
-const { addAdminHandler, adminLoginHandler, deleteAdminHandler, forgetPasswordHandler, updateAdminHandler, getAdminHandler, getAllAdminHandler, getUserDetails, updatePasswordHandler } = require("../controllers/admin.controller.js")
+const { addAdminHandler, adminLoginHandler, deleteAdminHandler, forgetPasswordHandler, updateAdminHandler, getAdminHandler, getAllAdminHandler, getUserDetails, updatePasswordHandler, getCountHandler } = require("../controllers/admin.controller.js")
 const { adminAuthMiddleware } = require("../middlewares/adminauth.middleware.js")
 const router = express.Router()
 
@@ -13,5 +13,6 @@ router.patch("/update-admin/:id", updateAdminHandler)
 router.delete("/delete-admin/:id", deleteAdminHandler)
 router.post("/forget-password", forgetPasswordHandler)
 router.post("/update-password", updatePasswordHandler)
+router.get("/count", getCountHandler)
 
 module.exports = router

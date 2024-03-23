@@ -65,16 +65,19 @@ const addBookHandler = async (req, res) => {
 
     }
 }
+
 const updateBookHandler = async (req, res) => {
     try {
-        const { id } = req.params
-        const book = await Book.findByIdAndUpdate({ id, update: req.body })
-        return res.status(200).json(new ApiResponse(200, book, "Book Updated!"))
+        const { id } = req.params;
+        const { name, category, stock, price, author } = req.body;
+        const book = await Book.findByIdAndUpdate(id, { name, category, stock, price, author }, { new: true });
+        return res.status(200).json(new ApiResponse(200, book, "Book Updated!"));
     } catch (error) {
-        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
-
+        console.log(error);
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"));
     }
 }
+
 const deleteBookHandler = async (req, res) => {
     try {
         const { id } = req.params

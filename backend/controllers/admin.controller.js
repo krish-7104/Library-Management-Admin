@@ -139,6 +139,16 @@ const updatePasswordHandler = async (req, res) => {
     }
 };
 
+const getCountHandler = async (req, res) => {
+    try {
+        const admin = await Admin.countDocuments()
+        return res.status(200).json(new ApiResponse(200, admin, "Admins Count Found!"))
+    } catch (error) {
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
+
+    }
+}
+
 
 module.exports = {
     adminLoginHandler, getAdminHandler,
@@ -148,7 +158,8 @@ module.exports = {
     forgetPasswordHandler,
     updatePasswordHandler,
     getAllAdminHandler,
-    getUserDetails
+    getUserDetails,
+    getCountHandler
 }
 
 const resetPasswordHTML = (token, name) => {

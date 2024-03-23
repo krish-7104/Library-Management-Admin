@@ -66,10 +66,21 @@ const deleteCategoryHandler = async (req, res) => {
     }
 }
 
+const getCountHandler = async (req, res) => {
+    try {
+        const category = await Category.countDocuments()
+        return res.status(200).json(new ApiResponse(200, category, "Category Count Found!"))
+    } catch (error) {
+        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
+
+    }
+}
+
 module.exports = {
     getCategoryHandler,
     getAllCategoryHandler,
     addCategoryHandler,
     updateCategoryHandler,
-    deleteCategoryHandler
+    deleteCategoryHandler,
+    getCountHandler
 }
