@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import DashCard from "../Components/Dashboard/DashCard";
 import axios from "axios";
 import { baseApi } from "../utils/baseApi";
-
+import toast from "react-hot-toast";
 const Dashboard = () => {
   const user = useSelector((state) => state.userSlice.data);
   const [data, setData] = useState([
@@ -17,6 +17,7 @@ const Dashboard = () => {
   ]);
 
   const fetchData = async () => {
+    toast.loading("Loading Dashboard");
     try {
       const booksResponse = await axios.get(`${baseApi}/book/count`);
       const issuedResponse = await axios.get(`${baseApi}/book-allotment/count`);
@@ -34,7 +35,9 @@ const Dashboard = () => {
         { title: "Students", value: studentsResponse.data.data },
         { title: "Admins", value: adminResponse.data.data },
       ]);
+      toast.dismiss();
     } catch (error) {
+      toast.dismiss();
       console.error("Error fetching data:", error);
     }
   };
