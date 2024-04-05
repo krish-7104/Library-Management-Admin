@@ -85,7 +85,7 @@ const Book = () => {
   return (
     <DashboardWrapper title="Search Books">
       <section className="flex justify-between items-center mt-2 mb-6">
-        <div className="relative w-[35%] border-2 border-violet-600 shadow-md rounded-md">
+        <div className="relative w-[35%] border-2 rounded-md">
           <label htmlFor="Search" className="sr-only">
             Search
           </label>
@@ -98,7 +98,7 @@ const Book = () => {
             className="w-full rounded-md border-gray-200 placeholder:text-gray-700 outline-none py-2.5 pe-10 px-2 shadow-sm sm:text-sm"
           />
         </div>
-        <div className="w-[30%] border-violet-600 shadow-md rounded-md border-2">
+        <div className="w-[30%] rounded-md border-2">
           <select
             className="w-full rounded-lg py-2.5 px-2 border-gray-300 text-gray-700 sm:text-sm"
             onChange={changeCategoryHandler}

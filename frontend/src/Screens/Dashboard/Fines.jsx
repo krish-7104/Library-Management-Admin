@@ -68,7 +68,8 @@ const Fines = () => {
     }
   };
 
-  const addFineHandler = async () => {
+  const addFineHandler = async (e) => {
+    e.preventDefault();
     try {
       const resp = await axios.post(`${baseApi}/fines/add-record`, {
         user: data.user,

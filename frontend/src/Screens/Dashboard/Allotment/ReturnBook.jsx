@@ -5,10 +5,11 @@ import toast from "react-hot-toast";
 import { dateFormatter } from "../../../utils/DateFormatter.js";
 import Swal from "sweetalert2";
 import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper.jsx";
+
 const ReturnBook = () => {
   const [allotment, setAllotments] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [search, setSearch] = useState("");
   useEffect(() => {
     getAllotmentHandler();
   }, []);
@@ -73,39 +74,51 @@ const ReturnBook = () => {
     }
   };
 
+  const filteredAllotments = allotment.filter((item) =>
+    item.user.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <DashboardWrapper title={"Return Book"}>
       <div className="">
+        <div className="mb-4 flex justify-end items-center">
+          <input
+            type="text"
+            className="w-[30%] px-2 py-[6px] rounded border-2 outline-none text-sm"
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Enter Student Name"
+            value={search}
+          />
+        </div>
         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded shadow">
           <thead className="ltr:text-left rtl:text-right">
             <tr>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Student Name
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Book Image
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Book Name
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Allotment Date
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Return Date
               </th>
-              <th className="px-4 py-2"></th>
+              <th className="p-3"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
             {!loading &&
-              allotment &&
-              allotment.map((item) => {
+              filteredAllotments.map((item) => {
                 const date = new Date();
                 const returnDate = new Date(item.returnDate);
                 const isReturnDateGone = returnDate < date;
                 return (
-                  <tr className={`text-center`}>
+                  <tr className={`text-center`} key={item._id}>
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       {item.user.name}
                     </td>
@@ -140,7 +153,7 @@ const ReturnBook = () => {
           </tbody>
         </table>
       </div>
-      {allotment && allotment.length === 0 && (
+      {!loading && filteredAllotments.length === 0 && (
         <p className="text-center mt-10 text-gray-700">
           No Allotments Available!
         </p>

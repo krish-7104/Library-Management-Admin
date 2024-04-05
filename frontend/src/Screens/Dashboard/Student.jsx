@@ -8,6 +8,7 @@ const Student = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     getStudentHandler();
@@ -28,37 +29,50 @@ const Student = () => {
     }
   };
 
+  const filteredStudents = students.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <main className=" bg-gray-100 flex justify-center pt-2">
-      <>
-        <table className="w-[90%] divide-y-2 divide-gray-200 max-h-[100vh] bg-white text-sm rounded shadow overflow-y-auto">
+    <main className="min-h-[90vh] bg-gray-100 flex justify-center pt-2">
+      <div className="w-[90%] flex justify-start items-center flex-col">
+        <div className="mb-4 my-2 flex justify-end items-center w-full">
+          <input
+            type="text"
+            className="w-[30%] px-2 py-[6px] rounded border-2 outline-none text-sm"
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Enter Student Name"
+            value={search}
+          />
+        </div>
+        <table className="w-full divide-y-2 divide-gray-200 max-h-[100vh] bg-white text-sm rounded shadow overflow-y-auto mb-4">
           <thead className="ltr:text-left rtl:text-right">
             <tr>
-              <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Enrollment No
               </th>
-              <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Name
               </th>
-              <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Phone No.
               </th>
-              <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Email
               </th>
-              <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Fine
               </th>
-              <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Slot Available
               </th>
-              <th className="px-4 py-3"></th>
+              <th className="p-3"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 overflow-scroll">
             {!loading &&
-              students &&
-              students.map((item) => {
+              filteredStudents &&
+              filteredStudents.map((item) => {
                 return (
                   <tr className="text-center">
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
@@ -100,10 +114,10 @@ const Student = () => {
               })}
           </tbody>
         </table>
-      </>
-      {students && students?.length === 0 && (
-        <p className="text-center mt-10 text-gray-700">No Students Found!</p>
-      )}
+        {filteredStudents && filteredStudents?.length === 0 && (
+          <p className="text-center mt-10 text-gray-700">No Students Found!</p>
+        )}
+      </div>
     </main>
   );
 };

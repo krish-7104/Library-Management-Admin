@@ -81,22 +81,22 @@ const Admins = () => {
         <thead className="ltr:text-left rtl:text-right">
           <tr>
             <th></th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            <th className="whitespace-nowrap p-3 font-medium text-gray-900">
               Name
             </th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            <th className="whitespace-nowrap p-3 font-medium text-gray-900">
               Email
             </th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            <th className="whitespace-nowrap p-3 font-medium text-gray-900">
               Phone Number
             </th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            <th className="whitespace-nowrap p-3 font-medium text-gray-900">
               Role
             </th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            <th className="whitespace-nowrap p-3 font-medium text-gray-900">
               Created Date
             </th>
-            <th className="px-4 py-2"></th>
+            <th className="p-3"></th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">

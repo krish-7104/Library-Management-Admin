@@ -82,16 +82,16 @@ const Category = () => {
         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded shadow">
           <thead className="ltr:text-left rtl:text-right">
             <tr>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap px-3 font-medium text-gray-900">
                 Category Id
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap px-3 font-medium text-gray-900">
                 Name
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap px-3 font-medium text-gray-900">
                 Books
               </th>
-              <th className="px-4 py-2"></th>
+              <th className="px-3"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">

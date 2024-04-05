@@ -9,6 +9,7 @@ const Allotments = () => {
   const [allotment, setAllotments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [returnFilter, setReturnFilter] = useState("all");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const getAllotmentHandler = async () => {
@@ -33,6 +34,10 @@ const Allotments = () => {
     };
     returnFilter && getAllotmentHandler();
   }, [returnFilter]);
+
+  const filteredAllotments = allotment.filter((item) =>
+    item.user.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <DashboardWrapper title={"Book Allotments"}>
@@ -65,31 +70,38 @@ const Allotments = () => {
               False
             </span>
           </div>
+          <input
+            type="text"
+            className="w-[30%] px-2 py-[6px] rounded border-2 outline-none text-sm"
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Enter Student Name"
+            value={search}
+          />
         </section>
         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded shadow">
           <thead className="ltr:text-left rtl:text-right">
             <tr>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Student Name
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Book
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Returned
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Allotment Date
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
                 Return Date
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
             {!loading &&
-              allotment &&
-              allotment.map((item) => {
+              filteredAllotments &&
+              filteredAllotments.map((item) => {
                 return (
                   <tr className="text-center">
                     <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
@@ -118,7 +130,7 @@ const Allotments = () => {
           </tbody>
         </table>
       </div>
-      {allotment && allotment.length === 0 && (
+      {filteredAllotments && filteredAllotments.length === 0 && (
         <p className="text-center mt-10 text-gray-700">No Allotments Found!</p>
       )}
     </DashboardWrapper>
