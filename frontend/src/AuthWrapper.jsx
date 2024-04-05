@@ -33,9 +33,9 @@ const AuthWrapper = ({ children }) => {
   return (
     <main className="flex flex-col">
       <Navbar />
-      <section className="flex">
+      <section className="flex overflow-hidden h-[90vh]">
         <Sidebar />
-        <div className="w-[80%]">{children}</div>
+        <div className="w-[80%] overflow-y-auto">{children}</div>
       </section>
     </main>
   );

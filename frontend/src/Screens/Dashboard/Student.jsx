@@ -20,7 +20,6 @@ const Student = () => {
       const resp = await axios.get(`${baseApi}/user/allusers`);
       setStudents(resp.data.data);
       setLoading(false);
-      console.log(resp.data.data);
       toast.dismiss();
     } catch (error) {
       setLoading(false);
@@ -30,33 +29,33 @@ const Student = () => {
   };
 
   return (
-    <main className="p-6 bg-gray-100 min-h-[100vh]">
-      <div className="">
-        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded shadow">
+    <main className=" bg-gray-100 flex justify-center pt-2">
+      <>
+        <table className="w-[90%] divide-y-2 divide-gray-200 max-h-[100vh] bg-white text-sm rounded shadow overflow-y-auto">
           <thead className="ltr:text-left rtl:text-right">
             <tr>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                 Enrollment No
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                 Name
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                 Phone No.
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                 Email
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                 Fine
               </th>
-              <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+              <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                 Slot Available
               </th>
-              <th className="px-4 py-2"></th>
+              <th className="px-4 py-3"></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 overflow-scroll">
             {!loading &&
               students &&
               students.map((item) => {
@@ -101,7 +100,7 @@ const Student = () => {
               })}
           </tbody>
         </table>
-      </div>
+      </>
       {students && students?.length === 0 && (
         <p className="text-center mt-10 text-gray-700">No Students Found!</p>
       )}
