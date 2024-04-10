@@ -150,7 +150,7 @@ const IssueBook = () => {
         </label>
       </div>
       {searchBook && books && (
-        <section className="grid-cols-4 grid w-full gap-10 mt-7">
+        <section className="grid grid-cols-5 grid-rows-1 w-full gap-4 mt-7 overflow-x-auto">
           {books.map((book) => {
             return (
               <div
@@ -160,14 +160,11 @@ const IssueBook = () => {
                 <img
                   alt="Office"
                   src={book.image}
-                  className="h-56 w-full hover:object-contain object-cover"
+                  className="h-56 w-full object-contain"
                 />
                 <div className="bg-white p-3">
-                  <h3 className="mt-2 text-gray-900 font-semibold flex-grow line-clamp-2">
-                    {book.name}
-                  </h3>
                   <button
-                    className="mt-2 w-full bg-violet-600 text-sm text-white p-2 rounded"
+                    className="mt-2 w-full bg-violet-600 text-xs text-white p-2 rounded"
                     onClick={() => {
                       setIssueData({ ...issueData, book: book._id });
                       setBooks(book);

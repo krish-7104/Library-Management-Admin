@@ -8,7 +8,6 @@ const AutoFeeIncrement = async () => {
         select: '-password'
     }).populate("book")
     let today = new Date();
-    console.log(allotments.length)
     for (let allotment of allotments) {
         const returnDate = new Date(allotment.returnDate)
         if (returnDate < today) {
