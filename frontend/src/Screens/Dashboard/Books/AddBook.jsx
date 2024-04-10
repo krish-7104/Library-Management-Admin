@@ -62,7 +62,7 @@ const AddBook = () => {
         category: "",
         author: "",
       });
-      setImage();
+      setImage(undefined);
       toast.success(resp.data.message);
     } catch (error) {
       toast.dismiss();

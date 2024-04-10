@@ -8,7 +8,7 @@ const GetAllFinesHandler = async (req, res) => {
         const fines = await Fine.find().populate({
             path: 'user',
             select: '-password'
-        })
+        }).sort({ createdAt: -1 })
         return res.status(200).json(new ApiResponse(200, fines, "All Fines Get Successfully!"))
     } catch (error) {
         console.log("GetAllFinesHandler: ", error)
