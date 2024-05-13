@@ -12,6 +12,10 @@ const AuthWrapper = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const checkTokenHandler = async (token) => {
       try {
         const resp = await axios.get(`${baseApi}/admin/auth/get-user`, {
