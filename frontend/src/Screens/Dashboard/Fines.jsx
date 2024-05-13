@@ -200,23 +200,23 @@ const Fines = () => {
                   return (
                     <tr className="text-center">
                       <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                        {item.user.name}
+                        {item?.user?.name}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-900">
-                        {item.user.enrollmentno}
+                        {item?.user?.enrollmentno}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-900">
-                        {item.user.phonenumber}
+                        {item?.user?.phonenumber}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-900">
-                        ₹{item.amount}
+                        ₹{item?.amount}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-900">
-                        {dateFormatter(item.createdAt)}
+                        {dateFormatter(item?.createdAt)}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2">
                         <button
-                          onClick={() => confirmHandler(item._id)}
+                          onClick={() => confirmHandler(item?._id)}
                           className="inline-block rounded bg-red-500 p-2 font-medium text-white hover:bg-red-600"
                         >
                           <Trash size={14} />
