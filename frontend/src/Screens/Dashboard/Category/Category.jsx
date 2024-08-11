@@ -3,7 +3,7 @@ import axios from "axios";
 import { baseApi } from "../../../utils/baseApi.js";
 import toast from "react-hot-toast";
 import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper.jsx";
-import { Plus } from "lucide-react";
+import { Pencil, Plus, Trash } from "lucide-react";
 import Swal from "sweetalert2";
 
 const Category = () => {
@@ -40,21 +40,109 @@ const Category = () => {
       confirmButtonText: "Add Category",
       showLoaderOnConfirm: true,
       preConfirm: async (name) => {
-        const token = localStorage.getItem("token");
-        try {
-          const resp = await axios.post(
-            `${baseApi}/category/add-category`,
-            {
-              name,
-            },
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
-          return resp.data;
-        } catch (error) {
+        if (name) {
+          const token = localStorage.getItem("token");
+          try {
+            const resp = await axios.post(
+              `${baseApi}/category/add-category`,
+              {
+                name,
+              },
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+            return resp.data;
+          } catch (error) {
+            Swal.showValidationMessage(`
+                ${error.response.data.message}
+              `);
+          }
+        } else {
           Swal.showValidationMessage(`
+            Enter Name Please
+          `);
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: result.value.message,
+          icon: "success",
+        });
+        getCategoryHandler();
+      }
+    });
+  };
+
+  const confirmHandler = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#7c3aed",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes Delete Category",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteFineHandler(id);
+      }
+    });
+  };
+
+  const deleteFineHandler = async (id) => {
+    try {
+      const resp = await axios.delete(
+        `${baseApi}/category/delete-category/${id}`
+      );
+      Swal.fire({
+        title: resp.data.message,
+        icon: "success",
+      });
+      getCategoryHandler();
+    } catch (error) {
+      Swal.fire({
+        title: error.response.data.message,
+        icon: "error",
+      });
+    }
+  };
+
+  const updateCategoryPopup = (id, value) => {
+    Swal.fire({
+      title: "Update Category Name",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      inputValue: value,
+      showCancelButton: true,
+      confirmButtonText: "Update Category",
+      showLoaderOnConfirm: true,
+      preConfirm: async (name) => {
+        if (name) {
+          const token = localStorage.getItem("token");
+          try {
+            const resp = await axios.patch(
+              `${baseApi}/category/update-category/${id}`,
+              {
+                name,
+              },
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+            return resp.data;
+          } catch (error) {
+            Swal.showValidationMessage(`
             ${error.response.data.message}
+          `);
+          }
+        } else {
+          Swal.showValidationMessage(`
+            Enter Name Please
           `);
         }
       },
@@ -79,49 +167,42 @@ const Category = () => {
         >
           Add New Category <Plus size={23} className="ml-2" />
         </button>
-        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded shadow">
-          <thead className="ltr:text-left rtl:text-right">
-            <tr>
-              <th className="whitespace-nowrap px-3 font-medium text-gray-900">
-                Category Id
-              </th>
-              <th className="whitespace-nowrap px-3 font-medium text-gray-900">
-                Name
-              </th>
-              <th className="whitespace-nowrap px-3 font-medium text-gray-900">
-                Books
-              </th>
-              <th className="px-3"></th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {!loading &&
-              category &&
-              category.map((item) => {
-                return (
-                  <tr className="text-center">
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {item._id}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-900">
-                      {item.name}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-900">
-                      {item.books.length}
-                    </td>
-                    {/* <td className="whitespace-nowrap px-4 py-2">
+
+        <section className="grid grid-cols-4 gap-4">
+          {!loading &&
+            category &&
+            category.map((item) => {
+              return (
+                <div className="bg-white shadow p-3 rounded">
+                  <p className="leading-3 text-xs text-gray-900">
+                    Category Name:
+                  </p>
+                  <p className="font-semibold text-lg text-gray-900">
+                    {item.name}
+                  </p>
+                  <p className="text-gray-900 mb-1">
+                    Books: {item.books.length}
+                  </p>
+                  <div className="flex justify-end items-center">
+                    {item.books.length === 0 && (
                       <button
-                        href="/"
-                        className="inline-block rounded bg-violet-600 px-4 py-2 text-xs font-medium text-white hover:bg-violet-700"
+                        onClick={() => confirmHandler(item?._id)}
+                        className="inline-block rounded bg-red-500 p-2 font-medium text-white hover:bg-red-600 mr-2"
                       >
-                        View
+                        <Trash size={14} />
                       </button>
-                    </td> */}
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+                    )}
+                    <button
+                      onClick={() => updateCategoryPopup(item?._id, item?.name)}
+                      className="inline-block rounded bg-violet-500 p-2 font-medium text-white hover:bg-violet-600"
+                    >
+                      <Pencil size={14} />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+        </section>
       </div>
       {category && category.length === 0 && (
         <p className="text-center mt-10 text-gray-700">No Books Available!</p>

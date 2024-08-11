@@ -228,7 +228,7 @@ const IssueBook = () => {
               <div className="flex">
                 {!(user?.fine > 0 || user?.bookSlot === 0) && (
                   <button
-                    className="rounded bg-violet-600 font-semibold px-8 py-2 block mt-4 text-white ring-purple-400 focus:outline-none focus:ring active:bg-violet-500 mr-4 disabled:bg-violet-400"
+                    className="rounded bg-violet-600 font-semibold px-8 py-2 block mt-4 text-white ring-violet-400 focus:outline-none focus:ring active:bg-violet-500 mr-4 disabled:bg-violet-400"
                     onClick={issueBookHandler}
                     disabled={!issueData.book}
                   >

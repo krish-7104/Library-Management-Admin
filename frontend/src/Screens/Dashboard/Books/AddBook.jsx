@@ -212,7 +212,7 @@ const AddBook = () => {
           <img src={previewImage} alt="" className="w-52 ml-10" />
           {image && (
             <div
-              className="bg-purple-600 absolute right-5 -top-10 p-2 rounded-full cursor-pointer hover:bg-purple-800"
+              className="bg-violet-600 absolute right-5 -top-10 p-2 rounded-full cursor-pointer hover:bg-violet-800"
               onClick={() => {
                 setImage();
                 setPreviewImage("");
