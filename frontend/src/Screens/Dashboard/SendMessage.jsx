@@ -23,6 +23,12 @@ const SendMessage = () => {
       );
       toast.dismiss();
       toast.success(resp.data.message);
+      setData({
+        email: "",
+        subject: "",
+        message: "",
+        name: "",
+      });
     } catch (error) {
       toast.dismiss();
       toast.error(error.response.data.message);
