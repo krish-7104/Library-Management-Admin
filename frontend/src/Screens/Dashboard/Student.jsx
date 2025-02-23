@@ -30,7 +30,7 @@ const Student = () => {
   };
 
   const filteredStudents = students.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase()),
+    item.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (

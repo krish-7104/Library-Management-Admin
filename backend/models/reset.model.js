@@ -1,16 +1,17 @@
-const { Schema, model } = require("mongoose")
+const { Schema, model } = require("mongoose");
 
-const resetSchema = new Schema({
+const resetSchema = new Schema(
+  {
     token: {
-        type: String,
-        required: [true, "Token is Required"]
+      type: String,
+      required: [true, "Token is Required"],
     },
     type: {
-        type: String,
-        required: [true, "Type is Required"]
+      type: String,
+      required: [true, "Type is Required"],
     },
-}, { timestamps: true })
+  },
+  { timestamps: true }
+);
 
-
-
-module.exports = model("Reset Token", resetSchema)
+module.exports = model("Reset Token", resetSchema);

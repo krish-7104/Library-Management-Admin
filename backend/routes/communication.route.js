@@ -1,7 +1,9 @@
-const express = require("express")
-const { sendMessageHandler } = require("../controllers/communication.controller.js")
-const router = express.Router()
+const express = require("express");
+const {
+  sendMessageHandler,
+} = require("../controllers/communication.controller.js");
+const router = express.Router();
 
-router.post("/send-message", sendMessageHandler)
+router.post("/send-message", sendMessageHandler);
 
-module.exports = router
+module.exports = router;

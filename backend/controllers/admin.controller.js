@@ -17,7 +17,7 @@ const adminLoginHandler = async (req, res) => {
     if (isPassword) {
       const token = jwt.sign(
         JSON.stringify({ _id: admin._id }),
-        process.env.JWTSECRETKEY,
+        process.env.JWTSECRETKEY
       );
       return res.json(new ApiResponse(200, { token }, "Login Successful"));
     } else {
@@ -74,8 +74,8 @@ const addAdminHandler = async (req, res) => {
         new ApiResponse(
           200,
           { id: admin._id, name: admin.name, role: admin.role },
-          "Admin Added Successfully!",
-        ),
+          "Admin Added Successfully!"
+        )
       );
   } catch (error) {
     console.log(error);
@@ -94,8 +94,8 @@ const updateAdminHandler = async (req, res) => {
         new ApiResponse(
           200,
           { id: admin._id, name: admin.name, role: admin.role },
-          "Admin Updated Successfully!",
-        ),
+          "Admin Updated Successfully!"
+        )
       );
   } catch (error) {
     console.log(error);
@@ -129,7 +129,7 @@ const forgetPasswordHandler = async (req, res) => {
     const resetToken = jwt.sign(
       { userId: admin._id },
       process.env.JWTSECRETKEY,
-      { expiresIn: "1h" },
+      { expiresIn: "1h" }
     );
     const reset = await Reset.create({
       token: resetToken,
@@ -138,7 +138,7 @@ const forgetPasswordHandler = async (req, res) => {
     await sendMailHandler(
       email,
       "Reset Password - Library Management",
-      resetPasswordHTML(reset._id, admin.name),
+      resetPasswordHTML(reset._id, admin.name)
     );
     return res
       .status(200)
@@ -164,7 +164,7 @@ const updatePasswordHandler = async (req, res) => {
     try {
       const tokenData = jwt.verify(
         resetTokenData.token,
-        process.env.JWTSECRETKEY,
+        process.env.JWTSECRETKEY
       );
 
       const hashedPassword = await bcrypt.hash(password, 10);

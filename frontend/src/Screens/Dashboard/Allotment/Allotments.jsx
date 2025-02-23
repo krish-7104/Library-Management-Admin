@@ -19,7 +19,7 @@ const Allotments = () => {
         let resp = "";
         if (returnFilter !== "all")
           resp = await axios.get(
-            `${baseApi}/book-allotment/allotments?returned=${returnFilter}`,
+            `${baseApi}/book-allotment/allotments?returned=${returnFilter}`
           );
         else resp = await axios.get(`${baseApi}/book-allotment/allotments`);
         setAllotments(resp.data.data);
@@ -36,7 +36,7 @@ const Allotments = () => {
   }, [returnFilter]);
 
   const filteredAllotments = allotment.filter((item) =>
-    item.user.name.toLowerCase().includes(search.toLowerCase()),
+    item.user.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (

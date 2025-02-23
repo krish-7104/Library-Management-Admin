@@ -44,7 +44,7 @@ const Book = () => {
     if (e.target.value !== "") {
       try {
         const resp = await axios.get(
-          `${baseApi}/category/get-category?book=true&search=${e.target.value}`,
+          `${baseApi}/category/get-category?book=true&search=${e.target.value}`
         );
         setBooks(resp.data.data[0].books);
         setLoading(false);
@@ -64,7 +64,7 @@ const Book = () => {
       if (value !== "") {
         try {
           const resp = await axios.get(
-            `${baseApi}/book/get-books?search=${value}`,
+            `${baseApi}/book/get-books?search=${value}`
           );
           setBooks(resp.data.data);
           setLoading(false);

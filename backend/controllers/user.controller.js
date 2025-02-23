@@ -70,7 +70,7 @@ const loginUserHandler = async (req, res) => {
     if (isPassword) {
       const token = jwt.sign(
         JSON.stringify({ _id: user._id }),
-        process.env.JWTSECRETKEY,
+        process.env.JWTSECRETKEY
       );
       return res.json(new ApiResponse(200, { token }, "Login Successful"));
     } else {
@@ -90,7 +90,7 @@ const searchUserHandler = async (req, res) => {
   try {
     const { eno } = req.query;
     const user = await User.findOne({ enrollmentno: parseInt(eno) }).select(
-      "-password",
+      "-password"
     );
     if (!user) {
       return res.status(404).json(new ApiResponse(404, [], "User Not Found!"));
@@ -115,8 +115,8 @@ const addUserHandler = async (req, res) => {
         new ApiResponse(
           200,
           { id: user._id, name: user.name },
-          "User Added Successfully!",
-        ),
+          "User Added Successfully!"
+        )
       );
   } catch (error) {
     console.log(error);
@@ -151,7 +151,7 @@ const forgetPasswordHandler = async (req, res) => {
     const resetToken = jwt.sign(
       { userId: user._id },
       process.env.JWTSECRETKEY,
-      { expiresIn: "1h" },
+      { expiresIn: "1h" }
     );
     const reset = await Reset.create({
       token: resetToken,
@@ -160,7 +160,7 @@ const forgetPasswordHandler = async (req, res) => {
     await sendMailHandler(
       email,
       "Reset Password - Library Management",
-      resetPasswordHTML(reset._id, user.name),
+      resetPasswordHTML(reset._id, user.name)
     );
     return res
       .status(200)

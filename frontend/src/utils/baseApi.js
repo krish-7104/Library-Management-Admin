@@ -1,1 +1,1 @@
-export const baseApi = process.env.REACT_APP_BACKEND_LINK
+export const baseApi = process.env.REACT_APP_BACKEND_LINK;

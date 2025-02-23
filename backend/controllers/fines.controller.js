@@ -35,7 +35,7 @@ const finePaidHandler = async (req, res) => {
     sendMailHandler(
       userData.email,
       subject,
-      reminderTemplate(amount, dateFormatter(fine.createdAt), userData.name),
+      reminderTemplate(amount, dateFormatter(fine.createdAt), userData.name)
     );
     return res
       .status(201)

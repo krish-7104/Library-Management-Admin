@@ -96,7 +96,7 @@ const addBookHandler = async (req, res) => {
     await Category.findByIdAndUpdate(
       req.body.category,
       { $push: { books: newBook._id } },
-      { new: true },
+      { new: true }
     );
     return res.status(201).json(new ApiResponse(201, newBook, "Book Added!"));
   } catch (error) {
@@ -113,7 +113,7 @@ const updateBookHandler = async (req, res) => {
     const book = await Book.findByIdAndUpdate(
       id,
       { name, category, stock, price, author },
-      { new: true },
+      { new: true }
     );
     return res.status(200).json(new ApiResponse(200, book, "Book Updated!"));
   } catch (error) {
