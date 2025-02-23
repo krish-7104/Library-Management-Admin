@@ -79,6 +79,12 @@ const Fines = () => {
         title: resp.data.message,
         icon: "success",
       }).then(() => {
+        setData({
+          eno: undefined,
+          amount: undefined,
+          user: "",
+        });
+        setShowAdd(false);
         getFineHandler();
       });
     } catch (error) {

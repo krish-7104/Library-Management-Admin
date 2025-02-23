@@ -22,7 +22,7 @@ const IssueBook = () => {
       if (value !== "") {
         try {
           const resp = await axios.get(
-            `${baseApi}/book/get-books?search=${value}`
+            `${baseApi}/book/get-books?search=${value}&stock=true`,
           );
           toast.dismiss();
           setBooks(resp.data.data);
@@ -93,7 +93,7 @@ const IssueBook = () => {
     try {
       const resp = await axios.post(
         `${baseApi}/book-allotment/issue-book`,
-        issueData
+        issueData,
       );
       toast.dismiss();
       Swal.fire({

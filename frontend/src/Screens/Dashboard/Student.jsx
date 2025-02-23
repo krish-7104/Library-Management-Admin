@@ -30,7 +30,7 @@ const Student = () => {
   };
 
   const filteredStudents = students.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase())
+    item.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -39,7 +39,7 @@ const Student = () => {
         <div className="mb-4 my-2 flex justify-end items-center w-full">
           <input
             type="text"
-            className="w-[30%] px-2 py-[6px] rounded border-2 outline-none text-sm"
+            className="w-[30%] px-3 py-2 rounded-lg border-2 outline-none text-sm"
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Enter Student Name"
             value={search}

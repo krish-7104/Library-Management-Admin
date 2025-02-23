@@ -19,7 +19,7 @@ const ReturnBook = () => {
     toast.loading("Loading Allotments...");
     try {
       const resp = await axios.get(
-        `${baseApi}/book-allotment/allotments?returned=false`
+        `${baseApi}/book-allotment/allotments?returned=false`,
       );
       setAllotments(resp.data.data);
       setLoading(false);
@@ -50,7 +50,7 @@ const ReturnBook = () => {
     toast.loading("Returning Book...");
     try {
       const resp = await axios.post(
-        `${baseApi}/book-allotment/return-book/${id}`
+        `${baseApi}/book-allotment/return-book/${id}`,
       );
       toast.dismiss();
       if (resp.status === 409) {
@@ -75,7 +75,7 @@ const ReturnBook = () => {
   };
 
   const filteredAllotments = allotment.filter((item) =>
-    item.user.name.toLowerCase().includes(search.toLowerCase())
+    item.user.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -84,7 +84,7 @@ const ReturnBook = () => {
         <div className="mb-4 flex justify-end items-center">
           <input
             type="text"
-            className="w-[30%] px-2 py-[6px] rounded border-2 outline-none text-sm"
+            className="w-[30%] px-3 py-2 rounded-lg border-2 outline-none text-sm"
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Enter Student Name"
             value={search}

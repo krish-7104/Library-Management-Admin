@@ -49,7 +49,7 @@ const Dashboard = () => {
   return (
     <main className="w-full p-6">
       <p className="font-semibold text-xl">Hello, {user?.name}👋</p>
-      <section className="grid grid-cols-4 place-items-center bg-slate-50 my-5 gap-6">
+      <section className="grid grid-cols-4 place-items-center my-5 gap-6">
         {data.map((item, index) => (
           <DashCard title={item.title} number={item.value} key={index} />
         ))}

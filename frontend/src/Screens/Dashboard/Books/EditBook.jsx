@@ -36,7 +36,6 @@ const EditBook = () => {
       const resp = await axios.get(`${baseApi}/category/get-category`);
       setCategory(resp.data.data);
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     }
   };
@@ -48,7 +47,7 @@ const EditBook = () => {
       const resp = await axios.patch(
         `${baseApi}/book/update-book/${location.pathname.replace(
           "/dashboard/edit-book/",
-          ""
+          "",
         )}`,
         {
           name: formData.name,
@@ -56,7 +55,7 @@ const EditBook = () => {
           stock: formData.stock,
           price: formData.price,
           author: formData.author,
-        }
+        },
       );
       toast.dismiss();
       navigate("/dashboard/books");
@@ -72,13 +71,12 @@ const EditBook = () => {
       const resp = await axios.get(
         `${baseApi}/book/get-book/${location.pathname.replace(
           "/dashboard/edit-book/",
-          ""
-        )}`
+          "",
+        )}`,
       );
       setFormData(resp.data.data);
       setPreviewImage(resp.data.data.image);
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     }
   };

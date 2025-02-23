@@ -1,8 +1,8 @@
-const { sendMailHandler } = require("../utils/mailTransporter.js")
-const ApiResponse = require("../utils/ApiResponse.js")
+const { sendMailHandler } = require("../utils/mailTransporter.js");
+const ApiResponse = require("../utils/ApiResponse.js");
 
 const reminderTemplate = (name, subject, message) => {
-    return `
+  return `
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -31,7 +31,7 @@ const reminderTemplate = (name, subject, message) => {
         </style>
     </head>
     <body>
-        <h2>Message From GCET Library</h2>
+        <h2>Message From XYZ Library</h2>
         <table>
         <table>
         <tr>
@@ -49,17 +49,21 @@ const reminderTemplate = (name, subject, message) => {
         </table>
     </body>
     </html>
-`
-}
+`;
+};
 const sendMessageHandler = async (req, res) => {
-    try {
-        const { email, name, subject, message } = req.body
-        sendMailHandler(email, subject, reminderTemplate(name, subject, message))
-        return res.status(200).json(new ApiResponse(200, [], "Message Send Successfully!"))
-    } catch (error) {
-        console.log("🚀 ~ sendMessageHandler ~ ̥:", error)
-        return res.status(500).json(new ApiResponse(500, [], "Internal Server Error"))
-    }
-}
+  try {
+    const { email, name, subject, message } = req.body;
+    sendMailHandler(email, subject, reminderTemplate(name, subject, message));
+    return res
+      .status(200)
+      .json(new ApiResponse(200, [], "Message Send Successfully!"));
+  } catch (error) {
+    console.log("🚀 ~ sendMessageHandler ~ ̥:", error);
+    return res
+      .status(500)
+      .json(new ApiResponse(500, [], "Internal Server Error"));
+  }
+};
 
-module.exports = { sendMessageHandler }
+module.exports = { sendMessageHandler };

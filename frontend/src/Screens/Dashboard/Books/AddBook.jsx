@@ -25,8 +25,10 @@ const AddBook = () => {
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setImage(selectedFile);
-    const imageUrl = URL.createObjectURL(selectedFile);
-    setPreviewImage(imageUrl);
+    if (selectedFile) {
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setPreviewImage(imageUrl);
+    }
   };
 
   const getCategoryHandler = async () => {
@@ -34,12 +36,14 @@ const AddBook = () => {
       const resp = await axios.get(`${baseApi}/category/get-category`);
       setCategory(resp.data.data);
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     }
   };
 
   const addBookHandler = async (e) => {
+    if (!image) {
+      return;
+    }
     e.preventDefault();
     toast.loading("Adding Book..");
     const data = new FormData();
@@ -57,12 +61,13 @@ const AddBook = () => {
       toast.dismiss();
       setFormData({
         name: "",
-        price: undefined,
-        stock: undefined,
+        price: "",
+        stock: "",
         category: "",
         author: "",
       });
-      setImage(undefined);
+      setImage("");
+      setPreviewImage("");
       toast.success(resp.data.message);
     } catch (error) {
       toast.dismiss();
@@ -89,6 +94,7 @@ const AddBook = () => {
               className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
               placeholder="Book Name"
               value={formData.name}
+              required
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
@@ -106,6 +112,7 @@ const AddBook = () => {
               <input
                 type="text"
                 id="Book Author"
+                required
                 className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
                 placeholder="Book Author"
                 value={formData.author}
@@ -131,6 +138,7 @@ const AddBook = () => {
                   className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
                   placeholder="Book Price"
                   value={formData.price}
+                  required
                   onChange={(e) =>
                     setFormData({ ...formData, price: e.target.value })
                   }
@@ -152,6 +160,7 @@ const AddBook = () => {
                   className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
                   placeholder="Book Stock"
                   value={formData.stock}
+                  required
                   onChange={(e) =>
                     setFormData({ ...formData, stock: e.target.value })
                   }
@@ -166,6 +175,7 @@ const AddBook = () => {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <select
               className="w-full rounded-lg py-3 px-1 sm:text-sm outline-none bg-white border-gray-500 border"
+              required
               onChange={(e) =>
                 setFormData({ ...formData, category: e.target.value })
               }
@@ -184,6 +194,7 @@ const AddBook = () => {
             <input
               type="file"
               hidden
+              required
               id="file"
               accept="image/*"
               onChange={handleFileChange}
@@ -201,7 +212,8 @@ const AddBook = () => {
           <div className="flex justify-center items-center">
             <button
               type="submit"
-              className="inline-block w-full rounded-lg bg-black px-5 mt-2 py-3 font-medium text-white sm:w-auto"
+              disabled={!image}
+              className="inline-block w-full rounded-lg bg-black disabled:bg-gray-600 px-5 mt-2 py-3 font-medium text-white sm:w-auto"
               onSubmit={addBookHandler}
             >
               Add New Book

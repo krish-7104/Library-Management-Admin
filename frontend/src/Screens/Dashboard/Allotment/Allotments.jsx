@@ -19,7 +19,7 @@ const Allotments = () => {
         let resp = "";
         if (returnFilter !== "all")
           resp = await axios.get(
-            `${baseApi}/book-allotment/allotments?returned=${returnFilter}`
+            `${baseApi}/book-allotment/allotments?returned=${returnFilter}`,
           );
         else resp = await axios.get(`${baseApi}/book-allotment/allotments`);
         setAllotments(resp.data.data);
@@ -36,7 +36,7 @@ const Allotments = () => {
   }, [returnFilter]);
 
   const filteredAllotments = allotment.filter((item) =>
-    item.user.name.toLowerCase().includes(search.toLowerCase())
+    item.user.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -113,7 +113,11 @@ const Allotments = () => {
                     </td>
                     <td
                       className={`whitespace-nowrap px-4 py-2 text-gray-900 font-semibold ${
-                        item.returned ? "bg-green-300" : "bg-red-300"
+                        item.returned
+                          ? "bg-green-300"
+                          : new Date() > new Date(item.returnDate)
+                          ? "bg-red-300"
+                          : ""
                       }`}
                     >
                       {JSON.stringify(item.returned).toUpperCase()}
