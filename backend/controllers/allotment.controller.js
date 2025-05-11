@@ -136,17 +136,39 @@ const deleteIssueHandler = async (req, res) => {
 
 const getCountHandler = async (req, res) => {
   try {
-    const issuedBook = await Allotment.countDocuments({ returned: false });
-    const allotments = await Allotment.countDocuments();
-    return res
-      .status(200)
-      .json(
-        new ApiResponse(
-          200,
-          { issuedBook, allotments },
-          "Allotment Count Found!"
-        )
-      );
+    const bookStats = await Book.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalBooks: { $sum: "$stock" },
+          availableBooks: {
+            $sum: {
+              $cond: [{ $gt: ["$stock", 0] }, "$stock", 0],
+            },
+          },
+        },
+      },
+    ]);
+
+    const totalAllotments = await Allotment.countDocuments();
+    const returnedBooks = await Allotment.countDocuments({ returned: true });
+
+    const issuedBooks =
+      bookStats[0]?.totalBooks - (bookStats[0]?.availableBooks || 0);
+
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          issuedBook: issuedBooks,
+          allotments: totalAllotments,
+          returnedBooks,
+          totalBooks: bookStats[0]?.totalBooks || 0,
+          availableBooks: bookStats[0]?.availableBooks || 0,
+        },
+        "Allotment Count Found!"
+      )
+    );
   } catch (error) {
     return res
       .status(500)

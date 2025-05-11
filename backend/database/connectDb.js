@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-const DB_NAME = "Library-Management-System";
-
+const dotenv = require("dotenv");
+dotenv.config();
 const connectToMongo = async () => {
   try {
     const connectionInstance = await mongoose.connect(
-      `${process.env.MONGOURI}/${DB_NAME}`
+      `${process.env.MONGOURI}/${process.env.DB_NAME}`
     );
     console.log(
       `MongoDB connected !! DB HOST: ${connectionInstance.connection.host}`

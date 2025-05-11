@@ -6,6 +6,7 @@ import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper.jsx
 import Swal from "sweetalert2";
 
 const IssueBook = () => {
+  const [step, setStep] = useState(1);
   const [searchBook, setSearchBook] = useState("");
   const [searchUser, setSearchUser] = useState("");
   const [books, setBooks] = useState([]);
@@ -14,6 +15,8 @@ const IssueBook = () => {
     user: "",
     book: "",
   });
+  const [loading, setLoading] = useState(false);
+
   const searchBookHandler = async (e) => {
     setBooks([]);
     setSearchBook(e.target.value);
@@ -42,18 +45,29 @@ const IssueBook = () => {
     setSearchUser(e.target.value);
     let timer;
     const performSearch = async (value) => {
-      if (value.length > 6) {
+      if (value.length > 3) {
         try {
           const resp = await axios.get(`${baseApi}/user/search?eno=${value}`);
           setUser(resp.data.data);
-          setIssueData({ ...issueData, user: resp.data.data._id });
-        } catch (error) {}
+        } catch (error) {
+          toast.error("Student not found");
+          setUser(null);
+        }
+      } else {
+        setUser(null);
       }
     };
     clearTimeout(timer);
     timer = setTimeout(() => {
       performSearch(e.target.value);
     }, 300);
+  };
+
+  const confirmStudent = () => {
+    if (user) {
+      setIssueData({ ...issueData, user: user._id });
+      setStep(2);
+    }
   };
 
   const returnDateCalculator = () => {
@@ -86,10 +100,11 @@ const IssueBook = () => {
     setUser();
     setSearchUser("");
     setIssueData({ user: "", book: "" });
+    setStep(1);
   };
 
   const issueBookHandler = async () => {
-    toast.loading("Issuing Book...");
+    setLoading(true);
     try {
       const resp = await axios.post(
         `${baseApi}/book-allotment/issue-book`,
@@ -100,157 +115,221 @@ const IssueBook = () => {
         title: resp.data.message,
         icon: "success",
       });
+      clearHandler();
     } catch (error) {
       toast.dismiss();
       Swal.fire({
         title: error.response.data.message,
         icon: "error",
         confirmButtonColor: "#7c3aed",
-        buttonsStyling: {},
       });
     }
-    clearHandler();
+    setLoading(false);
   };
+
+  const renderProgressSteps = () => (
+    <div className="flex justify-center mb-8">
+      {[1, 2, 3].map((s) => (
+        <div key={s} className="flex items-center">
+          <div
+            className={`w-8 h-8 rounded-full flex items-center justify-center ${
+              step >= s ? "bg-violet-600 text-white" : "bg-gray-200"
+            }`}
+          >
+            {s}
+          </div>
+          {s < 3 && (
+            <div
+              className={`w-16 h-1 ${
+                step > s ? "bg-violet-600" : "bg-gray-200"
+              }`}
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <DashboardWrapper title={"Issue Book"}>
-      <div className="w-full flex justify-evenly items-center gap-6">
-        <label
-          htmlFor="Student Enrollment No"
-          className="relative w-1/2 rounded-lg border-gray-500 border outline-none p-3 text-sm bg-gray-100 block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
-        >
-          <input
-            type="number"
-            id="Student Enrollment No"
-            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
-            placeholder="Student Enrollment No"
-            value={searchUser}
-            onChange={searchUserHandler}
-          />
+      {renderProgressSteps()}
 
-          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-gray-100 p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-            Student Enrollment No
-          </span>
-        </label>
-        <label
-          htmlFor="Search Book Name"
-          className="relative w-1/2 rounded-lg border-gray-500 border outline-none p-3 text-sm bg-gray-100 block shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600"
-        >
-          <input
-            type="text"
-            id="Search Book Name"
-            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 w-full"
-            placeholder="Search Book Name"
-            value={searchBook}
-            onChange={searchBookHandler}
-          />
-          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-gray-100 p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-            Search Book Name
-          </span>
-        </label>
-      </div>
-      {searchBook && books && (
-        <section className="grid grid-cols-5 grid-rows-1 w-full gap-4 mt-7 overflow-x-auto">
-          {books.map((book) => {
-            return (
-              <div
-                className="overflow-hidden rounded-lg group shadow transition cursor-pointer bg-white"
-                key={book._id}
-              >
-                <img
-                  alt="Office"
-                  src={book.image}
-                  className="h-56 w-full object-contain"
-                />
-                <div className="bg-white p-3">
-                  <button
-                    className="mt-2 w-full bg-violet-600 text-xs text-white p-2 rounded"
-                    onClick={() => {
-                      setIssueData({ ...issueData, book: book._id });
-                      setBooks(book);
-                      setSearchBook("");
-                      setSearchUser("");
-                    }}
-                  >
-                    Select Book
-                  </button>
+      <div className="max-w-4xl mx-auto">
+        {/* Step 1: Search Student */}
+        {step === 1 && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-xl font-semibold mb-4">Search Student</h2>
+            <div className="relative">
+              <input
+                type="number"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-600 focus:border-transparent"
+                placeholder="Enter Student Enrollment Number"
+                value={searchUser}
+                onChange={searchUserHandler}
+              />
+            </div>
+            {user && (
+              <div className="mt-6 p-6 bg-gray-50 rounded-lg">
+                <div className="space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-lg font-semibold">{user.name}</h3>
+                      <p className="text-gray-600">
+                        Enrollment: {user.enrollmentno}
+                      </p>
+                    </div>
+                    {user.fine > 0 && (
+                      <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">
+                        Fine: ₹{user.fine}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm text-gray-600">Phone Number</p>
+                      <p className="font-medium">{user.phonenumber}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Gender</p>
+                      <p className="font-medium">{user.gender}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Book Slots</p>
+                      <p className="font-medium">{user.bookSlot}</p>
+                    </div>
+                  </div>
+
+                  {user.fine > 0 || user.bookSlot === 0 ? (
+                    <div className="mt-4 p-4 bg-red-50 rounded-lg">
+                      <p className="text-red-600 font-medium">
+                        {user.fine > 0
+                          ? "Student has pending fine. Cannot issue book."
+                          : "Student has no available book slots."}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="mt-6 flex justify-end space-x-4">
+                      <button
+                        className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                        onClick={clearHandler}
+                      >
+                        Clear
+                      </button>
+                      <button
+                        className="px-6 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700"
+                        onClick={confirmStudent}
+                      >
+                        Confirm & Continue
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
-            );
-          })}
-        </section>
-      )}
-      {user && (
-        <section className="bg-white shadow-md p-4 mt-6 rounded ">
-          <div className="flex justify-evenly">
-            <div className="w-1/2">
-              {(user?.fine > 0 || user?.bookSlot === 0) && (
-                <span className="bg-red-400 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                  Not Allowed
-                </span>
-              )}
-              <p className="mt-2">
-                <span className="font-semibold">Name: </span>
-                {user?.name}
-              </p>
-              <p className="mt-2">
-                <span className="font-semibold">Enrollment No: </span>
-                {user?.enrollmentno}
-              </p>
-              <p className="mt-2">
-                <span className="font-semibold">Phone Number: </span>
-                {user?.phonenumber}
-              </p>
-              <p className="mt-2">
-                <span className="font-semibold">Gender: </span>
-                {user?.gender}
-              </p>
-              <p className="mt-2">
-                <span className="font-semibold">Fine: </span>
-                {user?.fine}
-              </p>
-              {Object.keys(books).length !== 0 && (
-                <>
-                  <p className="mt-2">
-                    <span className="font-semibold">Book Name: </span>
-                    {books.name}
-                  </p>
-                  <p className="mt-2">
-                    <span className="font-semibold">Book Author: </span>
-                    {books.author}
-                  </p>
-                  <p className="mt-2">
-                    <span className="font-semibold">Return Date: </span>
-                    {returnDateCalculator()}
-                  </p>
-                </>
-              )}
-              <div className="flex">
-                {!(user?.fine > 0 || user?.bookSlot === 0) && (
-                  <button
-                    className="rounded bg-violet-600 font-semibold px-8 py-2 block mt-4 text-white ring-violet-400 focus:outline-none focus:ring active:bg-violet-500 mr-4 disabled:bg-violet-400"
-                    onClick={issueBookHandler}
-                    disabled={!issueData.book}
-                  >
-                    Issue Now
-                  </button>
-                )}
-                <button
-                  className="rounded order-1 border-red-500 hover:bg-red-100 border-2 font-semibold px-8 py-2 block mt-4 text-red-500 focus:outline-none focus:ring"
-                  onClick={clearHandler}
-                >
-                  Clear
-                </button>
-              </div>
+            )}
+          </div>
+        )}
+
+        {/* Step 2: Select Book */}
+        {step === 2 && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-xl font-semibold mb-4">Select Book</h2>
+            <div className="relative mb-4">
+              <input
+                type="text"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-600 focus:border-transparent"
+                placeholder="Search for a book..."
+                value={searchBook}
+                onChange={searchBookHandler}
+              />
             </div>
-            <div className="w-1/2 flex justify-center items-center">
-              {Object.keys(books).length !== 0 && (
-                <img src={books.image} className="h-[300px]" alt="" />
-              )}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {books.map((book) => (
+                <div
+                  key={book._id}
+                  className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  <img
+                    src={book.image}
+                    alt={book.name}
+                    className="w-full h-48 object-contain bg-gray-50"
+                  />
+                  <div className="p-4">
+                    <h3 className="font-semibold">{book.name}</h3>
+                    <p className="text-sm text-gray-600">{book.author}</p>
+                    <button
+                      className="mt-2 w-full bg-violet-600 text-white py-2 rounded hover:bg-violet-700 transition-colors"
+                      onClick={() => {
+                        setIssueData({ ...issueData, book: book._id });
+                        setBooks(book);
+                        setStep(3);
+                      }}
+                    >
+                      Select Book
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        </section>
-      )}
+        )}
+
+        {/* Step 3: Confirm Issue */}
+        {step === 3 && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-xl font-semibold mb-4">Confirm Book Issue</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="font-semibold mb-2">Student Details</h3>
+                <div className="space-y-2">
+                  <p>
+                    <span className="text-gray-600">Name:</span> {user.name}
+                  </p>
+                  <p>
+                    <span className="text-gray-600">Enrollment:</span>{" "}
+                    {user.enrollmentno}
+                  </p>
+                  <p>
+                    <span className="text-gray-600">Phone:</span>{" "}
+                    {user.phonenumber}
+                  </p>
+                </div>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Book Details</h3>
+                <div className="space-y-2">
+                  <p>
+                    <span className="text-gray-600">Title:</span> {books.name}
+                  </p>
+                  <p>
+                    <span className="text-gray-600">Author:</span>{" "}
+                    {books.author}
+                  </p>
+                  <p>
+                    <span className="text-gray-600">Return Date:</span>{" "}
+                    {returnDateCalculator()}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-6 flex justify-end space-x-4">
+              <button
+                className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                onClick={() => setStep(2)}
+              >
+                Back
+              </button>
+              <button
+                className="px-6 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 disabled:bg-violet-400"
+                onClick={issueBookHandler}
+                disabled={loading}
+              >
+                {loading ? "Issuing..." : "Confirm Issue"}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </DashboardWrapper>
   );
 };

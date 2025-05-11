@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Screens/Login";
 import Dashboard from "./Screens/Dashboard";
 import Book from "./Screens/Dashboard/Books/Book";
-import AddBook from "./Screens/Dashboard/Books/AddBook";
+import ModifyBook from "./Screens/Dashboard/Books/ModifyBook";
 import { Toaster } from "react-hot-toast";
 import AuthWrapper from "./AuthWrapper";
 import IssueBook from "./Screens/Dashboard/Allotment/IssueBook";
@@ -15,7 +15,6 @@ import SendMessage from "./Screens/Dashboard/SendMessage";
 import Admins from "./Screens/Dashboard/Admin/Admins";
 import EditAdmin from "./Screens/Dashboard/Admin/EditAdmin";
 import AddAdmin from "./Screens/Dashboard/Admin/AddAdmin";
-import EditBook from "./Screens/Dashboard/Books/EditBook";
 import ForgetPassword from "./Screens/ForgetPassword";
 
 function App() {
@@ -41,21 +40,14 @@ function App() {
           }
         />
         <Route
-          path="/dashboard/add-book"
+          path="/dashboard/modify-book/:id?"
           element={
             <AuthWrapper>
-              <AddBook />
+              <ModifyBook />
             </AuthWrapper>
           }
         />
-        <Route
-          path="/dashboard/edit-book/:id"
-          element={
-            <AuthWrapper>
-              <EditBook />
-            </AuthWrapper>
-          }
-        />
+
         <Route
           path="/dashboard/issue-book"
           element={

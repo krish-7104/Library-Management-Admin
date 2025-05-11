@@ -5,11 +5,16 @@ import toast from "react-hot-toast";
 import { dateFormatter } from "../../../utils/DateFormatter.js";
 import Swal from "sweetalert2";
 import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper.jsx";
+import { Search, AlertCircle, Clock } from "lucide-react";
 
 const ReturnBook = () => {
   const [allotment, setAllotments] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState({
+    search: "",
+    overdueOnly: false,
+  });
+
   useEffect(() => {
     getAllotmentHandler();
   }, []);
@@ -30,15 +35,17 @@ const ReturnBook = () => {
       toast.error(error.response.data.message);
     }
   };
+
   const confirmHandler = (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
+      title: "Return Book",
+      text: "Are you sure you want to return this book?",
+      icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#7c3aed",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Return Book!",
+      confirmButtonText: "Yes, Return Book",
+      cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
         returnBookHandler(id);
@@ -74,90 +81,167 @@ const ReturnBook = () => {
     }
   };
 
-  const filteredAllotments = allotment.filter((item) =>
-    item.user.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredAllotments = allotment.filter((item) => {
+    const matchesSearch = item.user.name
+      .toLowerCase()
+      .includes(filters.search.toLowerCase());
+    const isOverdue = new Date() > new Date(item.returnDate);
+    return matchesSearch && (!filters.overdueOnly || isOverdue);
+  });
 
   return (
     <DashboardWrapper title={"Return Book"}>
-      <div className="">
-        <div className="mb-4 flex justify-end items-center">
-          <input
-            type="text"
-            className="w-[30%] px-3 py-2 rounded-lg border-2 outline-none text-sm"
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Enter Student Name"
-            value={search}
-          />
+      <div className="space-y-6">
+        <div className="bg-white rounded-lg shadow-sm p-4">
+          <div className="flex flex-wrap gap-4 items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Search className="text-gray-500" size={20} />
+              <input
+                type="text"
+                className="px-3 py-2 rounded-lg border-2 outline-none text-sm w-64"
+                onChange={(e) =>
+                  setFilters((prev) => ({ ...prev, search: e.target.value }))
+                }
+                placeholder="Search by student name"
+                value={filters.search}
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="form-checkbox h-4 w-4 text-violet-600"
+                  checked={filters.overdueOnly}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      overdueOnly: e.target.checked,
+                    }))
+                  }
+                />
+                <span className="text-sm text-gray-600">Show overdue only</span>
+              </label>
+            </div>
+          </div>
         </div>
-        <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded shadow">
-          <thead className="ltr:text-left rtl:text-right">
-            <tr>
-              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
-                Student Name
-              </th>
-              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
-                Book Image
-              </th>
-              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
-                Book Name
-              </th>
-              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
-                Allotment Date
-              </th>
-              <th className="whitespace-nowrap p-3 font-medium text-gray-900">
-                Return Date
-              </th>
-              <th className="p-3"></th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {!loading &&
-              filteredAllotments.map((item) => {
-                const date = new Date();
-                const returnDate = new Date(item.returnDate);
-                const isReturnDateGone = returnDate < date;
-                return (
-                  <tr className={`text-center`} key={item._id}>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {item.user.name}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-900 flex justify-center items-center">
-                      <img src={item.book.image} alt="book" className="h-32" />
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-900">
-                      {item.book.name?.slice(0, 30)}
-                      {item.book.name.length > 30 && "...."}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-900">
-                      {dateFormatter(item.createdAt)}
-                    </td>
+
+        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Student Details
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Book Details
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Dates
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {loading ? (
+                  <tr>
                     <td
-                      className={`whitespace-nowrap px-4 py-2 text-gray-900 ${
-                        isReturnDateGone && "font-semibold bg-red-200"
-                      }`}
+                      colSpan="5"
+                      className="px-6 py-4 text-center text-sm text-gray-500"
                     >
-                      {dateFormatter(item.returnDate)}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2">
-                      <button
-                        onClick={() => confirmHandler(item._id)}
-                        className="inline-block rounded bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700"
-                      >
-                        Return Book
-                      </button>
+                      Loading...
                     </td>
                   </tr>
-                );
-              })}
-          </tbody>
-        </table>
+                ) : filteredAllotments.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan="5"
+                      className="px-6 py-4 text-center text-sm text-gray-500"
+                    >
+                      No books found for return
+                    </td>
+                  </tr>
+                ) : (
+                  filteredAllotments.map((item) => {
+                    const isOverdue = new Date() > new Date(item.returnDate);
+                    return (
+                      <tr key={item._id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4">
+                          <div className="flex items-center">
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {item.user.name}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {item.user.enrollmentno}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center space-x-4">
+                            <img
+                              src={item.book.image}
+                              alt={item.book.name}
+                              className="h-16 w-12 object-cover rounded"
+                            />
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {item.book.name}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {item.book.author}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-900">
+                            <div className="flex items-center gap-1">
+                              <Clock size={14} />
+                              <span>
+                                Issued: {dateFormatter(item.createdAt)}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1 mt-1">
+                              <Clock size={14} />
+                              <span>Due: {dateFormatter(item.returnDate)}</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span
+                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                              isOverdue
+                                ? "bg-red-100 text-red-800"
+                                : "bg-green-100 text-green-800"
+                            }`}
+                          >
+                            {isOverdue ? "Overdue" : "On Time"}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <button
+                            onClick={() => confirmHandler(item._id)}
+                            className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"
+                          >
+                            Return Book
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-      {!loading && filteredAllotments.length === 0 && (
-        <p className="text-center mt-10 text-gray-700">
-          No Allotments Available!
-        </p>
-      )}
     </DashboardWrapper>
   );
 };

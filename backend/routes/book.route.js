@@ -6,6 +6,8 @@ const {
   updateBookHandler,
   deleteBookHandler,
   getCountHandler,
+  getBookStatsHandler,
+  getPopularBooksHandler,
 } = require("../controllers/book.controller.js");
 const {
   adminAuthMiddleware,
@@ -25,5 +27,7 @@ router.post(
 );
 router.patch("/update-book/:id", updateBookHandler);
 router.delete("/delete-book/:id", deleteBookHandler);
+router.get("/stats", getBookStatsHandler);
+router.get("/popular", getPopularBooksHandler);
 
 module.exports = router;
