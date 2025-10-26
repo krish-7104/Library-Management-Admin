@@ -5,6 +5,7 @@ dotenv.config();
 const seedCategories = require("./categorySeeder");
 const seedBooks = require("./bookSeeder");
 const seedUsers = require("./userSeeder");
+const seedAdmins = require("./adminSeeder");
 const seedAllotments = require("./allotmentSeeder");
 
 const seedAll = async () => {
@@ -17,6 +18,9 @@ const seedAll = async () => {
 
     // Then create books (which will use the category IDs)
     await seedBooks();
+
+    // Create admins
+    await seedAdmins();
 
     // Create users
     await seedUsers();
