@@ -30,7 +30,8 @@ if (process.env.NODE_ENV === "DEVELOPMENT") {
   app.use(morgan(":method :url :status :response-time ms"));
 }
 
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cors({ credentials: true, origin: process.env.FRONTEND_LINK }));
 
 app.use("/api/book", bookRoutes);

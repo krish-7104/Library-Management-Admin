@@ -60,7 +60,7 @@ const Sidebar = () => {
         {
           id: "modify-book",
           label: "Add Books",
-          path: "/dashboard/modify-book",
+          path: "/dashboard/add-book",
           adminOnly: true,
         },
       ],

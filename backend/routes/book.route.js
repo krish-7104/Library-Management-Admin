@@ -12,7 +12,6 @@ const {
 const {
   adminAuthMiddleware,
 } = require("../middlewares/adminauth.middleware.js");
-const upload = require("../middlewares/multer.middleware.js");
 
 const router = express.Router();
 
@@ -22,10 +21,13 @@ router.get("/count", getCountHandler);
 router.post(
   "/add-book",
   adminAuthMiddleware,
-  upload.single("image"),
   addBookHandler
 );
-router.patch("/update-book/:id", updateBookHandler);
+router.patch(
+  "/update-book/:id",
+  adminAuthMiddleware,
+  updateBookHandler
+);
 router.delete("/delete-book/:id", deleteBookHandler);
 router.get("/stats", getBookStatsHandler);
 router.get("/popular", getPopularBooksHandler);

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { baseApi } from "../../../utils/baseApi";
+import { uploadImageToCloudinary } from "../../../utils/cloudinary";
 import toast from "react-hot-toast";
 import { Upload, X, BookOpen, Pencil } from "lucide-react";
 import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper";
@@ -43,17 +44,40 @@ const ModifyBook = () => {
       });
       setPreviewImage(book.image);
     } catch (error) {
-      toast.error(error.response.data.message);
+      const errorMessage = error.response?.data?.message || "Failed to load book details";
+      toast.error(errorMessage);
+      navigate("/dashboard/books");
     }
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0];
-    setImage(selectedFile);
-    if (selectedFile) {
-      const imageUrl = URL.createObjectURL(selectedFile);
-      setPreviewImage(imageUrl);
+    
+    if (!selectedFile) return;
+    
+    if (!selectedFile.type.startsWith('image/')) {
+      toast.error("Please select a valid image file");
+      return;
     }
+    
+    const fileSizeMB = selectedFile.size / (1024 * 1024);
+    
+    if (fileSizeMB > 10) {
+      toast.error("Image size should be less than 10MB");
+      return;
+    }
+    
+    if (fileSizeMB > 5) {
+      toast("⚠️ Large image detected. Upload may take longer.", {
+        duration: 4000,
+        icon: '⚠️',
+      });
+    }
+    
+    setImage(selectedFile);
+    
+    const imageUrl = URL.createObjectURL(selectedFile);
+    setPreviewImage(imageUrl);
   };
 
   const getCategoryHandler = async () => {
@@ -61,60 +85,135 @@ const ModifyBook = () => {
       const resp = await axios.get(`${baseApi}/category/get-category`);
       setCategory(resp.data.data);
     } catch (error) {
-      toast.error(error.response.data.message);
+      const errorMessage = error.response?.data?.message || "Failed to load categories";
+      toast.error(errorMessage);
     }
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+    
     if (!isEditMode && !image) {
       toast.error("Please upload a book image");
       return;
     }
-    e.preventDefault();
+
+    if (!formData.name.trim()) {
+      toast.error("Please enter a book name");
+      return;
+    }
+
+    if (!formData.author.trim()) {
+      toast.error("Please enter an author name");
+      return;
+    }
+
+    if (!formData.category) {
+      toast.error("Please select a category");
+      return;
+    }
+
+    if (!formData.price || formData.price <= 0) {
+      toast.error("Please enter a valid price");
+      return;
+    }
+
+    if (formData.stock < 0) {
+      toast.error("Please enter a valid stock quantity");
+      return;
+    }
+
     setLoading(true);
     toast.loading(isEditMode ? "Updating Book..." : "Adding Book...");
 
-    const data = new FormData();
-    data.append("name", formData.name);
-    data.append("price", formData.price);
-    data.append("stock", formData.stock);
-    data.append("category", formData.category);
-    data.append("author", formData.author);
+    const data = {
+      name: formData.name.trim(),
+      price: formData.price,
+      stock: formData.stock,
+      category: formData.category,
+      author: formData.author.trim(),
+    };
+
     if (image) {
-      data.append("image", image);
-    }
+      try {
+        toast.loading("Uploading image to Cloudinary...");
+        const imageUrl = await uploadImageToCloudinary(image);
+        data.image = imageUrl;
+        
+        toast.dismiss();
+        toast.loading(isEditMode ? "Updating Book..." : "Adding Book...");
+        
+        const token = localStorage.getItem("token");
+        const url = isEditMode
+          ? `${baseApi}/book/update-book/${id}`
+          : `${baseApi}/book/add-book`;
 
-    try {
-      const token = localStorage.getItem("token");
-      const url = isEditMode
-        ? `${baseApi}/book/update-book/${id}`
-        : `${baseApi}/book/add-book`;
-
-      const resp = await axios[isEditMode ? "patch" : "post"](url, data, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      toast.dismiss();
-      toast.success(resp.data.message);
-
-      if (!isEditMode) {
-        setFormData({
-          name: "",
-          price: "",
-          stock: "",
-          category: "",
-          author: "",
+        const resp = await axios[isEditMode ? "patch" : "post"](url, data, {
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
         });
-        setImage("");
-        setPreviewImage("");
-      }
 
-      navigate("/dashboard/books");
-    } catch (error) {
-      toast.dismiss();
-      toast.error(error.response.data.message);
+        toast.dismiss();
+        toast.success(resp.data.message);
+
+        if (!isEditMode) {
+          setFormData({
+            name: "",
+            price: "",
+            stock: "",
+            category: "",
+            author: "",
+          });
+          setImage("");
+          setPreviewImage("");
+        }
+
+        navigate("/dashboard/books");
+      } catch (error) {
+        toast.dismiss();
+        const errorMessage = error.response?.data?.message || "An error occurred";
+        toast.error(errorMessage);
+      }
+      setLoading(false);
+    } else {
+      try {
+        const token = localStorage.getItem("token");
+        const url = isEditMode
+          ? `${baseApi}/book/update-book/${id}`
+          : `${baseApi}/book/add-book`;
+
+        const resp = await axios[isEditMode ? "patch" : "post"](url, data, {
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+        });
+
+        toast.dismiss();
+        toast.success(resp.data.message);
+
+        if (!isEditMode) {
+          setFormData({
+            name: "",
+            price: "",
+            stock: "",
+            category: "",
+            author: "",
+          });
+          setImage("");
+          setPreviewImage("");
+        }
+
+        navigate("/dashboard/books");
+      } catch (error) {
+        toast.dismiss();
+        const errorMessage = error.response?.data?.message || "An error occurred";
+        toast.error(errorMessage);
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (

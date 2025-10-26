@@ -1,7 +1,6 @@
 const ApiResponse = require("../utils/ApiResponse.js");
 const Book = require("../models/book.model.js");
 const Category = require("../models/category.model.js");
-const uploadOnCloudinary = require("../utils/Cloudinary.js");
 const Allotment = require("../models/allotment.model.js");
 
 const getBookHandler = async (req, res) => {
@@ -82,17 +81,18 @@ const getAllBooksHandler = async (req, res) => {
 };
 const addBookHandler = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, image } = req.body;
+    
     const book = await Book.findOne({ name });
     if (book) {
       return res
         .status(409)
-        .json(new ApiResponse(409, [], "Book With Name Already Exixts"));
+        .json(new ApiResponse(409, [], "Book With Name Already Exists"));
     }
-    const uploadedImage = await uploadOnCloudinary(req.file.path);
+    
     const newBook = await Book.create({
       ...req.body,
-      image: uploadedImage.secure_url,
+      image: image || "",
     });
     await Category.findByIdAndUpdate(
       req.body.category,
@@ -101,6 +101,7 @@ const addBookHandler = async (req, res) => {
     );
     return res.status(201).json(new ApiResponse(201, newBook, "Book Added!"));
   } catch (error) {
+    console.log("Add Book Error: ", error);
     return res
       .status(500)
       .json(new ApiResponse(500, [], "Internal Server Error"));
@@ -110,12 +111,26 @@ const addBookHandler = async (req, res) => {
 const updateBookHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, category, stock, price, author } = req.body;
+    const { name, category, stock, price, author, image } = req.body;
+    
+    const updateData = { name, category, stock, price, author };
+    
+    if (image) {
+      updateData.image = image;
+    }
+    
     const book = await Book.findByIdAndUpdate(
       id,
-      { name, category, stock, price, author },
+      updateData,
       { new: true }
     );
+    
+    if (!book) {
+      return res
+        .status(404)
+        .json(new ApiResponse(404, [], "Book not found"));
+    }
+    
     return res.status(200).json(new ApiResponse(200, book, "Book Updated!"));
   } catch (error) {
     return res

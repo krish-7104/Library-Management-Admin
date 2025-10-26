@@ -47,6 +47,14 @@ function App() {
             </AuthWrapper>
           }
         />
+        <Route
+          path="/dashboard/add-book"
+          element={
+            <AuthWrapper>
+              <ModifyBook />
+            </AuthWrapper>
+          }
+        />
 
         <Route
           path="/dashboard/issue-book"

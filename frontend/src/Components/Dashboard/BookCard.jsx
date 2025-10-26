@@ -9,7 +9,7 @@ const BookCard = ({ book }) => {
       <div className="flex-grow opacity-0 h-full w-full absolute group-hover:opacity-100 transition">
         <div
           className="bg-violet-600 hover:bg-violet-800 p-3 text-white rounded-2xl inline-block ml-auto absolute right-6 top-3"
-          onClick={() => navigate(`/dashboard/edit-book/${book._id}`)}
+          onClick={() => navigate(`/dashboard/modify-book/${book._id}`)}
         >
           <TbEdit />
         </div>
