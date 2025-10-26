@@ -15,8 +15,13 @@ const Admins = () => {
   const data = useSelector((state) => state.userSlice.data);
 
   useEffect(() => {
+    if (data && data.role !== "Super") {
+      toast.error("Access denied. Only Super Admins can view admin management.");
+      navigate("/dashboard");
+      return;
+    }
     getAdminHandler();
-  }, []);
+  }, [data, navigate]);
 
   const getAdminHandler = async () => {
     setLoading(true);

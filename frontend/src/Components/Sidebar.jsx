@@ -94,6 +94,7 @@ const Sidebar = () => {
       id: "admin",
       label: "Admin",
       icon: <FiUser />,
+      adminOnly: true,
       children: [
         {
           id: "admins",
@@ -104,7 +105,6 @@ const Sidebar = () => {
           id: "add-admin",
           label: "Add Admin",
           path: "/dashboard/add-admin",
-          adminOnly: true,
         },
       ],
     },

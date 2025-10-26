@@ -25,10 +25,13 @@ const ModifyBook = () => {
   });
 
   useEffect(() => {
-    getCategoryHandler();
-    if (isEditMode) {
-      getBookHandler();
-    }
+    const initializeData = async () => {
+      await getCategoryHandler();
+      if (isEditMode) {
+        await getBookHandler();
+      }
+    };
+    initializeData();
   }, [isEditMode]);
 
   const getBookHandler = async () => {
@@ -39,7 +42,7 @@ const ModifyBook = () => {
         name: book.name,
         price: book.price,
         stock: book.stock,
-        category: book.category._id,
+        category: book.category,
         author: book.author,
       });
       setPreviewImage(book.image);
@@ -84,9 +87,11 @@ const ModifyBook = () => {
     try {
       const resp = await axios.get(`${baseApi}/category/get-category`);
       setCategory(resp.data.data);
+      return resp.data.data;
     } catch (error) {
       const errorMessage = error.response?.data?.message || "Failed to load categories";
       toast.error(errorMessage);
+      throw error;
     }
   };
 

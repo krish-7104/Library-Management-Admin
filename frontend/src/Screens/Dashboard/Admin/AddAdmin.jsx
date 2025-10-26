@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper";
 import axios from "axios";
 import { baseApi } from "../../../utils/baseApi";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const AddAdmin = () => {
   const navigate = useNavigate();
+  const data = useSelector((state) => state.userSlice.data);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,6 +16,14 @@ const AddAdmin = () => {
     password: "",
     role: "",
   });
+
+  useEffect(() => {
+    if (data && data.role !== "Super") {
+      toast.error("Access denied. Only Super Admins can add new admins.");
+      navigate("/dashboard");
+      return;
+    }
+  }, [data, navigate]);
   const addAdminHandler = async (e) => {
     e.preventDefault();
     toast.loading("Adding Admin");

@@ -4,9 +4,12 @@ import axios from "axios";
 import { baseApi } from "../../../utils/baseApi";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const EditAdmin = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const data = useSelector((state) => state.userSlice.data);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,6 +19,11 @@ const EditAdmin = () => {
   });
 
   useEffect(() => {
+    if (data && data.role !== "Super") {
+      toast.error("Access denied. Only Super Admins can edit admin details.");
+      navigate("/dashboard");
+      return;
+    }
     const getUserDetails = async (id) => {
       const token = localStorage.getItem("token");
       if (token) {
@@ -44,7 +52,7 @@ const EditAdmin = () => {
       }
     };
     getUserDetails(id);
-  }, [navigate, id]);
+  }, [navigate, id, data]);
 
   const editAdminHandler = async (e) => {
     e.preventDefault();
