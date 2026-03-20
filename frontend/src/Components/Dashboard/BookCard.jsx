@@ -17,10 +17,12 @@ const BookCard = ({ book }) => {
       <img
         alt="Office"
         src={book.image}
-        className="h-56 w-full object-contain"
+        height={200}
+        width={200}
+        className="object-cover w-full h-60"
       />
       <div className="bg-white p-3">
-        <h3 className="mt-2 text-gray-900 font-semibold flex-grow line-clamp-2">
+        <h3 className="mt-2 text-gray-900 font-semibold flex-grow line-clamp-2 h-12">
           {book.name}
         </h3>
         <p className="font-medium text-sm/relaxed text-gray-500 mt-1">
@@ -28,7 +30,6 @@ const BookCard = ({ book }) => {
         </p>
         <div className="flex justify-between items-center mt-1">
           <p className="text-sm/relaxed text-gray-500">{book.category.name}</p>
-          <p className="text-sm/relaxed text-gray-500">Stock: {book.stock}</p>
         </div>
       </div>
     </div>

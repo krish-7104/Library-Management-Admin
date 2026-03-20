@@ -4,6 +4,10 @@ import { baseApi } from "../../../utils/baseApi.js";
 import toast from "react-hot-toast";
 import DashboardWrapper from "../../../Components/Dashboard/DashboardWrapper.jsx";
 import Swal from "sweetalert2";
+import moment from "moment";
+import { Scanner } from "@yudiel/react-qr-scanner";
+import { LuQrCode } from "react-icons/lu";
+import { IoCloseSharp } from "react-icons/io5";
 
 const IssueBook = () => {
   const [step, setStep] = useState(1);
@@ -16,6 +20,7 @@ const IssueBook = () => {
     book: "",
   });
   const [loading, setLoading] = useState(false);
+  const [showQrScanner, setShowQrScanner] = useState(false);
 
   const searchBookHandler = async (e) => {
     setBooks([]);
@@ -25,7 +30,7 @@ const IssueBook = () => {
       if (value !== "") {
         try {
           const resp = await axios.get(
-            `${baseApi}/book/get-books?search=${value}&stock=true`
+            `${baseApi}/book/get-books?search=${value}&stock=true`,
           );
           toast.dismiss();
           setBooks(resp.data.data);
@@ -41,26 +46,20 @@ const IssueBook = () => {
     }, 300);
   };
 
-  const searchUserHandler = async (e) => {
-    setSearchUser(e.target.value);
-    let timer;
-    const performSearch = async (value) => {
-      if (value.length > 3) {
-        try {
-          const resp = await axios.get(`${baseApi}/user/search?eno=${value}`);
-          setUser(resp.data.data);
-        } catch (error) {
-          toast.error("Student not found");
-          setUser(null);
-        }
-      } else {
+  const searchUserHandler = async (value) => {
+    setSearchUser(value);
+    if (value.length > 3 || Number.isInteger(Number(value))) {
+      try {
+        const resp = await axios.get(`${baseApi}/user/search?eno=${value}`);
+        setUser(resp.data.data);
+        setShowQrScanner(false);
+      } catch (error) {
+        toast.error("Student not found");
         setUser(null);
       }
-    };
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      performSearch(e.target.value);
-    }, 300);
+    } else {
+      setUser(null);
+    }
   };
 
   const confirmStudent = () => {
@@ -71,27 +70,10 @@ const IssueBook = () => {
   };
 
   const returnDateCalculator = () => {
-    const date = new Date();
-    const dayNames = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-
-    const returnDate =
-      new Date(date.getTime() + 15 * 24 * 60 * 60 * 1000).getUTCDate() +
-      "/" +
-      (new Date(date.getTime() + 15 * 24 * 60 * 60 * 1000).getUTCMonth() + 1) +
-      "/" +
-      new Date(date.getTime() + 15 * 24 * 60 * 60 * 1000).getUTCFullYear() +
-      " (" +
-      dayNames[new Date(date.getTime() + 15 * 24 * 60 * 60 * 1000).getDay()] +
-      ")";
-    return returnDate;
+    const date = moment();
+    const returnDate = date.add(15, "days").format("dddd");
+    const otherFormatDate = date.add(15, "days").format("DD/MM/YYYY");
+    return `${returnDate} (${otherFormatDate})`;
   };
 
   const clearHandler = () => {
@@ -108,7 +90,7 @@ const IssueBook = () => {
     try {
       const resp = await axios.post(
         `${baseApi}/book-allotment/issue-book`,
-        issueData
+        issueData,
       );
       toast.dismiss();
       Swal.fire({
@@ -150,6 +132,11 @@ const IssueBook = () => {
     </div>
   );
 
+  const handleQrScanner = async (result) => {
+    const eno = JSON.parse(result[0].rawValue).enrollmentno;
+    await searchUserHandler(eno);
+  };
+
   return (
     <DashboardWrapper title={"Issue Book"}>
       {renderProgressSteps()}
@@ -158,16 +145,44 @@ const IssueBook = () => {
         {/* Step 1: Search Student */}
         {step === 1 && (
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">Search Student</h2>
-            <div className="relative">
+            <div className="flex justify-between items-center w-full">
+              <h2 className="text-xl font-semibold mb-6">
+                {showQrScanner
+                  ? "Scan QR Code to Search Student"
+                  : "Search Student"}
+              </h2>
+              {showQrScanner ? (
+                <button
+                  className="group text-sm block relative items-center overflow-hidden rounded bg-violet-600 ring-violet-400 p-2 text-white focus:outline-none focus:ring active:bg-violet-500"
+                  onClick={() => setShowQrScanner(!showQrScanner)}
+                >
+                  <IoCloseSharp size={28} />
+                </button>
+              ) : (
+                <button onClick={() => setShowQrScanner(!showQrScanner)}>
+                  <LuQrCode size={30} />
+                </button>
+              )}
+            </div>
+            {!showQrScanner && (
               <input
                 type="number"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-600 focus:border-transparent"
                 placeholder="Enter Student Enrollment Number"
                 value={searchUser}
-                onChange={searchUserHandler}
+                onChange={(e) => searchUserHandler(e.target.value)}
               />
-            </div>
+            )}
+            {showQrScanner && (
+              <div className="flex justify-center items-cente mt-10">
+                <div className="w-[45%] h-auto">
+                  <Scanner
+                    onScan={handleQrScanner}
+                    onError={(error) => console.log(error?.message)}
+                  />
+                </div>
+              </div>
+            )}
             {user && (
               <div className="mt-6 p-6 bg-gray-50 rounded-lg">
                 <div className="space-y-4">

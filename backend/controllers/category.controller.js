@@ -21,26 +21,31 @@ const getCategoryHandler = async (req, res) => {
 };
 const getAllCategoryHandler = async (req, res) => {
   try {
-    const { book, search } = req.query;
-    let category;
+    const { book, search, category } = req.query;
     const searchCondition = search
       ? { name: { $regex: new RegExp(search, "i") } }
       : {};
     if (book) {
-      category = await Category.find(searchCondition)
+      categoryBooks = await Category.find({ _id: category })
         .populate("books")
         .sort({ createdAt: -1 });
     } else {
-      category = await Category.find(searchCondition).sort({ createdAt: -1 });
+      categoryBooks = await Category.find(searchCondition)
+        .sort({ createdAt: -1 })
+        .populate("books");
     }
-    if (!category || category.length === 0) {
+    if (!categoryBooks || categoryBooks.length === 0) {
       return res
         .status(404)
-        .json(new ApiResponse(404, category, "No Category Found In Database!"));
+        .json(
+          new ApiResponse(404, categoryBooks, "No Category Found In Database!"),
+        );
     }
     return res
       .status(200)
-      .json(new ApiResponse(200, category, "All Category Get Successfully!"));
+      .json(
+        new ApiResponse(200, categoryBooks, "All Category Get Successfully!"),
+      );
   } catch (error) {
     return res
       .status(200)

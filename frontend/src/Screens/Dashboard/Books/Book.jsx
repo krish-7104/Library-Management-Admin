@@ -47,7 +47,7 @@ const Book = () => {
     if (value !== "") {
       try {
         const resp = await axios.get(
-          `${baseApi}/category/get-category?book=true&search=${value}`
+          `${baseApi}/category/get-category?book=true&category=${value}`,
         );
         setBooks(resp.data.data[0].books);
       } catch (error) {
@@ -65,7 +65,7 @@ const Book = () => {
       if (value !== "") {
         try {
           const resp = await axios.get(
-            `${baseApi}/book/get-books?search=${value}`
+            `${baseApi}/book/get-books?search=${value}`,
           );
           setBooks(resp.data.data);
         } catch (error) {
@@ -134,7 +134,7 @@ const Book = () => {
                 >
                   <option value="">All Categories</option>
                   {category.map((item) => (
-                    <option key={item._id} value={item.name}>
+                    <option key={item._id} value={item._id}>
                       {item.name}
                     </option>
                   ))}
